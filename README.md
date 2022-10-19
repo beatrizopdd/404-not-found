@@ -1,18 +1,4 @@
-## :star: NA PRIMEIRA VEZ
-
-git init
-
-git add * (adiciona TUDO que foi modificado)
-
-git commit -m "first commit" ("mensagem pra dar avisar o que mudou")
-
-git branch -M master
-
-git remote add origin https://github.com/beatrizopdd/GMA.git
-
-git push -u origin master
-
-## :star: NAS OUTRAS VEZES
+## :star: MANUAL DE COMMIT
 
 git pull (puxa a pasta atualizada)
 
@@ -22,5 +8,6 @@ git add * (adiciona TUDO que foi modificado)
 
 git commit -m "first commit" ("mensagem pra dar avisar o que mudou")
 
-git push
+git push -u origin master
+
 
