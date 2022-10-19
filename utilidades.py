@@ -1,4 +1,5 @@
 #A: Alterei a função pra gente poder escolher se vai centralizar ou não o objeto no quadrado que ele entra
+#Teste push
 def posiciona_grid(objeto, tile, x, y, centraliza=True):
 
     objeto.set_position(tile.width*x, tile.height*y)
