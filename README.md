@@ -14,7 +14,7 @@ git push -u origin master
 
 ##### :space_invader: 20/10 criei um arquivo pra ficar mais rápido de testar minhas funções. recomendo pq esse negócio de esperar o bonito abrir ta me matando 
 ##### :space_invader: CORTEI AS PAREDINHAS DE FORA PEX = PAREDE EXTERNA_POSIÇÃO (desculpa o berro)
-##### :space_invader:
+##### :space_invader: 21/10 o desgraçado do debugger andou e ele voltar depois de bater
 
 
 #### :clipboard: DICAS DE README
