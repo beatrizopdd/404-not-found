@@ -1,90 +1,196 @@
 # as chances da gente editar o msm arquivo ao msm tempo são menores assim rs
-from PPlay.window import*
-from PPlay.sprite import*
+from PPlay.gameimage import *
+from PPlay.window import *
+from PPlay.sprite import *
 
 tela = Window(1280,660)
 
-def limiteV(sprite, vel, obstaculo):
+#B: adiciona o debugger na direção correspondente
+def adiciona_debugger(qtd, lista_vels, lista_direcoes):
+	
+	debuggers = []
+	
+	for i in range(qtd):
+	
+		if (lista_direcoes[i] == "v" and lista_vels[i] > 0): #descendo
+			sprite = Sprite("Assets/Inspetor/inspetor-vertical.png", 8)
+			sprite.set_sequence(0, 4)
+			
+		elif (lista_direcoes[i] == "v" and lista_vels[i] < 0): #subindo
+			sprite = Sprite("Assets/Inspetor/inspetor-vertical.png", 8)
+			sprite.set_sequence(4, 8)
+			
+		elif (lista_direcoes[i] == "h" and lista_vels[i] > 0): #direita
+			sprite = Sprite("Assets/Inspetor/inspetor-horizontal.png", 8)
+			sprite.set_sequence(4, 8)
+			
+		elif (lista_direcoes[i] == "h" and lista_vels[i] < 0): #esquerda
+			sprite = Sprite("Assets/Inspetor/inspetor-horizontal.png", 8)
+			sprite.set_sequence(0, 4)
+			
+		sprite.set_total_duration(400)
+		debuggers.append(sprite)
+		
+	return debuggers
+	
+		
+#B: não deixa os debuggers verticais e horizontais colidirem com o cenário 
+def limitaV(sprite, vel, obstaculo):
 
 	if (sprite.collided(obstaculo) and vel < 0): # encontrou subindo
 		sprite.y -= vel  # posição = y - (-vel) = y + vel
-		sprite.set_sequence_time(0, 4, 400, True) #B: chega olhando pra cima e troca pra baixo
+		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra cima e troca pra baixo
 		return -1
 		
 	elif (sprite.collided(obstaculo) and vel > 0): # encontrou descendo
 		sprite.y -= vel # posição = y - vel
-		sprite.set_sequence_time(4, 8, 400, True) #B: chega olhando pra baixo e troca pra cima
+		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra baixo e troca pra cima
 		return -1
 		
 	else:
 		return 1
 		
-def limiteH(sprite, vel, obstaculo):
+def limitaH(sprite, vel, obstaculo):
 		
 	if (sprite.collided(obstaculo) and vel < 0): # encontrou indo pra esquerda
 		sprite.x -= vel
-		sprite.set_sequence_time(4, 8, 400, True) #B: chega olhando pra esquerda e troca pra direita
+		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra esquerda e troca pra direita
 		return -1
 		
 	elif (sprite.collided(obstaculo) and vel > 0): # encontrou indo pra direita
 		sprite.x -= vel
-		sprite.set_sequence_time(0, 4, 400, True) #B: chega olhando pra direita e troca pra esquerda
+		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra direita e troca pra esquerda
 		return -1
 		
 	else:
 		return 1
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-#meu protótipo de limite batendo na borda deu muito trabalho então vou salvar aqui no finalzinho
-def pLimiteBorda1(sprite, vel):
 
-	if (sprite.y <= 0):
-		sprite.y = 0
-		sprite.set_sequence_time(0, 4, 400, True) #B: chega olhando pra cima e troca pra baixo
-		return -1
+#B: adiciona o cone na direção correspondente ao seu debugger
+def adiciona_cone(vel, direcao):
+
+	if (direcao == "v" and vel > 0): #descendo
+		return GameImage("Assets/Cones de Visão/cone-visao-frente.png")
 		
-	elif (sprite.y >= tela.height - sprite.height):
-		sprite.y = tela.height - sprite.height
-		sprite.set_sequence_time(4, 8, 400, True) #B: chega olhando pra baixo e troca pra cima
-		return -1
+	elif (direcao == "v" and vel < 0): #subindo
+		return GameImage("Assets/Cones de Visão/cone-visao-costas.png")
 		
-	else:
-		return 1
+	elif (direcao == "h" and vel > 0): #direita
+		return GameImage("Assets/Cones de Visão/cone-visao-direita.png")
 		
-def pLimiteBorda2(sprite, vel):
+	elif (direcao == "h" and vel < 0): #esquerda
+		return GameImage("Assets/Cones de Visão/cone-visao-esquerda.png")
+
+#B: posiciona o cone próximo ao seu debugger (é mais importante quando a velocidade troca de sinal)
+def posiciona_cone(sprite, cone, vel, direcao):
+
+	margem = 0
+
+	if (direcao == "v" and vel > 0): #descendo
+		cone.x = sprite.x + (sprite.width - cone.width) / 2
+		cone.y = sprite.y + sprite.height + margem
 		
-	if (sprite.x <= 0):
-		sprite.x = 0
-		sprite.set_sequence_time(4, 8, 400, True) #B: chega olhando pra esquerda e troca pra direita
-		return -1
+	elif (direcao == "v" and vel < 0): #subindo
+		cone.x = sprite.x + (sprite.width - cone.width) / 2
+		cone.y = sprite.y - cone.height - margem
 		
-	elif (sprite.x >= tela.width - sprite.width):
-		sprite.x = tela.width - sprite.width
-		sprite.set_sequence_time(0, 4, 400, True) #B: chega olhando pra direita e troca pra esquerda
-		return -1
+	elif (direcao == "h" and vel > 0): #direita
+		cone.x = sprite.x + sprite.width + margem
+		cone.y = sprite.y + (sprite.height - cone.height) / 2
 		
-	else:
-		return 1
+	elif (direcao == "h" and vel < 0): #esquerda
+		cone.x = sprite.x - cone.width - margem
+		cone.y = sprite.y + (sprite.height - cone.height) / 2
+		
+#B: troca o sprte do debugger pra versão desconfiômetro
+def alerta_debugger(qtd, lista_vels, lista_direcoes, lista_debuggers):
+	
+	debuggers = []
+	
+	for i in range(qtd):
+	
+		if (lista_direcoes[i] == "v" and lista_vels[i] > 0): #descendo
+			sprite = Sprite("Assets/Inspetor/inspetor-vertical-alerta.png", 8)
+			sprite.set_sequence(0, 4)
+			
+		elif (lista_direcoes[i] == "v" and lista_vels[i] < 0): #subindo
+			sprite = Sprite("Assets/Inspetor/inspetor-vertical-alerta.png", 8)
+			sprite.set_sequence(4, 8)
+			
+		elif (lista_direcoes[i] == "h" and lista_vels[i] > 0): #direita
+			sprite = Sprite("Assets/Inspetor/inspetor-horizontal-alerta.png", 8)
+			sprite.set_sequence(4, 8)
+			
+		elif (lista_direcoes[i] == "h" and lista_vels[i] < 0): #esquerda
+			sprite = Sprite("Assets/Inspetor/inspetor-horizontal-alerta.png", 8)
+			sprite.set_sequence(0, 4)
+			
+		sprite.set_total_duration(400)
+		sprite.x = lista_debuggers[i].x
+		sprite.y = lista_debuggers[i].y
+		debuggers.append(sprite)
+		
+	return debuggers
+	
+def alerta_adiciona_cone(vel, direcao):
+
+	if (direcao == "v" and vel > 0): #descendo
+		return GameImage("Assets/Cones de Visão/cone-visao-frente-alerta.png")
+		
+	elif (direcao == "v" and vel < 0): #subindo
+		return GameImage("Assets/Cones de Visão/cone-visao-costas-alerta.png")
+		
+	elif (direcao == "h" and vel > 0): #direita
+		return GameImage("Assets/Cones de Visão/cone-visao-direita-alerta.png")
+		
+	elif (direcao == "h" and vel < 0): #esquerda
+		return GameImage("Assets/Cones de Visão/cone-visao-esquerda-alerta.png")
+		
+#B: troca o sprite do debugger pra versão tela azul
+def tela_azul_debugger(sprite, vel, direcao):
+	
+	if (direcao == "v" and vel > 0): #descendo
+		sprite_TA = Sprite("Assets/Inspetor/inspetor-vertical-tazul.png", 8)
+		sprite_TA.set_sequence(0, 4, True)
+			
+	elif (direcao == "v" and vel < 0): #subindo
+		sprite_TA = Sprite("Assets/Inspetor/inspetor-vertical-tazul.png", 8)
+		sprite_TA.set_sequence(4, 8, True)
+			
+	elif (direcao == "h" and vel > 0): #direita
+		sprite_TA = Sprite("Assets/Inspetor/inspetor-horizontal-tazul.png", 8)
+		sprite_TA.set_sequence(4, 8, True)
+			
+	elif (direcao == "h" and vel < 0): #esquerda
+		sprite_TA = Sprite("Assets/Inspetor/inspetor-horizontal-alerta.png", 8)
+		sprite_TA.set_sequence(0, 4, True)
+			
+	sprite_TA.set_total_duration(400)
+	sprite_TA.x = sprite.x
+	sprite_TA.y = sprite.y
+		
+	return sprite_TA	
+	
+def normal_debugger(sprite, vel, direcao):
+	
+	if (direcao == "v" and vel > 0): #descendo
+		sprite_N = Sprite("Assets/Inspetor/inspetor-vertical.png", 8)
+		sprite_N.set_sequence(0, 4, True)
+			
+	elif (direcao == "v" and vel < 0): #subindo
+		sprite_N = Sprite("Assets/Inspetor/inspetor-vertical.png", 8)
+		sprite_N.set_sequence(4, 8, True)
+			
+	elif (direcao == "h" and vel > 0): #direita
+		sprite_N = Sprite("Assets/Inspetor/inspetor-horizontal.png", 8)
+		sprite_N.set_sequence(4, 8, True)
+			
+	elif (direcao == "h" and vel < 0): #esquerda
+		sprite_N = Sprite("Assets/Inspetor/inspetor-horizontal.png", 8)
+		sprite_N.set_sequence(0, 4, True)
+			
+	sprite_N.set_total_duration(400)
+	sprite_N.x = sprite.x
+	sprite_N.y = sprite.y
+		
+	return sprite_N
 	

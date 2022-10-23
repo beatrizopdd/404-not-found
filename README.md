@@ -12,10 +12,9 @@ git push -u origin master
 
 ## :speech_balloon: FOFOCA
 
-##### :space_invader: 20/10 criei um arquivo pra ficar mais rápido de testar minhas funções. recomendo pq esse negócio de esperar o bonito abrir ta me matando 
-##### :space_invader: CORTEI AS PAREDINHAS DE FORA PEX = PAREDE EXTERNA_POSIÇÃO (desculpa o berro)
-##### :space_invader: 21/10 o desgraçado do debugger andou e ele voltar depois de bater
-
+##### :space_invader: 20/10 criei um arquivo pra ficar mais rápido de testar minhas funções. recomendo pq esse negócio de esperar o bonito abrir ta me matando. esquema das paredes de fora PEX = PAREDE EXTERNA_POSIÇÃO
+##### :space_invader: 21/10 o desgraçado do debugger andou e ele volta depois de bater
+##### :space_invader: 23/10 não aguento mais. vo terminar a tela azul depois do esconderijo pq ta muito chato
 
 #### :clipboard: DICAS DE README
 
