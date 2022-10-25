@@ -4,6 +4,7 @@ from utilidadesA import *
 #Depois a gente pode incorporar algumas dessas funções nos elementos do gameloop pra evitar redundâncias
 #Ex: Evitar de percorrer a matriz de paredes duas vezes pra mover a buggy e depois pra desenhar
 
+#A: Eu apaguei a solução com correção de movimento porque eu achei que ia conseguir resolver hoje
 def movimento_buggy(buggy, vel, teclado, mat_paredes, tela):
 
     '''dir_usadas = []
