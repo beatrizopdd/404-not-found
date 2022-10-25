@@ -10,7 +10,7 @@ git commit -m "first commit" ("mensagem pra dar avisar o que mudou")
 
 git push -u origin master
 
-## :soon::tm: A FAZER:
+# :soon::tm: A FAZER:
 
 [] Organizar variáveis e vetores globais
 
