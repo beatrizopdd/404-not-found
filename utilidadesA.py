@@ -21,7 +21,7 @@ def posiciona_grid(objeto, tile, x, y, centraliza=True):
 
 #A: Alinha os cones de visão baseado em pra que lado o debugger está olhando
 # 1- Esquerda  2- Cima  3- Direita  4- Baixo, conforme a gente combinou
-#A: Obsoleta
+#A: Obsoleta. Verificar melhor depois
 def alinha_cone(cone, debugger, lado):
 
     X = debugger.x + (debugger.width/2 - cone.width/2)
