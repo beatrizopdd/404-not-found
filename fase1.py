@@ -6,7 +6,7 @@ from PPlay.mouse import *
 from PPlay.sound import *
 from buggy import movimento_buggy
 
-#A: Esse import tá dando erro por algum motivo
+#A: Esse import tá dando erro por algum motivo que eu n tenho ideia
 #from buggy.py import *
 from utilidadesA import *
 
