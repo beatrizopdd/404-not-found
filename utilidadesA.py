@@ -1,5 +1,12 @@
+#A: Retorna as coordenadas da tela equivalentes ao x e y dentro do grid de tiles
+def cord_grid(tile, x, y):
+
+    x = tile.x * x
+    y = tile.y * y
+
+    return x,y
+
 #A: Alterei a função pra gente poder escolher se vai centralizar ou não o objeto no quadrado que ele entra
-#Teste push
 def posiciona_grid(objeto, tile, x, y, centraliza=True):
 
     objeto.set_position(tile.width*x, tile.height*y)
@@ -14,6 +21,7 @@ def posiciona_grid(objeto, tile, x, y, centraliza=True):
 
 #A: Alinha os cones de visão baseado em pra que lado o debugger está olhando
 # 1- Esquerda  2- Cima  3- Direita  4- Baixo, conforme a gente combinou
+#A: Obsoleta
 def alinha_cone(cone, debugger, lado):
 
     X = debugger.x + (debugger.width/2 - cone.width/2)
@@ -36,3 +44,10 @@ def alinha_cone(cone, debugger, lado):
         Y += debugger.height
     
     cone.set_position(X,Y)
+
+#A: dist_pontos espera duas tuplas/listas com x e y
+def dist_pontos(cords1, cords2):
+
+    dist = ((((cords1[0] - cords2[0])**2) + ((cords1[1] - cords2[1])**2))**0.5)
+
+    return dist

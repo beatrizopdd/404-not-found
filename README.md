@@ -10,6 +10,20 @@ git commit -m "first commit" ("mensagem pra dar avisar o que mudou")
 
 git push -u origin master
 
+## :soon::TM: A FAZER:
+
+[] Organizar variáveis e vetores globais
+
+[] Movimento do player
+- [] Colisão com as paredes internas
+- [] Colisão com a parede externa
+[] Disparo
+[] Ponteiro
+
+[] Esconderijo
+[] Debugger
+- [] Tela azul
+
 ## :speech_balloon: FOFOCA
 
 ##### :space_invader: 20/10 criei um arquivo pra ficar mais rápido de testar minhas funções. recomendo pq esse negócio de esperar o bonito abrir ta me matando. esquema das paredes de fora PEX = PAREDE EXTERNA_POSIÇÃO

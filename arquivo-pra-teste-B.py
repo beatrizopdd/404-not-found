@@ -54,6 +54,7 @@ debuggers[0].set_position(128,132)
 debuggers[1].set_position(128, tela.height - 132)
 debuggers[2].set_position(tela.width - 192, 132)
 ''' (NÃO CORINGA) '''
+'''A: Por isso eu fiz a função posiciona_grid'''
 
 cones = []
 for i in range(qtd):

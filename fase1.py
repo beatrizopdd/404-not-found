@@ -4,11 +4,15 @@ from PPlay.keyboard import *
 from PPlay.sprite import *
 from PPlay.mouse import *
 from PPlay.sound import *
+from buggy import movimento_buggy
 
-from utilidades import alinha_cone, posiciona_grid
+#A: Esse import tá dando erro por algum motivo
+#from buggy.py import *
+from utilidadesA import *
 
 #A: Tela
 tela = Window(1280,660)
+teclado = tela.get_keyboard()
 tela.set_title("404 Not Found")
 
 #A: Audios
@@ -166,6 +170,7 @@ while True:
         for parede in i:
             parede.draw()
 
+    movimento_buggy(buggy, 150, teclado, paredes, tela)
     buggy.update()
     buggy.draw()
 
