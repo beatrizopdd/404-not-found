@@ -15,8 +15,9 @@ git push -u origin master
 [] Organizar variáveis e vetores globais
 
 [] Movimento do player
-- [] Colisão com as paredes internas
-- [] Colisão com a parede externa
+- [x] Colisão com as paredes internas
+- [x] Colisão com a parede externa
+- [] Mudança da direção da sprite conforme o movimento
 [] Disparo
 [] Ponteiro
 
