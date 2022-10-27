@@ -4,10 +4,8 @@ from PPlay.keyboard import *
 from PPlay.sprite import *
 from PPlay.mouse import *
 from PPlay.sound import *
-from buggy import movimento_buggy
 
-#A: Esse import tá dando erro por algum motivo que eu n tenho ideia
-#from buggy.py import *
+from buggy import *
 from utilidadesA import *
 
 #A: Tela
@@ -20,7 +18,7 @@ bgm_normal = Sound("Assets/Audio/Bgms/Ayra.ogg")
 
 #A: Game Images | Todas as imagens de fundo
 chao = GameImage("Assets/Fundos/chao.png")
-tile = GameImage("Assets/Fundos/tile.png") #Declarado só pelo uso na função posiciona_grid
+tile = Sprite("Assets/Fundos/tile.png") #Declarado só pelo uso na função posiciona_grid
 parede_externa = GameImage("Assets/Paredes/moldura_com_es.png")
 
 ##B: COMEÇA SEÇÃO DE PAREDES
@@ -154,23 +152,38 @@ mecanismos = [esconderijo, entradaW, saidaW]
 sprites = [mecanismos, debugger]
 paredes = [parede1X2, parede1X3, parede4X1, parede_unica]
 
+#A: Pro nosso controle de fps
+cronometro_fps = 0
+frames = 0
+taxa_de_quadros = 0
+
 while True:
 
+    cronometro_fps += tela.delta_time()
+    frames += 1
+    
+    #Lidando com fps
+    if cronometro_fps >= 1:  
+        
+        taxa_de_quadros = frames
+        frames = cronometro_fps = 0
 
     ##A: LIDANDO COM SONS
     #A: Atualmente com erros de dentro do pygame. Perguntar pro Esteban sobre qualidade de áudio.
-    bgm_normal.play()
+    #bgm_normal.play()
 
     ##A: DESENHANDO OBJETOS NA TELA
     chao.draw()
     parede_externa.draw()
+
+    tela.draw_text(str(taxa_de_quadros), 0, 0, 40, (255,255,255))
 
     #B: desenha as paredes internas
     for i in paredes:
         for parede in i:
             parede.draw()
 
-    movimento_buggy(buggy, 150, teclado, paredes, tela)
+    comportamento_buggy(buggy, 150, teclado, paredes, tile, tela)
     buggy.update()
     buggy.draw()
 
