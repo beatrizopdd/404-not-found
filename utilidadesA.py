@@ -1,10 +1,10 @@
 #A: Retorna as coordenadas da tela equivalentes ao x e y dentro do grid de tiles
 def cord_grid(tile, x, y):
 
-    x = tile.x * x
-    y = tile.y * y
+    x = tile.width * x
+    y = tile.height * y
 
-    return x,y
+    return (x,y)
 
 #A: Alterei a função pra gente poder escolher se vai centralizar ou não o objeto no quadrado que ele entra
 def posiciona_grid(objeto, tile, x, y, centraliza=True):
