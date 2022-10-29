@@ -1,9 +1,66 @@
 from PPlay.gameimage import *
 from PPlay.window import *
 
-tela = Window(1280,660)
-teclado = tela.get_keyboard()
+#A: Função 30x mais legível usando dicionário como struct de pobre
 def criar_disparo(buggy, virada_para, disparo):
+
+    disparo["direção"] = virada_para
+    disparo["ativo"] = True
+
+    if disparo["direção"] == "CIMA" or disparo["direção"] == "BAIXO":
+
+        disparo["imagem"] = GameImage("Assets/Choque/choque-vertical.png")
+
+    elif disparo["direção"] == "ESQUERDA" or disparo["direção"] == "DIREITA":
+
+        disparo["imagem"] = GameImage("Assets/Choque/choque-horizontal.png")
+    
+
+    disparo["imagem"].set_position(buggy.x + buggy.width/2, buggy.y + buggy.height/2)
+
+
+
+def movimento_disparo(disparo, tela):
+
+    if disparo["direção"] == "CIMA":
+
+        disparo["imagem"].y -= disparo["velocidade"] * tela.delta_time()
+    
+    if disparo["direção"] == "BAIXO":
+        
+        disparo["imagem"].y += disparo["velocidade"] * tela.delta_time()
+    
+    if disparo["direção"] == "ESQUERDA":
+
+        disparo["imagem"].x -= disparo["velocidade"] * tela.delta_time()
+    
+    if disparo["direção"] == "DIREITA":
+
+        disparo["imagem"].x += disparo["velocidade"] * tela.delta_time()
+
+
+
+def colide_disparo(disparo, vet_debugger, vet_tela_azul, tela):
+
+    #Se passou das bordas da tela
+    if (disparo["imagem"].x + disparo["imagem"].width) <= 0 or (disparo["imagem"].y + disparo["imagem"].height) <= 0 or (disparo["imagem"].x) >= tela.width or (disparo["imagem"].y) >= tela.height:
+
+        disparo["ativo"] = False
+        return
+
+    for i in range(len(vet_debugger)):
+
+        if disparo["imagem"].collided(vet_debugger[i]):
+
+            vet_tela_azul[i] = True
+            disparo["ativo"] = False
+            break
+
+
+## A: CÓDIGOS OBSOLETOS QUE EU NÃO QUERO APAGAR ##
+
+#A: Função usando lista
+'''def criar_disparo(buggy, virada_para, disparo):
 
     disparo[1] = virada_para
     disparo[3] = True
@@ -55,4 +112,6 @@ def colide_disparo(disparo, vet_debugger, vet_tela_azul):
 
             vet_tela_azul[i] = True
             disparo[3] = False
-            break
+            break'''
+
+
