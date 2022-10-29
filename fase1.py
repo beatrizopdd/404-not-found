@@ -81,6 +81,10 @@ debugger = []
 for i in range(8):
 	debugger.append(Sprite("Assets/Inspetor/inspetor-frente.png", 4))
 
+tela_azul = []
+for i in debugger:
+    tela_azul.append(False)
+
 #A: Ajustando para as sprites iniciais corretas.
 debugger[1] = Sprite("Assets/Inspetor/inspetor-costas.png", 4)
 debugger[2] = Sprite("Assets/Inspetor/inspetor-esquerda.png", 4)

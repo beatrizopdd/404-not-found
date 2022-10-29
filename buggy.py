@@ -1,32 +1,44 @@
+from disparo import *
 from utilidadesA import *
+from PPlay.window import *
 
+tela = Window(1280,660)
+teclado = tela.get_keyboard()
 #A: Implementando toda a lógica de forma separada agora por facilidade
 #Depois a gente pode incorporar algumas dessas funções nos elementos do gameloop pra evitar redundâncias
 #Ex: Evitar de percorrer a matriz de paredes duas vezes pra mover a buggy e depois pra desenhar
 
-def comportamento_buggy(buggy, vel, teclado, mat_paredes, tile, tela):
+def comportamento_buggy(buggy, vel, mat_paredes, tile, virada_para, disparo):
 
     direção_x = 0
     direção_y = 0
-    vel *= tela.delta_time()
+    andou = False
 
     #A: Colocar as alterações de sprite depois
+    if teclado.key_pressed("UP"):
+
+        direção_y = -1
+        andou = True
+        virada_para = "CIMA"
+
+    elif teclado.key_pressed("DOWN"):
+
+        direção_y = 1
+        andou = True
+        virada_para = "BAIXO"
+
     if teclado.key_pressed("LEFT"):
 
         direção_x = -1
+        andou = True
+        virada_para = "ESQUERDA"
 
     elif teclado.key_pressed("RIGHT"):
 
         direção_x = 1
+        andou = True
+        virada_para = "DIREITA"
     
-    if teclado.key_pressed("UP"):
-
-        direção_y = -1
-    
-    elif teclado.key_pressed("DOWN"):
-
-        direção_y = 1
-
     buggy.x += vel * direção_x
     buggy.y += vel * direção_y
 
@@ -37,6 +49,18 @@ def comportamento_buggy(buggy, vel, teclado, mat_paredes, tile, tela):
         for parede in vet_paredes:
 
             corrigir_posição(buggy, parede, vel, direção_x, direção_y)
+
+
+    #A: Lidando com as interações com mecanismos e disparos
+    if teclado.key_pressed("SPACE") and disparo[3] == False:
+
+        criar_disparo(buggy, virada_para, disparo)
+
+    
+    return andou, virada_para
+
+
+
 
 #A: Por mais caro que pareça, não é
 #A: Provavelmente dá pra melhorar a legibilidade. Ainda tô tentando cortar algum dos collided
