@@ -1,0 +1,55 @@
+Formato padrão esperado para todas as variáveis de uma fase:
+
+Variáveis simples:
+
+    Sem categoria:
+    -> chao/fundo da fase
+    -> tile padrão do chão <- importante
+    -> parede externa
+    -> áudios diversos
+    -> tela, teclado
+
+    Controle de fps:
+    -> cronometro_fps
+    -> frames
+    -> taxa_de_quadros
+
+    Buggy
+    -> sprite da buggy
+    -> virada_para: string contendo para qual lado buggy está virada
+       possibilidades: "CIMA", "BAIXO", "ESQUERDA", "DIREITA"
+
+
+Vetores comuns:
+
+    Paredes:
+    -> Cada cópia de uma parede mXn está em um vetor de nome paredeMXN
+       Paredes que só fazem uma aparição são unidas em um vetor parede_unica
+    
+    Debugger:
+    -> Cada cópia deve estar no vetor "debugger"
+    -> cone: Todos os cones de visão devem estar em um vetor, de forma que 
+       o cone de debugger[i] esteja em cone[i]
+    -> tela_azul: mesma ideia do vetor cone, mas guarda booleanas pro estado de
+       tela azul do debugger[i]
+    
+    Mecanismos:
+    -> esconderijo: vetor de todos os esconderijos presentes
+    -> ponteiro_entrada: vetor de todos os ponteiros de entradas
+    -> ponteiro_saída: todos os ponteiros de saída sincronizados por índice
+       aos ponteiros de entrada
+
+Dicionários struct de pobre:
+
+    disparo:
+    -> ["imagem"] guarda a GameImage;
+    -> ["direção"] string: direção do disparo (veja virada_para);
+    -> ["velocidade"] int/float: velocidade do disparo;
+    -> ["ativo"] booleana: se o disparo está ativo em campo ou não
+
+Matrizes:
+
+    paredes: matriz contendo todos os vetores de paredeMXN e parede_unica
+    ponteiros: matriz com os vetores de ponteiros de entrada e saída
+
+    Obsoleto: mecanismos: matriz de ponteiros e esconderijos (atrapalha a ordem de desenho)
