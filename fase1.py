@@ -1,3 +1,4 @@
+from PPlay import gameimage
 from PPlay.gameimage import *
 from PPlay.window import *
 from PPlay.keyboard import *
@@ -16,7 +17,7 @@ tela.set_title("404 Not Found")
 #A: Audios
 bgm_normal = Sound("Assets/Audio/Bgms/Ayra.ogg")
 
-#A: Game Images | Todas as imagens de fundo
+#A: Game Images | Todas as imagens de fundo e o disparo
 chao = GameImage("Assets/Fundos/chao.png")
 tile = Sprite("Assets/Fundos/tile.png") #Declarado só pelo uso na função posiciona_grid
 parede_externa = GameImage("Assets/Paredes/moldura_com_es.png")
@@ -68,9 +69,11 @@ posiciona_grid(parede4X1[1], tile, 8,1, False)
 
 ##A: Sprites | Tudo que tem alguma animação envolvida
 
-#A: Sprites da Buggy
+#A: Sprite e variáveis da Buggy
 
 buggy = Sprite("Assets/Buggy/buggy-baixo.png", 5)
+virada_para = "BAIXO"
+andou = False
 buggy.set_total_duration(500)
 posiciona_grid(buggy, tile, 1,1)
 
@@ -153,13 +156,17 @@ mecanismos = [esconderijo, entradaW, saidaW]
 
 #A: Vetores para facilitar os processo de desenho
 #A: O cone de visão precisa ser desenhado por último e sem .update(), então fica fora dos vetores
-sprites = [mecanismos, debugger]
 paredes = [parede1X2, parede1X3, parede4X1, parede_unica]
 
 #A: Pro nosso controle de fps
 cronometro_fps = 0
 frames = 0
 taxa_de_quadros = 0
+
+##A: Vetor com os dados do disparo
+#Em ordem: imagem, direção, velocidade e se está ativo
+disparo = [GameImage("Assets/Choque/choque-vertical.png"), "CIMA", tela.height/3, False]
+
 
 while True:
 
@@ -187,8 +194,18 @@ while True:
         for parede in i:
             parede.draw()
 
-    comportamento_buggy(buggy, 150, teclado, paredes, tile, tela)
-    buggy.update()
+    andou, virada_para = comportamento_buggy(buggy, 150 * tela.delta_time(), teclado, paredes, tile, virada_para, disparo)
+
+
+    #A: Só executa a lógica se o disparo existir
+    if disparo[3]:
+        movimento_disparo(disparo, disparo[2] * tela.delta_time())
+        colide_disparo(disparo, debugger, tela_azul, tela)
+        disparo[0].draw()
+
+    #A: Faz a Buggy só exibir animação de caminhada quando ela está genuinamente caminhando
+    if andou:
+        buggy.update()
     buggy.draw()
 
     #B: desenha e atualiza o esconderijo, as entradas e os debbugers
