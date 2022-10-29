@@ -8,13 +8,16 @@
 
 # :soon::tm: A FAZER:
 
-- [ ] Organizar variáveis e vetores globais
+- [ ] Organizar variáveis e vetores globais,
 
-- [ ] Movimento do player
-- [x] Colisão com as paredes internas
+- [ ] Descobrir pq o pygame reclama da sprite do disparo
+
+- [] Movimento do player
+- [] Colisão com as paredes internas
+- [] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
 - [x] Colisão com a parede externa
-- [ ] Mudança da direção da sprite conforme o movimento
-- [ ] Disparo
+- [x] Mudança da direção da sprite conforme o movimento
+- [x] Disparo
 - [ ] Ponteiro
 
 - [x] Esconderijo
