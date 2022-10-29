@@ -71,7 +71,8 @@ posiciona_grid(parede4X1[1], tile, 8,1, False)
 
 #A: Sprite e variáveis da Buggy
 
-buggy = Sprite("Assets/Buggy/buggy-baixo.png", 5)
+buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
+buggy.set_sequence(0,4)
 virada_para = "BAIXO"
 andou = False
 buggy.set_total_duration(500)
@@ -165,8 +166,15 @@ taxa_de_quadros = 0
 
 ##A: Vetor com os dados do disparo
 #Em ordem: imagem, direção, velocidade e se está ativo
-disparo = [GameImage("Assets/Choque/choque-vertical.png"), "CIMA", tela.height/3, False]
+#disparo = [GameImage("Assets/Choque/choque-vertical.png"), "CIMA", tela.height/3, False]
 
+disparo = {
+
+    "imagem": GameImage("Assets/Choque/choque-vertical.png"),
+    "direção": "CIMA",
+    "velocidade": tela.height/2,
+    "ativo": False,
+}
 
 while True:
 
@@ -178,9 +186,10 @@ while True:
         
         taxa_de_quadros = frames
         frames = cronometro_fps = 0
+        print("X: " + str(buggy.x) + " Y: " + str(buggy.y))
+        print(virada_para)
 
     ##A: LIDANDO COM SONS
-    #A: Atualmente com erros de dentro do pygame. Perguntar pro Esteban sobre qualidade de áudio.
     #bgm_normal.play()
 
     ##A: DESENHANDO OBJETOS NA TELA
@@ -194,14 +203,14 @@ while True:
         for parede in i:
             parede.draw()
 
-    andou, virada_para = comportamento_buggy(buggy, 150 * tela.delta_time(), teclado, paredes, tile, virada_para, disparo)
+    buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, tile, virada_para, disparo, teclado)
 
 
     #A: Só executa a lógica se o disparo existir
-    if disparo[3]:
-        movimento_disparo(disparo, disparo[2] * tela.delta_time())
+    if disparo["ativo"]:
+        movimento_disparo(disparo, tela)
         colide_disparo(disparo, debugger, tela_azul, tela)
-        disparo[0].draw()
+        disparo["imagem"].draw()
 
     #A: Faz a Buggy só exibir animação de caminhada quando ela está genuinamente caminhando
     if andou:
