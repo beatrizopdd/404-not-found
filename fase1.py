@@ -138,20 +138,25 @@ alinha_cone(cone[4], debugger[4], 3)
 
 ##B: COMEÇA SEÇÃO DE MECANISMOS
 
-esconderijo = Sprite("Assets/Mecanismos/hide.png", 22)
+esconderijo = [Sprite("Assets/Mecanismos/hide.png", 22)]
+esconderijo[0].set_total_duration(2500)
+posiciona_grid(esconderijo[0], tile, 1,7)
+
+#A: Comentado pra caso alguma das suas funções explodir a gente poder discutir e arrumar
+'''esconderijo = Sprite("Assets/Mecanismos/hide.png", 22)
 esconderijo.set_total_duration(2500)
-posiciona_grid(esconderijo, tile, 1,7)
+posiciona_grid(esconderijo, tile, 1,7)'''
 
-entradaW = Sprite("Assets/Mecanismos/&w.png", 6)
-entradaW.set_total_duration(400)
-posiciona_grid(entradaW, tile, 4, 8)
+ponteiro_entrada = [Sprite("Assets/Mecanismos/&w.png", 6)]
+ponteiro_entrada[0].set_total_duration(400)
+posiciona_grid(ponteiro_entrada[0], tile, 4, 8)
 
-saidaW = Sprite("Assets/Mecanismos/W.png", 13)
-saidaW.set_total_duration(1000)
-posiciona_grid(saidaW, tile, 9, 1)
+ponteiro_saída = [Sprite("Assets/Mecanismos/W.png", 13)]
+ponteiro_saída[0].set_total_duration(1000)
+posiciona_grid(ponteiro_saída[0], tile, 9, 1)
 
 #A: Vetor com todos os mecanismos
-mecanismos = [esconderijo, entradaW, saidaW]
+mecanismos = [esconderijo, ponteiro_entrada, ponteiro_saída]
 
 ##B: TERMINA SEÇÃO DE MECANISMOS
 
@@ -164,15 +169,15 @@ cronometro_fps = 0
 frames = 0
 taxa_de_quadros = 0
 
-##A: Vetor com os dados do disparo
-#Em ordem: imagem, direção, velocidade e se está ativo
-#disparo = [GameImage("Assets/Choque/choque-vertical.png"), "CIMA", tela.height/3, False]
+#A: Dicionário com as informações do disparo
 
 disparo = {
 
     "imagem": GameImage("Assets/Choque/choque-vertical.png"),
     "direção": "CIMA",
     "velocidade": tela.height/2,
+    "tempo_esperado": 0,
+    "recarga": 3,
     "ativo": False,
 }
 
@@ -203,24 +208,38 @@ while True:
         for parede in i:
             parede.draw()
 
-    buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, tile, virada_para, disparo, teclado)
+    buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, ponteiro_entrada, ponteiro_saída, esconderijo, tile, virada_para, disparo, teclado)
 
 
-    #A: Só executa a lógica se o disparo existir
     if disparo["ativo"]:
+
         movimento_disparo(disparo, tela)
         colide_disparo(disparo, debugger, tela_azul, tela)
-        disparo["imagem"].draw()
+
+        if disparo["ativo"]: #Só desenha se ele não colidir 
+
+            disparo["imagem"].draw()
+    
+    else:
+
+        disparo["tempo_esperado"] += tela.delta_time()
+
+    for p in ponteiro_entrada:
+        p.update()
+        p.draw()
+    
+    for p in ponteiro_saída:
+        p.update()
+        p.draw()
 
     #A: Faz a Buggy só exibir animação de caminhada quando ela está genuinamente caminhando
     if andou:
         buggy.update()
     buggy.draw()
 
-    #B: desenha e atualiza o esconderijo, as entradas e os debbugers
-    for m in mecanismos:
-        m.update()
-        m.draw()
+    for e in esconderijo:
+        e.update()
+        e.draw()
 
     for d in debugger:
         d.update()
