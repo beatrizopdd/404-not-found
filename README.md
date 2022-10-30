@@ -8,17 +8,20 @@
 
 # :soon::tm: A FAZER:
 
-- [ ] Organizar variáveis e vetores globais,
+- [x] Organizar variáveis e vetores globais
 
 - [ ] Descobrir pq o pygame reclama da sprite do disparo
 
-- [] Movimento do player
-- [] Colisão com as paredes internas
-- [] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
+- [] Normalizar a sprite da buggy
+    Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível. As colisões estão estranhas por causa de pixels de transparência na sprite vertical antiga. Sprite horizontal parece funcionar bem.
+
+- [x] Movimento do player
+- [x] Colisão com as paredes internas
+- [x] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
 - [x] Colisão com a parede externa
 - [x] Mudança da direção da sprite conforme o movimento
 - [x] Disparo
-- [ ] Ponteiro
+- [x] Ponteiro
 
 - [x] Esconderijo
 - [x] Debugger +ou-
