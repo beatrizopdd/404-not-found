@@ -155,6 +155,8 @@ ponteiro_saída = [Sprite("Assets/Mecanismos/W.png", 13)]
 ponteiro_saída[0].set_total_duration(1000)
 posiciona_grid(ponteiro_saída[0], tile, 9, 1)
 
+ponteiros = [ponteiro_entrada, ponteiro_saída]
+
 #A: Vetor com todos os mecanismos
 mecanismos = [esconderijo, ponteiro_entrada, ponteiro_saída]
 
@@ -170,7 +172,6 @@ frames = 0
 taxa_de_quadros = 0
 
 #A: Dicionário com as informações do disparo
-
 disparo = {
 
     "imagem": GameImage("Assets/Choque/choque-vertical.png"),
@@ -224,13 +225,10 @@ while True:
 
         disparo["tempo_esperado"] += tela.delta_time()
 
-    for p in ponteiro_entrada:
-        p.update()
-        p.draw()
-    
-    for p in ponteiro_saída:
-        p.update()
-        p.draw()
+    for vet_p in ponteiros:
+        for p in vet_p:
+            p.update()
+            p.draw()
 
     #A: Faz a Buggy só exibir animação de caminhada quando ela está genuinamente caminhando
     if andou:
