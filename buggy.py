@@ -7,7 +7,7 @@ from PPlay.window import *
 #Depois a gente pode incorporar algumas dessas funções nos elementos do gameloop pra evitar redundâncias
 #Ex: Evitar de percorrer a matriz de paredes duas vezes pra mover a buggy e depois pra desenhar
 
-def comportamento_buggy(buggy, vel, mat_paredes, tile, virada_para, disparo, teclado):
+def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saída, vet_esconderijos, tile, virada_para, disparo, teclado):
 
     x_antigo = buggy.x
     y_antigo = buggy.y
@@ -70,11 +70,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, tile, virada_para, disparo, tec
         direção_y = 1
         andou = True
         virada_para = "BAIXO"
-    
-    #A: Lidando com as interações com mecanismos e disparos
-    if teclado.key_pressed("SPACE") and disparo["ativo"] == False:
 
-        criar_disparo(buggy, virada_para, disparo)
 
     #Realizando as intenções de movimento e verificando se a nova posição do player é válida
     if virada_para == "CIMA" or virada_para == "BAIXO":
@@ -85,7 +81,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, tile, virada_para, disparo, tec
     elif virada_para == "ESQUERDA" or virada_para == "DIREITA":
 
         buggy.x = x_antigo + (vel * direção_x)
-        buggy.y = y_antigo
+        buggy.y = y_antigo    
 
     colisão_parede_externa(buggy, tile)
 
@@ -94,13 +90,36 @@ def comportamento_buggy(buggy, vel, mat_paredes, tile, virada_para, disparo, tec
         for parede in vet_paredes:
 
             corrigir_posição(buggy, parede, vel, direção_x, direção_y)
-    
+
+
+    #A: Lidando com as interações com mecanismos
+    if teclado.key_pressed("SPACE"):
+
+        for i in range(len(ponteiro_entrada)):
+
+            if buggy.collided(ponteiro_entrada[i]):
+
+                buggy.x = ponteiro_saída[i].x + ponteiro_saída[i].width/2 - buggy.width/2
+                buggy.y = ponteiro_saída[i].y + ponteiro_saída[i].height/2 - buggy.height/2
+                break
+            
+        for esconderijo in vet_esconderijos:
+
+            if buggy.collided(esconderijo):
+
+                #A: Inserir aqui a lógica de esconderijo de Bia
+                break
+
+    if teclado.key_pressed("Z") and (disparo["tempo_esperado"] >= disparo["recarga"]):
+
+        criar_disparo(buggy, virada_para, disparo)
+        disparo["tempo_esperado"] = 0
+
+
     return buggy, andou, virada_para
 
 
 
-
-#A: Por mais caro que pareça, não é
 #A: Provavelmente dá pra melhorar a legibilidade. Ainda tô tentando cortar algum dos collided
 #A: Lembrar de verificar qual acontece mais, colisão pelo x ou pelo y e colocar encima (baixa prioridade)
 def corrigir_posição(buggy, parede, vel, direção_x, direção_y):
@@ -115,7 +134,7 @@ def corrigir_posição(buggy, parede, vel, direção_x, direção_y):
             buggy.y += vel * -direção_y #Corrige o y
 
 
-            #A: Esse bloco não é mais necessário porque escolhemos desabilitar movimento diagonal pra movimentação ser mais delicada
+            #A: Esse bloco não é mais necessário porque escolhemos desabilitar movimento diagonal pra reduzir o espaço que o jogador pode percorrer em uma frame
             '''if parede.collided(buggy): #Se o problema era nos dois
 
                 buggy.x += vel * -direção_x #Corrige os dois
