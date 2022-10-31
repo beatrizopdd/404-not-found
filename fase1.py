@@ -217,7 +217,7 @@ while True:
         movimento_disparo(disparo, tela)
         colide_disparo(disparo, debugger, tela_azul, tela)
 
-        if disparo["ativo"]: #Só desenha se ele não colidir 
+        if disparo["ativo"]: #Só desenha se ele não colidiu
 
             disparo["imagem"].draw()
     

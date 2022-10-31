@@ -16,7 +16,7 @@ def criar_disparo(buggy, virada_para, disparo):
         disparo["imagem"] = GameImage("Assets/Choque/choque-horizontal.png")
     
 
-    disparo["imagem"].set_position(buggy.x + buggy.width/2, buggy.y + buggy.height/2)
+    disparo["imagem"].set_position(buggy.x + buggy.width/2 - disparo["imagem"].width/2, buggy.y + buggy.height/2 - disparo["imagem"].height/2)
 
 
 

@@ -11,6 +11,8 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
     x_antigo = buggy.x
     y_antigo = buggy.y
+
+    #As variáveis direção assumem os valores -1,0 e 1 para multiplicar a velocidade
     direção_x = 0
     direção_y = 0
     andou = False
@@ -83,13 +85,9 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
         buggy.x = x_antigo + (vel * direção_x)
         buggy.y = y_antigo    
 
+
     colisão_parede_externa(buggy, tile)
-
-    for vet_paredes in mat_paredes:
-
-        for parede in vet_paredes:
-
-            corrigir_posição(buggy, parede, vel, direção_x, direção_y)
+    colisão_paredes_internas(buggy, mat_paredes, vel, direção_x, direção_y)
 
 
     #A: Lidando com as interações com mecanismos
@@ -120,25 +118,23 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
 
 
-#A: Provavelmente dá pra melhorar a legibilidade. Ainda tô tentando cortar algum dos collided
+#A: Provavelmente dá pra melhorar a legibilidade.
 #A: Lembrar de verificar qual acontece mais, colisão pelo x ou pelo y e colocar encima (baixa prioridade)
-def corrigir_posição(buggy, parede, vel, direção_x, direção_y):
+def colisão_paredes_internas(buggy, mat_paredes, vel, direção_x, direção_y):
 
-    if parede.collided(buggy): #Se a buggy colidiu
+    for vet_paredes in mat_paredes:
 
-        buggy.x += vel * -direção_x #Corrige o movimento no eixo X
+        for parede in vet_paredes:
 
-        if parede.collided(buggy): #Se o problema não era no X
+            if parede.collided(buggy):
 
-            buggy.x += vel * direção_x #Descorrige o x
-            buggy.y += vel * -direção_y #Corrige o y
+                buggy.x += vel * -direção_x #Corrige o movimento no eixo X
 
+                if parede.collided(buggy): #Se o problema não era no X ele está no Y
 
-            #A: Esse bloco não é mais necessário porque escolhemos desabilitar movimento diagonal pra reduzir o espaço que o jogador pode percorrer em uma frame
-            '''if parede.collided(buggy): #Se o problema era nos dois
+                    buggy.x += vel * direção_x #Descorrige o x
+                    buggy.y += vel * -direção_y #Corrige o y
 
-                buggy.x += vel * -direção_x #Corrige os dois
-                buggy.y += vel * -direção_y'''
 
 #A: A função pode ser trivial e feia porque a parede externa tá sempre no mesmo lugar
 def colisão_parede_externa(objeto, tile):
