@@ -22,15 +22,8 @@
 - [x] Ponteiro
 
 - [x] Esconderijo
-- [x] Debugger +ou-
-- [x] Tela azul +ou-
-
-## :speech_balloon: FOFOCA
-
-##### :space_invader: 
-##### :space_invader: 
-##### :space_invader: 
-##### :space_invader: 
+- [x] Debugger
+- [x] Tela azul
 
 
 #### :clipboard: DICAS DE README
