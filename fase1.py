@@ -192,8 +192,6 @@ while True:
         
         taxa_de_quadros = frames
         frames = cronometro_fps = 0
-        print("X: " + str(buggy.x) + " Y: " + str(buggy.y))
-        print(virada_para)
 
     ##A: LIDANDO COM SONS
     #bgm_normal.play()

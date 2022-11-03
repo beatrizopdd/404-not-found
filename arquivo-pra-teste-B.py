@@ -184,9 +184,21 @@ for mecanismo in mecanismos:
     for m in mecanismo:
         colidiveis.append(m) 
 
-
+#A: Pro nosso controle de fps
+cronometro_fps = 0
+frames = 0
+taxa_de_quadros = 0
 
 while True:
+
+        cronometro_fps += tela.delta_time()
+        frames += 1
+        
+        #Lidando com fps
+        if cronometro_fps >= 1:  
+            
+            taxa_de_quadros = frames
+            frames = cronometro_fps = 0
 
         chao.draw()
         
@@ -285,6 +297,7 @@ while True:
         if andou:
             buggy.update()
         buggy.draw()
+        tela.draw_text(str(taxa_de_quadros), 0, 0, 40, (255,255,255))
 
         
         tela.update()

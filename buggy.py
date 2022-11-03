@@ -74,7 +74,8 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
         virada_para = "BAIXO"
 
 
-    #Realizando as intenções de movimento e verificando se a nova posição do player é válida
+    #A: Realizando as intenções de movimento e verificando se a nova posição do player é válida
+    #A: Esse passo é necessário por conta das mudanças de sprite
     if virada_para == "CIMA" or virada_para == "BAIXO":
 
         buggy.x = x_antigo
@@ -87,7 +88,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
 
     colisão_parede_externa(buggy, tile)
-    colisão_paredes_internas(buggy, mat_paredes, vel, direção_x, direção_y)
+    colisão_paredes_internas(buggy, mat_paredes, virada_para, vel)
 
 
     #A: Lidando com as interações com mecanismos
@@ -118,9 +119,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
 
 
-#A: Provavelmente dá pra melhorar a legibilidade.
-#A: Lembrar de verificar qual acontece mais, colisão pelo x ou pelo y e colocar encima (baixa prioridade)
-def colisão_paredes_internas(buggy, mat_paredes, vel, direção_x, direção_y):
+def colisão_paredes_internas(buggy, mat_paredes, virada_para, velocidade):
 
     for vet_paredes in mat_paredes:
 
@@ -128,12 +127,25 @@ def colisão_paredes_internas(buggy, mat_paredes, vel, direção_x, direção_y)
 
             if parede.collided(buggy):
 
-                buggy.x += vel * -direção_x #Corrige o movimento no eixo X
+                if virada_para == "ESQUERDA":
 
-                if parede.collided(buggy): #Se o problema não era no X ele está no Y
+                    buggy.x += velocidade
+                
+                if virada_para == "DIREITA":
 
-                    buggy.x += vel * direção_x #Descorrige o x
-                    buggy.y += vel * -direção_y #Corrige o y
+                    buggy.x -= velocidade
+
+                if virada_para == "CIMA":
+
+                    buggy.y += velocidade
+                
+                if virada_para == "BAIXO":
+
+                    buggy.y -= velocidade
+                
+                return
+                
+
 
 
 #A: A função pode ser trivial e feia porque a parede externa tá sempre no mesmo lugar
@@ -158,3 +170,22 @@ def colisão_parede_externa(objeto, tile):
     if (objeto.y + objeto.height) >= lim_inferior:
 
         objeto.y = lim_inferior - objeto.height
+
+
+
+
+#A: Função obsoleta pela atual inexistênia de movimento diagonal
+'''def colisão_paredes_internas_obsoleta(buggy, mat_paredes, vel, direção_x, direção_y):
+
+    for vet_paredes in mat_paredes:
+
+        for parede in vet_paredes:
+
+            if parede.collided(buggy):
+
+                buggy.x += vel * -direção_x #Corrige o movimento no eixo X
+
+                if parede.collided(buggy): #Se o problema não era no X ele está no Y
+
+                    buggy.x += vel * direção_x #Descorrige o x
+                    buggy.y += vel * -direção_y #Corrige o y'''
