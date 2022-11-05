@@ -133,11 +133,12 @@ posiciona_grid(esconderijo[0], tile, 1,7)
 
 
 ##B: DESCONFIOMETRO
-contato = False
-desconfiometro_pausa = 10 
-desconfiometro_ativo = False
-desconfiometro_limite = 10
-cpdl = [contato, desconfiometro_pausa, desconfiometro_ativo, desconfiometro_limite]
+desconfiometro = {
+    "pre_desc": False,
+    "pausa_timer": 10,
+    "desc": False,
+    "limite_desc": 10,
+}
 
 
 ##A: PONTEIROS
@@ -192,36 +193,38 @@ while True:
 
         chao.draw()
         
+        
 ##B: MOVIMENTO DEBUGGER + CONE
         for i in range(quantidade):
-            if (cpdl[0] == False and tela_azul[i] == False and distraido[i] == False):
-                debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], debugger_limite[i], cpdl, tela.delta_time())
+            if (desconfiometro["pre_desc"] == False and tela_azul[i] == False and distraido[i] == False):
+                debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], debugger_limite[i], desconfiometro, tela.delta_time())
 
             if (distraido[i] == True and encontro == False):
-                debuggers[i], cones[i], debugger_vel[i], encontro = desvio_armadilha(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], cpdl, tela.delta_time())
+                debuggers[i], cones[i], debugger_vel[i], encontro = desvio_armadilha(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], desconfiometro, tela.delta_time())
                 
             if (distraido[i] == True and encontro == True):
                 distraido[i], esconderijo_tempo, encontro = analise_esconderijo(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], esconderijo_tempo)
                 tela.draw_text("Esconderijo {:.0f} segundos".format(esconderijo_tempo), 70, 70, 30, (0,0,0))
                 esconderijo_tempo -= tela.delta_time()
                 
-##B: DESCONFIOMETRO -->> contato = cpdl[0] // pausa = cpdl[1] // desconfiometro = cpdl[2] // limite = cpdl[3]	
-            if (tela_azul[i] == False and (False not in visibilidade) and cpdl[0] == False and cpdl[2] == False):
+##B: DESCONFIOMETRO 
+            if (tela_azul[i] == False and (False not in visibilidade) and desconfiometro["pre_desc"] == False and desconfiometro["desc"] == False):
+            
             #ativa a contagem regressiva e troca pra sprite de desconfiometro
                 if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): 
-                    cpdl[0] = True
+                    desconfiometro["pre_desc"] = True
                     debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
                     
-            if (cpdl[2] == True): #desconfiometro ativado
-                    cpdl = desconfiometro(cpdl, buggy, debuggers[i], cones[i], visibilidade, tela)
+            if (desconfiometro["desc"] == True): #desconfiometro ativado
+                    debugger_desconfiometro(desconfiometro, buggy, debuggers[i], cones[i], visibilidade, tela)
 			
-        if (cpdl[0] == True and cpdl[1] > 0): #faz a contagem regressiva da pausa 
-            tela.draw_text("Pausa {:.0f} segundos".format(cpdl[1]), 70, 70, 30, (0,0,0))
-            cpdl[1] -= tela.delta_time()
+        if (desconfiometro["pre_desc"] == True and desconfiometro["pausa_timer"] > 0): #faz a contagem regressiva da pausa 
+            tela.draw_text("Pausa {:.0f} segundos".format(desconfiometro["pausa_timer"]), 70, 70, 30, (0,0,0))
+            desconfiometro["pausa_timer"] -= tela.delta_time()
 
-        if (cpdl[0] == True and cpdl[1] < 0): #ativa a contagem regressiva do desconfiometro
-            cpdl[0] = False
-            cpdl[2] = True
+        if (desconfiometro["pre_desc"] == True and desconfiometro["pausa_timer"] < 0): #ativa a contagem regressiva do desconfiometro
+            desconfiometro["pre_desc"] = False
+            desconfiometro["desc"] = True
 
                 
 	##BUGGY
@@ -251,7 +254,7 @@ while True:
             disparo["tempo_esperado"] += tela.delta_time()
             
         for i in range(quantidade):
-            if (tela_azul[i] == True and cpdl[2] == False): #B: só pode dar tela azul se desconfiometro=False
+            if (tela_azul[i] == True and desconfiometro["desc"] == False): #B: só pode dar tela azul se desconfiometro=False
                 tela.draw_text("Tela azul {:.0f} segundos".format(timer_tela_azul[i]), 70, 70, 30, (0,0,0))
                 timer_tela_azul[i] -= tela.delta_time()
                 debuggers[i] = debugger_tela_azul(debuggers[i], debugger_vel[i], debugger_direcao[i])
@@ -259,7 +262,7 @@ while True:
             if (timer_tela_azul[i] <= 0):
                 tela_azul[i] = False
                 timer_tela_azul[i] = 10
-                debuggers[i] = debugger_normal(debuggers[i], debugger_vel[i], debugger_direcao[i], cpdl)
+                debuggers[i] = debugger_normal(debuggers[i], debugger_vel[i], debugger_direcao[i], desconfiometro)
 
 
 

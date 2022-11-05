@@ -4,15 +4,16 @@ from PPlay.sprite import *
 
 from utilidadesB import *
 
-def movimento_debugger(debugger, cone, direcao, vel, limite, cpdl, tempo):
+def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tempo):
                         
 		if (direcao == "v"):
 				debugger.y += vel * tempo
 				cone.y += vel * tempo
                 
+                #colocar o cone dentro do limita
 				vel *= limitaV(debugger, vel, limite)
 
-				if (cpdl[2] == True or cpdl[0] == True):
+				if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
 					cone = cone_alerta(vel, "v")
 				else:
 					cone = adiciona_cone(vel, "v")
@@ -24,7 +25,7 @@ def movimento_debugger(debugger, cone, direcao, vel, limite, cpdl, tempo):
 
 				vel *= limitaH(debugger, vel, limite)
 
-				if (cpdl[2] == True or cpdl[0] == True):
+				if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
 					cone = cone_alerta(vel, "h")
 				else:
 					cone = adiciona_cone(vel, "h")
@@ -33,7 +34,7 @@ def movimento_debugger(debugger, cone, direcao, vel, limite, cpdl, tempo):
 		return debugger, cone, vel
 
                         
-def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, cpdl, tempo):
+def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, tempo):
 
         encontro = False
 
@@ -46,7 +47,7 @@ def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, cpdl, tempo):
                         vel *= -1
                         debugger.set_sequence_time(0, 4, 400, True) #troca pra baixo
 
-                if (cpdl[2] == True or cpdl[0] == True):
+                if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
                         cone = cone_alerta(vel, "v")
                 else:
                         cone = adiciona_cone(vel, "v")
@@ -68,7 +69,7 @@ def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, cpdl, tempo):
                         vel *= -1
                         debugger.set_sequence_time(0, 4, 400, True) #troca pra esquerda
 
-                if (cpdl[2] == True or cpdl[0] == True):
+                if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
                         cone = cone_alerta(vel, "h")
                 else:
                         cone = adiciona_cone(vel, "h")
@@ -113,16 +114,15 @@ def analise_esconderijo(debugger, cone, esconderijo, direcao, vel, tempo):
         return distraido, tempo, encontro
             
 
-def desconfiometro(cpdl, buggy, debugger, cone, visibilidade, tela):
+def debugger_desconfiometro(desconfiometro, buggy, debugger, cone, visibilidade, tela):
 
-	#contato = cpdl[0] // pausa = cpdl[1] // desconfiometro = cpdl[2] // limite = cpdl[3]
-        
-        if (cpdl[3] > 0):
-                tela.draw_text("Desconfiometro {:.0f} segundos".format(cpdl[3]), 70, 70, 30, (0,0,0))
-                if ((buggy.collided(debugger) or buggy.collided(cone)) and (False not in visibilidade)): #condiciona a contagem regressiva do desconfiometro a estar visivel
-                        cpdl[3] -= tela.delta_time()
+		#contato = desconfiometro["pre_desc"] // pausa = desconfiometro["pausa_timer"] // desconfiometro = desconfiometro["desc"] // limite = desconfiometro["limite_desc"]
+        if (desconfiometro["limite_desc"] > 0):
+                tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite_desc"]), 70, 70, 30, (0,0,0))
+                #condiciona a contagem regressiva do desconfiometro a estar visivel
+                if ((buggy.collided(debugger) or buggy.collided(cone)) and (False not in visibilidade)): 
+                        desconfiometro["limite_desc"] -= tela.delta_time()
 
-        if (cpdl[3] <= 0):
+        if (desconfiometro["limite_desc"] <= 0):
                 tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))
 
-        return cpdl

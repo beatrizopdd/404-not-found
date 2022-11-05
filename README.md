@@ -25,6 +25,8 @@
 - [x] Debugger
 - [x] Tela azul
 
+- [ ] Tirar draw text
+
 
 #### :clipboard: DICAS DE README
 

@@ -173,10 +173,10 @@ def cone_alerta(vel, direcao):
 		return GameImage("Assets/Cones de Visão/cone-visao-esquerda-alerta.png")
 	
 	
-def debugger_normal(sprite, vel, direcao, cpdl):
-	
+def debugger_normal(sprite, vel, direcao, desconfiometro):
+
 	#caso um debugger consiga pegar a buggy durante o tempo de tela azul então preciso garantir que ele fique na cor adequada
-	if (cpdl[0] == True or cpdl[2] == True):
+	if (desconfiometro["pre_desc"] == True or desconfiometro["desc"] == True):
 		if (direcao == "v" and vel > 0): #descendo
 			sprite_N = Sprite("Assets/Inspetor/inspetor-vertical-alerta.png", 8)
 			sprite_N.set_sequence(0, 4, True)
