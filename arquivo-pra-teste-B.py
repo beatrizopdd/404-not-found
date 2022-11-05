@@ -283,9 +283,9 @@ while True:
 
 ##B: DESENHOS
         for ponteiro in ponteiros:
-        	for p in ponteiro:
-		        p.draw()
-		        p.update()
+            for p in ponteiro:
+                p.draw()
+                p.update()
 
         for parede in paredes:
             for p in parede:

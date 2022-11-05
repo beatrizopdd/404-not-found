@@ -121,9 +121,9 @@ def debugger_desconfiometro(desconfiometro, buggy, debugger, cone, visibilidade,
                 tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite_desc"]), 70, 70, 30, (0,0,0))
                 #condiciona a contagem regressiva do desconfiometro a estar visivel
                 if ((buggy.collided(cone)) and (False not in visibilidade)): 
-                	desconfiometro["limite_desc"] -= tela.delta_time()
+                        desconfiometro["limite_desc"] -= tela.delta_time()
                 if (buggy.collided(debugger) and (False not in visibilidade)):
-                	desconfiometro["limite_desc"] = 0
+                        desconfiometro["limite_desc"] = 0
 
         if (desconfiometro["limite_desc"] <= 0):
                 tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))
