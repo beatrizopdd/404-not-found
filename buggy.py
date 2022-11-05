@@ -175,7 +175,7 @@ def colisão_parede_externa(objeto, tile):
 
 
 #A: Função obsoleta pela atual inexistênia de movimento diagonal
-'''def colisão_paredes_internas_obsoleta(buggy, mat_paredes, vel, direção_x, direção_y):
+def colisão_paredes_internas_obsoleta(buggy, mat_paredes, vel, direção_x, direção_y):
 
     for vet_paredes in mat_paredes:
 
@@ -188,4 +188,4 @@ def colisão_parede_externa(objeto, tile):
                 if parede.collided(buggy): #Se o problema não era no X ele está no Y
 
                     buggy.x += vel * direção_x #Descorrige o x
-                    buggy.y += vel * -direção_y #Corrige o y'''
+                    buggy.y += vel * -direção_y #Corrige o y

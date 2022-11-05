@@ -4,33 +4,35 @@ from PPlay.sprite import *
 
 from utilidadesB import *
 
-def movimento_debugger(debugger, cone, direcao, vel, limite, cpdl, tempo):
-                        
-		if (direcao == "v"):
-				debugger.y += vel * tempo
-				cone.y += vel * tempo
-                
-				vel *= limitaV(debugger, vel, limite)
+def movimento_debugger(debugger, cone, direcao, vel, colidiveis, cpdl, tempo):
 
-				if (cpdl[2] == True or cpdl[0] == True):
-					cone = cone_alerta(vel, "v")
-				else:
-					cone = adiciona_cone(vel, "v")
-				posiciona_cone(cone, debugger, vel, "v") 
+        if (direcao == "v"):
+                debugger.y += vel * tempo
+                cone.y += vel * tempo
 
-		if (direcao == "h"):
-				debugger.x += vel * tempo
-				cone.x += vel * tempo
+                for c in colidiveis:
+                        vel *= limitaV(debugger, vel, c)
 
-				vel *= limitaH(debugger, vel, limite)
+                        if (cpdl[2] == True or cpdl[0] == True):
+                                cone = cone_alerta(vel, "v")
+                        else:
+                                cone = adiciona_cone(vel, "v")
+                        posiciona_cone(cone, debugger, vel, "v") 
 
-				if (cpdl[2] == True or cpdl[0] == True):
-					cone = cone_alerta(vel, "h")
-				else:
-					cone = adiciona_cone(vel, "h")
-				posiciona_cone(cone, debugger, vel, "h")
+        if (direcao == "h"):
+                debugger.x += vel * tempo
+                cone.x += vel * tempo
 
-		return debugger, cone, vel
+                for c in colidiveis:
+                        vel *= limitaH(debugger, vel, c)
+
+                        if (cpdl[2] == True or cpdl[0] == True):
+                                cone = cone_alerta(vel, "h")
+                        else:
+                                cone = adiciona_cone(vel, "h")
+                        posiciona_cone(cone, debugger, vel, "h")
+
+        return debugger, cone, vel
 
                         
 def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, cpdl, tempo):
