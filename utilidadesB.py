@@ -69,30 +69,31 @@ def posiciona_cone(cone, sprite, vel, direcao):
 		
 		
 #B: não deixa os debuggers colidirem com o cenário e trocam a sprite pra direção correspondente
-def limitaV(sprite, vel, obstaculo):
+#B: se vertical limites = [y-minimo, y-maximo], se horizontal limites = [x-minimo, x-maximo]
+def limitaV(sprite, vel, limite):
 
-	if (sprite.collided(obstaculo) and vel < 0): # encontrou subindo
-		sprite.y = (obstaculo.y + obstaculo.height) + sprite.height
+	if (sprite.y <= limite[0]): # encontrou subindo
+		sprite.y = limite[0]
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra cima e troca pra baixo
 		return -1
 		
-	elif (sprite.collided(obstaculo) and vel > 0): # encontrou descendo
-		sprite.y = obstaculo.y - sprite.height
+	elif (sprite.y >= limite[1]): # encontrou descendo
+		sprite.y = limite[1] - sprite.height
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra baixo e troca pra cima
 		return -1
 		
 	else:
 		return 1
 		
-def limitaH(sprite, vel, obstaculo):
+def limitaH(sprite, vel, limite):
 		
-	if (sprite.collided(obstaculo) and vel < 0): # encontrou indo pra esquerda
-		sprite.x = (obstaculo.x + obstaculo.width) + sprite.width
+	if (sprite.x <= limite[0]): # encontrou indo pra esquerda
+		sprite.x = limite[0]
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra esquerda e troca pra direita
 		return -1
 		
-	elif (sprite.collided(obstaculo) and vel > 0): # encontrou indo pra direita
-		sprite.x = obstaculo.x - sprite.width
+	elif (sprite.x >= limite[1]): # encontrou indo pra direita
+		sprite.x = limite[1] - sprite.width
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra direita e troca pra esquerda
 		return -1
 		

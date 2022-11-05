@@ -12,3 +12,6 @@ Ele também ignora a tela azul
 
 Debuggers conseguem te ver através da parede
 
+- Tirei a lista de colidiveis
+- colisão com cone como condição
+

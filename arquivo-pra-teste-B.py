@@ -103,7 +103,9 @@ for i in range(quantidade):
 	posiciona_cone(cone, debuggers[i], debugger_vel[i], debugger_direcao[i])
 	cones.append(cone)
 
-
+unX = tile.width
+unY = tile.height
+debugger_limite = [[unY, unY * 6], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX * 2, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
 ##A: Sprite e variáveis da Buggy
 buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
@@ -116,7 +118,6 @@ posiciona_grid(buggy, tile, 1,1)
 
 ##B: ESCONDERIJO
 qtd_esconderijos = 1
-
 alvo = 0 
 encontro = False
 esconderijo_tempo = 10
@@ -156,7 +157,6 @@ mecanismos = [esconderijo, ponteiro_entrada, ponteiro_saída]
 
 #A: Dicionário com as informações do disparo
 disparo = {
-
     "imagem": GameImage("Assets/Choque/choque-vertical.png"),
     "direção": "CIMA",
     "velocidade": tela.height/2,
@@ -174,16 +174,6 @@ for i in range(quantidade):
 	tela_azul.append(False)
 
 
-##B: todos os objetos que podem fazer o debugger mudar de direção
-colidiveis = []
-for parede in paredes:
-    for p in parede:
-        colidiveis.append(p) 
-        
-for mecanismo in mecanismos:
-    for m in mecanismo:
-        colidiveis.append(m) 
-
 #A: Pro nosso controle de fps
 cronometro_fps = 0
 frames = 0
@@ -194,7 +184,7 @@ while True:
         cronometro_fps += tela.delta_time()
         frames += 1
         
-        #Lidando com fps
+#Lidando com fps
         if cronometro_fps >= 1:  
             
             taxa_de_quadros = frames
@@ -202,10 +192,10 @@ while True:
 
         chao.draw()
         
-        ##B: MOVIMENTO DEBUGGER + CONE
+##B: MOVIMENTO DEBUGGER + CONE
         for i in range(quantidade):
             if (cpdl[0] == False and tela_azul[i] == False and distraido[i] == False):
-                debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], colidiveis, cpdl, tela.delta_time())
+                debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], debugger_limite[i], cpdl, tela.delta_time())
 
             if (distraido[i] == True and encontro == False):
                 debuggers[i], cones[i], debugger_vel[i], encontro = desvio_armadilha(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], cpdl, tela.delta_time())
@@ -214,13 +204,31 @@ while True:
                 distraido[i], esconderijo_tempo, encontro = analise_esconderijo(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], esconderijo_tempo)
                 tela.draw_text("Esconderijo {:.0f} segundos".format(esconderijo_tempo), 70, 70, 30, (0,0,0))
                 esconderijo_tempo -= tela.delta_time()
+                
+##B: DESCONFIOMETRO -->> contato = cpdl[0] // pausa = cpdl[1] // desconfiometro = cpdl[2] // limite = cpdl[3]	
+            if (tela_azul[i] == False and (False not in visibilidade) and cpdl[0] == False and cpdl[2] == False):
+            #ativa a contagem regressiva e troca pra sprite de desconfiometro
+                if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): 
+                    cpdl[0] = True
+                    debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
+                    
+            if (cpdl[2] == True): #desconfiometro ativado
+                    cpdl = desconfiometro(cpdl, buggy, debuggers[i], cones[i], visibilidade, tela)
+			
+        if (cpdl[0] == True and cpdl[1] > 0): #faz a contagem regressiva da pausa 
+            tela.draw_text("Pausa {:.0f} segundos".format(cpdl[1]), 70, 70, 30, (0,0,0))
+            cpdl[1] -= tela.delta_time()
+
+        if (cpdl[0] == True and cpdl[1] < 0): #ativa a contagem regressiva do desconfiometro
+            cpdl[0] = False
+            cpdl[2] = True
 
                 
 	##BUGGY
         buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, ponteiro_entrada, ponteiro_saída, esconderijo, tile, virada_para, disparo, teclado)
 
 
-        ##B: CONTROLE DO ESCONDERIJO
+        ##B: ESCONDERIJO
         for i in range(qtd_esconderijos):
             if (buggy.collided(esconderijo[i])):
                 visibilidade[i] = False
@@ -230,25 +238,6 @@ while True:
             if (buggy.collided(esconderijo[i]) and teclado.key_pressed("C")):
                 alvo = i
                 distraido[esconderijo_debugger[i]] = True                
-
-
-        ##B: CONTROLE DO DESCONFIOMETRO -->> contato = cpdl[0] // pausa = cpdl[1] // desconfiometro = cpdl[2] // limite = cpdl[3]	
-        for i in range(quantidade):
-            if (tela_azul[i] == False and (False not in visibilidade) and cpdl[0] == False and cpdl[2] == False):
-                if (buggy.collided(debuggers[i])): #ativa a contagem regressiva e troca pra sprite de desconfiometro
-                    cpdl[0] = True
-                    debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
-                    
-            if (cpdl[2] == True): #desconfiometro ativado
-                    cpdl = desconfiometro(cpdl, buggy, debuggers[i], cones[i], visibilidade, tela)
-                    
-        if (cpdl[0] == True and cpdl[1] > 0): #faz a contagem regressiva da pausa 
-                tela.draw_text("Pausa {:.0f} segundos".format(cpdl[1]), 70, 70, 30, (0,0,0))
-                cpdl[1] -= tela.delta_time()
-
-        if (cpdl[0] == True and cpdl[1] < 0): #ativa a contagem regressiva do desconfiometro
-                cpdl[0] = False
-                cpdl[2] = True
 
 
         ##B: DISPARO e TELA AZUL
@@ -301,3 +290,17 @@ while True:
 
         
         tela.update()
+        
+        
+
+
+##B: todos os objetos que podem fazer o debugger mudar de direção
+#colidiveis = []
+#for parede in paredes:
+#    for p in parede:
+#        colidiveis.append(p) 
+        
+#for mecanismo in mecanismos:
+#	for m in mecanismo:
+#        colidiveis.append(m) 
+
