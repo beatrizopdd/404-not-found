@@ -1,0 +1,27 @@
+##B: DEBUGGER e CONE
+quantidade = 
+debugger_direcao = ["v", "h"]
+
+debugger_vel = []
+for i in range(quantidade):
+	debugger_vel.append(50)
+
+debuggers = adiciona_debugger(quantidade, debugger_vel, debugger_direcao)
+
+unX = tile.width
+unY = tile.height
+debugger_limite = [[unY, unY], [unX, unX]]
+
+posiciona_grid(debuggers[0], tile, 1, 2)
+
+cones = []
+for i in range(quantidade):
+	cone = adiciona_cone(debugger_vel[i], debugger_direcao[i])
+	posiciona_cone(cone, debuggers[i], debugger_vel[i], debugger_direcao[i])
+	cones.append(cone)
+	
+distraido = []
+for i in range(quantidade):
+	distraido.append(False)
+
+

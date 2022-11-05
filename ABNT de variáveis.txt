@@ -18,6 +18,13 @@ Variáveis simples:
     -> sprite da buggy
     -> virada_para: string contendo para qual lado buggy está virada
        possibilidades: "CIMA", "BAIXO", "ESQUERDA", "DIREITA"
+       
+    Esconderijo
+    -> quantidade de esconderijos
+	-> alvo: debugger que vai ser invocado pelo sacrificio do esconderijo
+	-> colisao_esconderijo: se o debugger ja chegou no esconderijo depois de desviar
+	-> esconderijo_tempo: quanto tempo o debugger vai analisar o esconderijo
+	-> esconderijo_debugger: correspondencia entre o esconderijo e o debugger
 
 
 Vetores comuns:
@@ -27,11 +34,7 @@ Vetores comuns:
        Paredes que só fazem uma aparição são unidas em um vetor parede_unica
     
     Debugger:
-    -> Cada cópia deve estar no vetor "debugger"
-    -> cone: Todos os cones de visão devem estar em um vetor, de forma que 
-       o cone de debugger[i] esteja em cone[i]
-    -> tela_azul: mesma ideia do vetor cone, mas guarda booleanas pro estado de
-       tela azul do debugger[i]
+    -> ABNT DE FASE
     
     Mecanismos:
     -> esconderijo: vetor de todos os esconderijos presentes
@@ -46,8 +49,19 @@ Dicionários struct de pobre:
     -> ["direção"] string: direção do disparo (veja virada_para);
     -> ["velocidade"] int/float: velocidade do disparo;
     -> ["ativo"] booleana: se o disparo está ativo em campo ou não
+    
+    desconfiometro: 
+    -> ["pre_desc"] booleana: se o debugger fez um primeiro contato com a buggy e ativa a pausa
+    -> ["pausa_timer"] int: duração da pausa
+    -> ["desc"] booleana: desconfiometro ligado ou não
+    -> ["limite_desc"] int: tolerancia do desconfiometro
 
 Matrizes:
+
+	timer_tela_azul: matriz de inteiros com a duração do efeito da tela azul em cada debugger
+	tela_azul: matriz de booleanas para indicar quais debuggers estão sob efeito
+
+	visibilidade: se a buggy colidir com um esconderijo a visibilidade é falsa
 
     paredes: matriz contendo todos os vetores de paredeMXN e parede_unica
     ponteiros: matriz com os vetores de ponteiros de entrada e saída

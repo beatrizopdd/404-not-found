@@ -81,11 +81,11 @@ debugger_vel = []
 for i in range(quantidade):
 	debugger_vel.append(50)
 
-distraido = []
-for i in range(quantidade):
-	distraido.append(False)
-
 debuggers = adiciona_debugger(quantidade, debugger_vel, debugger_direcao)
+
+unX = tile.width
+unY = tile.height
+debugger_limite = [[unY, unY * 6], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX * 2, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
 posiciona_grid(debuggers[0], tile, 1, 2)
 posiciona_grid(debuggers[1], tile, 6, 6)
@@ -102,10 +102,11 @@ for i in range(quantidade):
 	cone = adiciona_cone(debugger_vel[i], debugger_direcao[i])
 	posiciona_cone(cone, debuggers[i], debugger_vel[i], debugger_direcao[i])
 	cones.append(cone)
+	
+distraido = []
+for i in range(quantidade):
+	distraido.append(False)
 
-unX = tile.width
-unY = tile.height
-debugger_limite = [[unY, unY * 6], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX * 2, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
 ##A: Sprite e variáveis da Buggy
 buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
@@ -119,7 +120,7 @@ posiciona_grid(buggy, tile, 1,1)
 ##B: ESCONDERIJO
 qtd_esconderijos = 1
 alvo = 0 
-encontro = False
+colisao_esconderijo = False
 esconderijo_tempo = 10
 esconderijo_debugger = [5]
 
@@ -152,8 +153,6 @@ posiciona_grid(ponteiro_saída[0], tile, 9, 1)
 
 ponteiros = [ponteiro_entrada, ponteiro_saída]
 
-#A: Vetor com todos os mecanismos
-mecanismos = [esconderijo, ponteiro_entrada, ponteiro_saída]
 
 
 #A: Dicionário com as informações do disparo
@@ -196,42 +195,60 @@ while True:
         
 ##B: MOVIMENTO DEBUGGER + CONE
         for i in range(quantidade):
+        	#movimento padrão
             if (desconfiometro["pre_desc"] == False and tela_azul[i] == False and distraido[i] == False):
-                debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], debugger_limite[i], desconfiometro, tela.delta_time())
-
-            if (distraido[i] == True and encontro == False):
-                debuggers[i], cones[i], debugger_vel[i], encontro = desvio_armadilha(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], desconfiometro, tela.delta_time())
+                debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], debugger_limite[i], desconfiometro, tela)
+    
+    
+##B: ESCONDERIJO                
+            #movimento sob efeito do esconderijo
+            if (distraido[i] == True and colisao_esconderijo == False):
+                debuggers[i], cones[i], debugger_vel[i], colisao_esconderijo = desvio_armadilha(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], desconfiometro, tela)
                 
-            if (distraido[i] == True and encontro == True):
-                distraido[i], esconderijo_tempo, encontro = analise_esconderijo(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], esconderijo_tempo)
-                tela.draw_text("Esconderijo {:.0f} segundos".format(esconderijo_tempo), 70, 70, 30, (0,0,0))
+            #contagem regressiva ddo efeito do esconderijo
+            if (distraido[i] == True and colisao_esconderijo == True):
+                distraido[i], esconderijo_tempo, colisao_esconderijo = analise_esconderijo(debuggers[i], cones[i], esconderijo[alvo], debugger_direcao[i], debugger_vel[i], esconderijo_tempo)
+                tela.draw_text("Esconderijo {:.0f} segundos".format(esconderijo_tempo), 70, 120, 30, (0,0,0))
                 esconderijo_tempo -= tela.delta_time()
-                
+			
+			
 ##B: DESCONFIOMETRO 
             if (tela_azul[i] == False and (False not in visibilidade) and desconfiometro["pre_desc"] == False and desconfiometro["desc"] == False):
-            
-            #ativa a contagem regressiva e troca pra sprite de desconfiometro
+            	#ativa a contagem regressiva e troca pra sprite de desconfiometro
                 if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): 
                     desconfiometro["pre_desc"] = True
                     debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
                     
-            if (desconfiometro["desc"] == True): #desconfiometro ativado
-                    debugger_desconfiometro(desconfiometro, buggy, debuggers[i], cones[i], visibilidade, tela)
-			
-        if (desconfiometro["pre_desc"] == True and desconfiometro["pausa_timer"] > 0): #faz a contagem regressiva da pausa 
+            #desconfiometro ativado
+            if (desconfiometro["desc"] == True and desconfiometro["limite_desc"] > 0):
+                tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite_desc"]), 70, 70, 30, (0,0,0))  
+
+                #condiciona a contagem regressiva do desconfiometro a estar visivel
+                if ((buggy.collided(cones[i])) and (False not in visibilidade)): 
+                    desconfiometro["limite_desc"] -= tela.delta_time()
+                if (buggy.collided(debuggers[i]) and (False not in visibilidade)):
+                    desconfiometro["limite_desc"] = 0
+
+
+        if (desconfiometro["limite_desc"] <= 0):
+            tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))
+                    
+	#faz a contagem regressiva do pre desconfiometro 
+        if (desconfiometro["pre_desc"] == True and desconfiometro["pausa_timer"] > 0): 
             tela.draw_text("Pausa {:.0f} segundos".format(desconfiometro["pausa_timer"]), 70, 70, 30, (0,0,0))
             desconfiometro["pausa_timer"] -= tela.delta_time()
 
-        if (desconfiometro["pre_desc"] == True and desconfiometro["pausa_timer"] < 0): #ativa a contagem regressiva do desconfiometro
+	#ativa a contagem regressiva do desconfiometro
+        if (desconfiometro["pre_desc"] == True and desconfiometro["pausa_timer"] < 0): 
             desconfiometro["pre_desc"] = False
             desconfiometro["desc"] = True
 
                 
-	##BUGGY
+##BUGGY
         buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, ponteiro_entrada, ponteiro_saída, esconderijo, tile, virada_para, disparo, teclado)
 
 
-        ##B: ESCONDERIJO
+##B: ESCONDERIJO
         for i in range(qtd_esconderijos):
             if (buggy.collided(esconderijo[i])):
                 visibilidade[i] = False
@@ -243,7 +260,7 @@ while True:
                 distraido[esconderijo_debugger[i]] = True                
 
 
-        ##B: DISPARO e TELA AZUL
+##B: DISPARO e TELA AZUL
         if disparo["ativo"]: 
             movimento_disparo(disparo, tela)
             colide_disparo(disparo, debuggers, tela_azul, tela)
@@ -264,15 +281,11 @@ while True:
                 timer_tela_azul[i] = 10
                 debuggers[i] = debugger_normal(debuggers[i], debugger_vel[i], debugger_direcao[i], desconfiometro)
 
-
-
-
-
-
-        for mecanismo in mecanismos:
-            for m in mecanismo:
-                m.draw()
-                m.update()
+##B: DESENHOS
+        for ponteiro in ponteiros:
+        	for p in ponteiro:
+		        p.draw()
+		        p.update()
 
         for parede in paredes:
             for p in parede:
@@ -291,7 +304,10 @@ while True:
         buggy.draw()
         tela.draw_text(str(taxa_de_quadros), 0, 0, 40, (255,255,255))
 
-        
+        for e in esconderijo:
+            e.draw()
+            e.update()
+            
         tela.update()
         
         

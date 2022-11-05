@@ -4,37 +4,38 @@ from PPlay.sprite import *
 
 from utilidadesB import *
 
-def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tempo):
+def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tela):
                         
 		if (direcao == "v"):
-				debugger.y += vel * tempo
-				cone.y += vel * tempo
+				debugger.y += vel * tela.delta_time()
+				cone.y += vel * tela.delta_time()
                 
-                #colocar o cone dentro do limita
-				vel *= limitaV(debugger, vel, limite)
-
+				vel = limitaV(debugger, vel, desconfiometro, limite)
+						
 				if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
 					cone = cone_alerta(vel, "v")
 				else:
 					cone = adiciona_cone(vel, "v")
+					
 				posiciona_cone(cone, debugger, vel, "v") 
-
+				
 		if (direcao == "h"):
-				debugger.x += vel * tempo
-				cone.x += vel * tempo
+				debugger.x += vel * tela.delta_time()
+				cone.x += vel * tela.delta_time()
 
-				vel *= limitaH(debugger, vel, limite)
-
+				vel = limitaH(debugger, vel, desconfiometro, limite)
+				
 				if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
 					cone = cone_alerta(vel, "h")
 				else:
 					cone = adiciona_cone(vel, "h")
 				posiciona_cone(cone, debugger, vel, "h")
 
+
 		return debugger, cone, vel
 
                         
-def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, tempo):
+def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, tela):
 
         encontro = False
 
@@ -53,10 +54,10 @@ def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, 
                         cone = adiciona_cone(vel, "v")
                 posiciona_cone(cone, debugger, vel, "v") 
                 
-                debugger.y += vel * tempo
-                cone.y += vel * tempo
+                debugger.y += vel * tela.delta_time()
+                cone.y += vel * tela.delta_time()
 
-                if (debugger.collided(esconderijo) and vel < 0) or (debugger.collided(esconderijo) and vel > 0):
+                if (cone.collided(esconderijo) and vel < 0) or (cone.collided(esconderijo) and vel > 0):
                         encontro = True
 
 
@@ -75,10 +76,10 @@ def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, 
                         cone = adiciona_cone(vel, "h")
                 posiciona_cone(cone, debugger, vel, "h")
                 
-                debugger.x += vel * tempo
-                cone.x += vel * tempo
+                debugger.x += vel * tela.delta_time()
+                cone.x += vel * tela.delta_time()
 
-                if (debugger.collided(esconderijo) and vel < 0) or (debugger.collided(esconderijo) and vel > 0):
+                if (cone.collided(esconderijo) and vel < 0) or (cone.collided(esconderijo) and vel > 0):
                         encontro = True
 
         return debugger, cone, vel, encontro
@@ -91,15 +92,15 @@ def analise_esconderijo(debugger, cone, esconderijo, direcao, vel, tempo):
         if (tempo > 0):
                 if (direcao == "v"):
                         if (vel < 0):
-                                debugger.y = (esconderijo.y + esconderijo.height) + debugger.height + erro
-                        if (debugger.collided(esconderijo) and vel > 0):
-                                debugger.y = esconderijo.y - debugger.height - erro
+                                debugger.y = (esconderijo.y + esconderijo.height) + cone.height + erro
+                        if (vel > 0):
+                                debugger.y = esconderijo.y - cone.height - debugger.height - erro
                 
                 if (direcao == "h"):
                         if (vel < 0):
-                                debugger.x = (esconderijo.x + esconderijo.width) + debugger.width + erro
+                                debugger.x = (esconderijo.x + esconderijo.width) + cone.width + erro
                         if (vel > 0):
-                                debugger.x = esconderijo.x - debugger.width - erro
+                                debugger.x = esconderijo.x - cone.width - debugger.width - erro
                                 
                 posiciona_cone(cone, debugger, vel, direcao)
                 
@@ -116,12 +117,13 @@ def analise_esconderijo(debugger, cone, esconderijo, direcao, vel, tempo):
 
 def debugger_desconfiometro(desconfiometro, buggy, debugger, cone, visibilidade, tela):
 
-		#contato = desconfiometro["pre_desc"] // pausa = desconfiometro["pausa_timer"] // desconfiometro = desconfiometro["desc"] // limite = desconfiometro["limite_desc"]
         if (desconfiometro["limite_desc"] > 0):
                 tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite_desc"]), 70, 70, 30, (0,0,0))
                 #condiciona a contagem regressiva do desconfiometro a estar visivel
-                if ((buggy.collided(debugger) or buggy.collided(cone)) and (False not in visibilidade)): 
-                        desconfiometro["limite_desc"] -= tela.delta_time()
+                if ((buggy.collided(cone)) and (False not in visibilidade)): 
+                	desconfiometro["limite_desc"] -= tela.delta_time()
+                if (buggy.collided(debugger) and (False not in visibilidade)):
+                	desconfiometro["limite_desc"] = 0
 
         if (desconfiometro["limite_desc"] <= 0):
                 tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))

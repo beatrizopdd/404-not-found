@@ -2,6 +2,8 @@ from PPlay.gameimage import *
 from PPlay.window import *
 from PPlay.sprite import *
 
+
+
 #B: adiciona o debugger na direção correspondente
 def adiciona_debugger(quantidade, lista_vels, lista_direcoes):
 	
@@ -44,7 +46,7 @@ def adiciona_cone(vel, direcao):
 		
 	elif (direcao == "h" and vel < 0): #esquerda
 		return GameImage("Assets/Cones de Visão/cone-visao-esquerda.png")
-		
+			
 		
 #B: posiciona o cone próximo ao seu debugger (é mais importante quando a velocidade troca de sinal)
 def posiciona_cone(cone, sprite, vel, direcao):
@@ -70,35 +72,47 @@ def posiciona_cone(cone, sprite, vel, direcao):
 		
 #B: não deixa os debuggers colidirem com o cenário e trocam a sprite pra direção correspondente
 #B: se vertical limites = [y-minimo, y-maximo], se horizontal limites = [x-minimo, x-maximo]
-def limitaV(sprite, vel, limite):
+def limitaV(sprite, vel, desconfiometro, limite):
 
 	if (sprite.y <= limite[0]): # encontrou subindo
 		sprite.y = limite[0]
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra cima e troca pra baixo
-		return -1
+		
+		vel *= -1
+		
+		return vel
 		
 	elif (sprite.y >= limite[1]): # encontrou descendo
 		sprite.y = limite[1] - sprite.height
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra baixo e troca pra cima
-		return -1
+		
+		vel *= -1
+		
+		return vel
 		
 	else:
-		return 1
+		return vel
 		
-def limitaH(sprite, vel, limite):
+def limitaH(sprite, vel, desconfiometro, limite):
 		
 	if (sprite.x <= limite[0]): # encontrou indo pra esquerda
 		sprite.x = limite[0]
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra esquerda e troca pra direita
-		return -1
+		
+		vel *= -1
+		
+		return vel
 		
 	elif (sprite.x >= limite[1]): # encontrou indo pra direita
 		sprite.x = limite[1] - sprite.width
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra direita e troca pra esquerda
-		return -1
+		
+		vel *= -1
+		
+		return vel
 		
 	else:
-		return 1
+		return vel
 		
 #FUNÇÕES DE TROCA DE SPRITE
 
@@ -150,6 +164,7 @@ def debugger_alerta(quantidade, lista_debuggers, lista_vels, lista_direcoes):
 			sprite = Sprite("Assets/Inspetor/inspetor-horizontal-alerta.png", 8)
 			sprite.set_sequence(0, 4)
 			
+			
 		sprite.set_total_duration(400)
 		sprite.x = lista_debuggers[i].x
 		sprite.y = lista_debuggers[i].y
@@ -157,7 +172,7 @@ def debugger_alerta(quantidade, lista_debuggers, lista_vels, lista_direcoes):
 		
 	return debuggers
 	
-	
+
 def cone_alerta(vel, direcao):
 
 	if (direcao == "v" and vel > 0): #descendo
@@ -171,6 +186,7 @@ def cone_alerta(vel, direcao):
 		
 	elif (direcao == "h" and vel < 0): #esquerda
 		return GameImage("Assets/Cones de Visão/cone-visao-esquerda-alerta.png")
+	
 	
 	
 def debugger_normal(sprite, vel, direcao, desconfiometro):
