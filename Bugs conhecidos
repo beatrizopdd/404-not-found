@@ -9,6 +9,7 @@ O bug acontece tanto quando o pré-alerta começa com um debugger em tela azul q
 
 Se você chamar um debugger pro esconderijo durante o pré-alerta ele quebra a paralisia e anda até você
 Ele também ignora a tela azul
+Chamar um debugger pro esconderijo quando ele tá em um quadrado adjacente faz com que ele se teleporte pra uma distância fixa e se vire
 
 Debuggers conseguem te ver através da parede
 
