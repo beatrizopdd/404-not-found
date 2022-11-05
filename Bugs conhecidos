@@ -1,7 +1,7 @@
 Erros encontrados:
 
 Frame rate baixa
-Cone de visão não faz nada fora do alerta
+- Cone de visão não faz nada fora do alerta
 Esconderijo não some depois de ser denunciado e distrair um debugger
 
 Ativar a tela azul em um debugger durante a pausa antes do alerta ou durante o próprio alerta faz com que ele não volte a andar depois do tempo em tela azul. Ele fica parado, mas o cone ainda funciona para fazer detecção.

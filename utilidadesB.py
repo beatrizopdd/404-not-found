@@ -192,7 +192,7 @@ def cone_alerta(vel, direcao):
 def debugger_normal(sprite, vel, direcao, desconfiometro):
 
 	#caso um debugger consiga pegar a buggy durante o tempo de tela azul então preciso garantir que ele fique na cor adequada
-	if (desconfiometro["pre_desc"] == True or desconfiometro["desc"] == True):
+	if (desconfiometro["pausa"] == True or desconfiometro["ativo"] == True):
 		if (direcao == "v" and vel > 0): #descendo
 			sprite_N = Sprite("Assets/Inspetor/inspetor-vertical-alerta.png", 8)
 			sprite_N.set_sequence(0, 4, True)

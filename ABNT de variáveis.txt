@@ -22,7 +22,7 @@ Variáveis simples:
     Esconderijo
     -> quantidade de esconderijos
 	-> alvo: debugger que vai ser invocado pelo sacrificio do esconderijo
-	-> colisao_esconderijo: se o debugger ja chegou no esconderijo depois de desviar
+	-> esconderijo_colisao: se o debugger ja chegou no esconderijo depois de desviar
 	-> esconderijo_tempo: quanto tempo o debugger vai analisar o esconderijo
 	-> esconderijo_debugger: correspondencia entre o esconderijo e o debugger
 

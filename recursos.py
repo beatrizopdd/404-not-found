@@ -12,7 +12,7 @@ def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tel
                 
 				vel = limitaV(debugger, vel, desconfiometro, limite)
 						
-				if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
+				if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
 					cone = cone_alerta(vel, "v")
 				else:
 					cone = adiciona_cone(vel, "v")
@@ -25,10 +25,11 @@ def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tel
 
 				vel = limitaH(debugger, vel, desconfiometro, limite)
 				
-				if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
+				if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
 					cone = cone_alerta(vel, "h")
 				else:
 					cone = adiciona_cone(vel, "h")
+					
 				posiciona_cone(cone, debugger, vel, "h")
 
 
@@ -48,7 +49,7 @@ def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, 
                         vel *= -1
                         debugger.set_sequence_time(0, 4, 400, True) #troca pra baixo
 
-                if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
+                if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
                         cone = cone_alerta(vel, "v")
                 else:
                         cone = adiciona_cone(vel, "v")
@@ -70,7 +71,7 @@ def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, 
                         vel *= -1
                         debugger.set_sequence_time(0, 4, 400, True) #troca pra esquerda
 
-                if (desconfiometro["desc"] == True or desconfiometro["pre_desc"] == True):
+                if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
                         cone = cone_alerta(vel, "h")
                 else:
                         cone = adiciona_cone(vel, "h")
@@ -117,14 +118,14 @@ def analise_esconderijo(debugger, cone, esconderijo, direcao, vel, tempo):
 
 def debugger_desconfiometro(desconfiometro, buggy, debugger, cone, visibilidade, tela):
 
-        if (desconfiometro["limite_desc"] > 0):
-                tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite_desc"]), 70, 70, 30, (0,0,0))
+        if (desconfiometro["limite"] > 0):
+                tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]), 70, 70, 30, (0,0,0))
                 #condiciona a contagem regressiva do desconfiometro a estar visivel
                 if ((buggy.collided(cone)) and (False not in visibilidade)): 
-                        desconfiometro["limite_desc"] -= tela.delta_time()
+                        desconfiometro["limite"] -= tela.delta_time()
                 if (buggy.collided(debugger) and (False not in visibilidade)):
-                        desconfiometro["limite_desc"] = 0
+                        desconfiometro["limite"] = 0
 
-        if (desconfiometro["limite_desc"] <= 0):
+        if (desconfiometro["limite"] <= 0):
                 tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))
 
