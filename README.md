@@ -9,10 +9,18 @@
 # :soon::tm: A FAZER:
 
 - [x] Organizar variáveis e vetores globais
+- [ ] Finalizar ABNT de fase
+
 - [ ] Descobrir pq o pygame reclama da sprite do disparo
 - [ ] Normalizar a sprite da buggy
-    Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível. As colisões estão estranhas por causa de pixels de transparência na sprite vertical antiga. Sprite horizontal parece funcionar bem.
+    Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível
 
+- [ ] Transição entre os menus, fases e etc.
+- [ ] Menu geral
+- [ ] Sons no jogo
+- [ ] Interface do jogador
+
+- [ ] Colocar uma condição de vitória
 - [x] Movimento do player
 - [x] Colisão com as paredes internas
 - [x] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
