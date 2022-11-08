@@ -16,7 +16,11 @@
     Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível
 
 - [ ] Transição entre os menus, fases e etc.
+
 - [ ] Menu geral
+- [ ] Fazer sprites dos botões separadas
+- [ ] Ver quais são os botões que vão ser usados
+
 - [ ] Sons no jogo
 - [ ] Interface do jogador
 
