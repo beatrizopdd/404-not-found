@@ -1,4 +1,3 @@
-from PPlay import gameimage
 from PPlay.gameimage import *
 from PPlay.window import *
 from PPlay.keyboard import *
@@ -7,7 +6,7 @@ from PPlay.mouse import *
 from PPlay.sound import *
 
 from buggy import *
-from utilidadesA import *
+from utilidades_grid import *
 
 #A: Tela
 tela = Window(1280,660)

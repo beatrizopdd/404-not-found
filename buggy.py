@@ -1,6 +1,6 @@
 from PPlay.sprite import *
 from disparo import *
-from utilidadesA import *
+from utilidades_grid import *
 from PPlay.window import *
 
 #A: Implementando toda a lógica de forma separada agora por facilidade
