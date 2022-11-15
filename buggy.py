@@ -118,6 +118,66 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
     return buggy, andou, virada_para
 
 
+#Gera meio que um step assist interessante, mas tem um bug muito esquisito com quinas
+def correção_por_retas(buggy, parede):
+
+    #Gerando as retas que compões as fronteiras da parede
+    fronteira_vertical1 = (parede.rect.topleft, parede.rect.bottomleft)
+    fronteira_horizontal1 = (parede.rect.bottomleft, parede.rect.bottomright)
+    fronteira_vertical2 = (parede.rect.bottomright, parede.rect.topright)
+    fronteira_horizontal2 = (parede.rect.topright, parede.rect.topleft)
+
+    if buggy.rect.clipline(fronteira_vertical1): #Se ela colidiu com o lado esquerdo da parede
+
+        buggy.x -= (buggy.x + buggy.width) - parede.x
+    
+    elif buggy.rect.clipline(fronteira_vertical2): #Se colidiu com o direito
+
+        buggy.x += (parede.x + parede.width) - buggy.x
+
+    if buggy.rect.clipline(fronteira_horizontal2): #Se colidiu na parte de cima
+
+        buggy.y -= (buggy.y + buggy.height) - parede.y
+    
+    elif buggy.rect.clipline(fronteira_horizontal1): #Se colidiu por baixo
+
+        buggy.y += (parede.y + parede.height) - buggy.y
+
+#Tentativa de criar uma colisão genérica através de algum cálculo vetorial. Falha miseravelmente
+def correção_vetorial(buggy, parede):
+
+    vet = pygame.math.Vector2()
+
+    vet.x = buggy.rect.centerx - parede.rect.centerx
+    vet.y = buggy.rect.centery - parede.rect.centery
+
+    vet = vet.normalize()
+       
+    while buggy.collided(parede):
+
+        buggy.rect.center += vet
+        buggy.set_position(buggy.rect.centerx, buggy.rect.centery)
+
+
+#Colisão estúpida e instintiva. Falha com sprites não quadradas em quinas
+def correção_por_direção(buggy, parede, virada_para, velocidade):
+
+    if virada_para == "ESQUERDA":
+
+        buggy.x += velocidade
+    
+    if virada_para == "DIREITA":
+
+        buggy.x -= velocidade
+    
+    if virada_para == "CIMA":
+
+        buggy.y += velocidade
+    
+    if virada_para == "BAIXO":
+
+        buggy.y -= velocidade
+
 
 def colisão_paredes_internas(buggy, mat_paredes, virada_para, velocidade):
 
@@ -127,25 +187,7 @@ def colisão_paredes_internas(buggy, mat_paredes, virada_para, velocidade):
 
             if parede.collided(buggy):
 
-                if virada_para == "ESQUERDA":
-
-                    buggy.x += velocidade
-                
-                if virada_para == "DIREITA":
-
-                    buggy.x -= velocidade
-
-                if virada_para == "CIMA":
-
-                    buggy.y += velocidade
-                
-                if virada_para == "BAIXO":
-
-                    buggy.y -= velocidade
-                
-                return
-                
-
+                correção_por_direção(buggy, parede, virada_para, velocidade)
 
 
 #A: A função pode ser trivial e feia porque a parede externa tá sempre no mesmo lugar
