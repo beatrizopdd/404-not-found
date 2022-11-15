@@ -11,7 +11,7 @@
 - [x] Organizar variáveis e vetores globais
 - [ ] Finalizar ABNT de fase
 
-- [ ] Descobrir pq o pygame reclama da sprite do disparo
+- [Desisti] Descobrir pq o pygame reclama da sprite do disparo
 - [ ] Normalizar a sprite da buggy
     Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível
 
@@ -19,7 +19,7 @@
 
 - [ ] Menu geral
 - [ ] Fazer sprites dos botões separadas
-- [ ] Ver quais são os botões que vão ser usados
+- [x] Ver quais são os botões que vão ser usados
 
 - [ ] Sons no jogo
 - [ ] Interface do jogador

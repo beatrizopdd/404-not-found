@@ -4,7 +4,7 @@ from PPlay.sprite import *
 from PPlay.sound import *
 
 from buggy import *
-from utilidadesA import *
+from utilidades_grid import *
 
 from recursos import *
 from utilidadesB import *
