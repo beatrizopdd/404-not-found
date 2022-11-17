@@ -88,11 +88,11 @@ while True:
 
         if clickou_em == 0: #Se clickou em jogar
 
-            pass
+            som_invalido.play()
 
         if clickou_em == 1: #Se clickou em about
 
-            pass
+            som_invalido.play()
 
         if clickou_em == 2: #Se clickou na ?
 
