@@ -14,7 +14,7 @@ teclado = tela.get_keyboard()
 tela.set_title("404 Not Found")
 
 #A: Audios
-bgm_normal = Sound("Assets/Audio/Bgms/Ayra.ogg")
+bgm_normal = Sound("Assets/Audios/Bgms/Ayra.ogg")
 
 #A: Game Images | Todas as imagens de fundo e o disparo
 chao = GameImage("Assets/Fundos/chao.png")
