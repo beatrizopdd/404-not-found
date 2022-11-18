@@ -1,17 +1,22 @@
 Erros encontrados:
 
-Frame rate baixa
-- Cone de visão não faz nada fora do alerta
-Esconderijo não some depois de ser denunciado e distrair um debugger
+	Frame rate baixa
 
-Ativar a tela azul em um debugger durante a pausa antes do alerta ou durante o próprio alerta faz com que ele não volte a andar depois do tempo em tela azul. Ele fica parado, mas o cone ainda funciona para fazer detecção.
-O bug acontece tanto quando o pré-alerta começa com um debugger em tela azul quanto quando você atira em um debugger durante o pré-alerta
+	Cone de visão não faz nada fora do alerta
 
-Se você chamar um debugger pro esconderijo durante o pré-alerta ele quebra a paralisia e anda até você
-Ele também ignora a tela azul
-Chamar um debugger pro esconderijo quando ele tá em um quadrado adjacente faz com que ele se teleporte pra uma distância fixa e se vire
+	*IGNORAR* Esconderijo não some depois de ser denunciado e distrair um debugger
 
-Debuggers conseguem te ver através da parede
+	Ativar a tela azul em um debugger durante a pausa antes do alerta ou durante o próprio alerta faz com que ele não volte a andar depois do tempo em tela azul. Ele fica parado, mas o cone ainda funciona para fazer detecção.
+
+	O bug acontece tanto quando o pré-alerta começa com um debugger em tela azul quanto quando você atira em um debugger durante o pré-alerta
+
+	*IGNORAR* Se você chamar um debugger pro esconderijo durante o pré-alerta ele quebra a paralisia e anda até você
+
+	*IGNORAR* Ele também ignora a tela azul
+
+	*IGNORAR* Chamar um debugger pro esconderijo quando ele tá em um quadrado adjacente faz com que ele se teleporte pra uma distância fixa e se vire
+
+	Debuggers conseguem te ver através da parede
 
 - Tirei a lista de colidiveis
 - Colisão com cone como condição

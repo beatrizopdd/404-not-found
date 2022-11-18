@@ -3,7 +3,6 @@ from PPlay.window import *
 from PPlay.sprite import *
 
 
-
 #B: adiciona o debugger na direção correspondente
 def adiciona_debugger(quantidade, lista_vels, lista_direcoes):
 	
@@ -71,7 +70,7 @@ def posiciona_cone(cone, sprite, vel, direcao):
 		
 		
 #B: não deixa os debuggers colidirem com o cenário e trocam a sprite pra direção correspondente
-#B: se vertical limites = [y-minimo, y-maximo], se horizontal limites = [x-minimo, x-maximo]
+	#se vertical limites = [y-minimo, y-maximo], se horizontal limites = [x-minimo, x-maximo]
 def limitaV(sprite, vel, desconfiometro, limite):
 
 	if (sprite.y <= limite[0]): # encontrou subindo
@@ -113,6 +112,40 @@ def limitaH(sprite, vel, desconfiometro, limite):
 		
 	else:
 		return vel
+
+
+#B: movimento padrão do debugger
+def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tela):
+                        
+		if (direcao == "v"):
+				debugger.y += vel * tela.delta_time()
+				cone.y += vel * tela.delta_time()
+                
+				vel = limitaV(debugger, vel, desconfiometro, limite)
+						
+				if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
+					cone = cone_alerta(vel, "v")
+				else:
+					cone = adiciona_cone(vel, "v")
+					
+				posiciona_cone(cone, debugger, vel, "v") 
+				
+		if (direcao == "h"):
+				debugger.x += vel * tela.delta_time()
+				cone.x += vel * tela.delta_time()
+
+				vel = limitaH(debugger, vel, desconfiometro, limite)
+				
+				if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
+					cone = cone_alerta(vel, "h")
+				else:
+					cone = adiciona_cone(vel, "h")
+					
+				posiciona_cone(cone, debugger, vel, "h")
+
+
+		return debugger, cone, vel
+                        
 		
 #FUNÇÕES DE TROCA DE SPRITE
 

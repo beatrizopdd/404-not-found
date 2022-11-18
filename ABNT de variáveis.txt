@@ -18,13 +18,6 @@ Variáveis simples:
     -> sprite da buggy
     -> virada_para: string contendo para qual lado buggy está virada
        possibilidades: "CIMA", "BAIXO", "ESQUERDA", "DIREITA"
-       
-    Esconderijo
-    -> quantidade de esconderijos
-	-> alvo: debugger que vai ser invocado pelo sacrificio do esconderijo
-	-> esconderijo_colisao: se o debugger ja chegou no esconderijo depois de desviar
-	-> esconderijo_tempo: quanto tempo o debugger vai analisar o esconderijo
-	-> esconderijo_debugger: correspondencia entre o esconderijo e o debugger
 
 
 Vetores comuns:
@@ -37,7 +30,6 @@ Vetores comuns:
     -> ABNT DE FASE
     
     Mecanismos:
-    -> esconderijo: vetor de todos os esconderijos presentes
     -> ponteiro_entrada: vetor de todos os ponteiros de entradas
     -> ponteiro_saída: todos os ponteiros de saída sincronizados por índice
        aos ponteiros de entrada
@@ -66,4 +58,11 @@ Matrizes:
     paredes: matriz contendo todos os vetores de paredeMXN e parede_unica
     ponteiros: matriz com os vetores de ponteiros de entrada e saída
 
-    Obsoleto: mecanismos: matriz de ponteiros e esconderijos (atrapalha a ordem de desenho)
+    Obsoleto: 	mecanismos: matriz de ponteiros e esconderijos (atrapalha a ordem de desenho)
+    
+				Esconderijo
+				-> quantidade de esconderijos
+				-> alvo: debugger que vai ser invocado pelo sacrificio do esconderijo
+				-> esconderijo_colisao: se o debugger ja chegou no esconderijo depois de desviar
+				-> esconderijo_tempo: quanto tempo o debugger vai analisar o esconderijo
+				-> esconderijo_debugger: correspondencia entre o esconderijo e o debugger
