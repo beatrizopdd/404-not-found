@@ -4,38 +4,20 @@ from PPlay.sprite import *
 
 from utilidadesB import *
 
-def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tela):
-                        
-		if (direcao == "v"):
-				debugger.y += vel * tela.delta_time()
-				cone.y += vel * tela.delta_time()
-                
-				vel = limitaV(debugger, vel, desconfiometro, limite)
-						
-				if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
-					cone = cone_alerta(vel, "v")
-				else:
-					cone = adiciona_cone(vel, "v")
-					
-				posiciona_cone(cone, debugger, vel, "v") 
-				
-		if (direcao == "h"):
-				debugger.x += vel * tela.delta_time()
-				cone.x += vel * tela.delta_time()
+def debugger_desconfiometro(desconfiometro, buggy, debugger, cone, visibilidade, tela):
 
-				vel = limitaH(debugger, vel, desconfiometro, limite)
-				
-				if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
-					cone = cone_alerta(vel, "h")
-				else:
-					cone = adiciona_cone(vel, "h")
-					
-				posiciona_cone(cone, debugger, vel, "h")
+        if (desconfiometro["limite"] > 0):
+                tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]), 70, 70, 30, (0,0,0))
+                #condiciona a contagem regressiva do desconfiometro a estar visivel
+                if ((buggy.collided(cone)) and (False not in visibilidade)): 
+                        desconfiometro["limite"] -= tela.delta_time()
+                if (buggy.collided(debugger) and (False not in visibilidade)):
+                        desconfiometro["limite"] = 0
 
+        if (desconfiometro["limite"] <= 0):
+                tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))
 
-		return debugger, cone, vel
-
-                        
+         
 def desvio_armadilha(debugger, cone, esconderijo, direcao, vel, desconfiometro, tela):
 
         encontro = False
@@ -115,17 +97,59 @@ def analise_esconderijo(debugger, cone, esconderijo, direcao, vel, tempo):
 
         return distraido, tempo, encontro
             
+'''
 
-def debugger_desconfiometro(desconfiometro, buggy, debugger, cone, visibilidade, tela):
+ESCONDERIJO
 
-        if (desconfiometro["limite"] > 0):
-                tela.draw_text("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]), 70, 70, 30, (0,0,0))
-                #condiciona a contagem regressiva do desconfiometro a estar visivel
-                if ((buggy.collided(cone)) and (False not in visibilidade)): 
-                        desconfiometro["limite"] -= tela.delta_time()
-                if (buggy.collided(debugger) and (False not in visibilidade)):
-                        desconfiometro["limite"] = 0
 
-        if (desconfiometro["limite"] <= 0):
-                tela.draw_text("GAME OVER", 70, 70, 30, (0,0,0))
+'''
+#linha 109
+distraidos = []
+for i in range(quantidade):
+	distraidos.append(False)
+	
+#linha 124
+##B: ESCONDERIJO
+qtd_esconderijos = 1
+sacrificado = 0 
+esconderijo_colisao = False
+esconderijo_tempo = 10
+esconderijo_debugger = [5]
 
+visibilidade = []
+for i in range(qtd_esconderijos):
+	visibilidade.append(True)
+
+esconderijo = [Sprite("Assets/Mecanismos/hide.png", 22)]
+esconderijo[0].set_total_duration(2500)
+posiciona_grid(esconderijo[0], tile, 1, 7)
+
+#linha 212
+##B: ESCONDERIJO
+        for i in range(qtd_esconderijos):
+        
+            if (buggy.collided(esconderijo[i])):
+                visibilidade[i] = False
+                break
+            else:
+                visibilidade[i] = True
+
+            if (buggy.collided(esconderijo[i]) and teclado.key_pressed("C")):
+                
+                sacrificado = i
+                distraidos[esconderijo_debugger[i]] = True  
+                break 
+          
+#linha 241
+##B: ESCONDERIJO                
+            #movimento sob efeito do esconderijo (sair de onde está e ir em direcao a ele)
+            if (distraidos[i] == True and esconderijo_colisao == False):
+                debuggers[i], cones[i], debugger_vel[i], esconderijo_colisao = desvio_armadilha(debuggers[i], cones[i], esconderijo[sacrificado], debugger_direcao[i], debugger_vel[i], desconfiometro, tela)
+                
+            #contagem regressiva do efeito do esconderijo
+            if (distraidos[i] == True and esconderijo_colisao == True):
+                distraidos[i], esconderijo_tempo, esconderijo_colisao = analise_esconderijo(debuggers[i], cones[i], esconderijo[sacrificado], debugger_direcao[i], debugger_vel[i], esconderijo_tempo)
+                
+                tela.draw_text("Esconderijo {:.0f} segundos".format(esconderijo_tempo), 70, 120, 30, (0,0,0))
+                esconderijo_tempo -= tela.delta_time()      
+                

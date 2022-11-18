@@ -1,6 +1,6 @@
 ##B: DEBUGGER e CONE
-quantidade = 
-debugger_direcao = ["v", "h"]
+quantidade = X
+debugger_direcao = ["v","h"]
 
 debugger_vel = []
 for i in range(quantidade):
@@ -12,7 +12,7 @@ unX = tile.width
 unY = tile.height
 debugger_limite = [[unY, unY], [unX, unX]]
 
-posiciona_grid(debuggers[0], tile, 1, 2)
+#usar posiciona_grid pras posições
 
 cones = []
 for i in range(quantidade):
@@ -20,8 +20,75 @@ for i in range(quantidade):
 	posiciona_cone(cone, debuggers[i], debugger_vel[i], debugger_direcao[i])
 	cones.append(cone)
 	
-distraido = []
+	
+	
+##B: DESCONFIOMETRO
+desconfiometro = {
+    "pausa": False,
+    "pausa_timer": 10,
+    "ativo": False,
+    "limite": 10,
+}
+
+
+
+##B: TELA AZUL
+timer_tela_azul = []
+tela_azul = []
 for i in range(quantidade):
-	distraido.append(False)
+	timer_tela_azul.append(10)
+	tela_azul.append(False)
 
 
+											""" LOOPS DE FUNCIONAMENTO """
+
+##B: MOVIMENTO DEBUGGER + CONE
+    for i in range(quantidade):
+    
+        if (tela_azul[i] == False and desconfiometro["pausa"] == False):
+            debuggers[i], cones[i], debugger_vel[i] = movimento_debugger(debuggers[i], cones[i], debugger_direcao[i], debugger_vel[i], debugger_limite[i], desconfiometro, tela)
+
+
+##B: TELA AZUL
+        if (tela_azul[i] == True and desconfiometro["pausa"] == False and desconfiometro["ativo"] == False): #ATIVA tela azul
+            debuggers[i] = debugger_tela_azul(debuggers[i], debugger_vel[i], debugger_direcao[i])
+
+            print("Tela azul {:.0f} segundos".format(timer_tela_azul[i]))
+            timer_tela_azul[i] -= tela.delta_time()
+
+            if (timer_tela_azul[i] <= 0):
+                tela_azul[i] = False
+                timer_tela_azul[i] = 10
+                debuggers[i] = debugger_normal(debuggers[i], debugger_vel[i], debugger_direcao[i], desconfiometro)
+
+
+##B: DESCONFIOMETRO pt.1
+        if (tela_azul[i] == False and desconfiometro["pausa"] == False and desconfiometro["ativo"] == False):
+        
+            if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): #ATIVA contagem regressiva e TROCA sprite
+                desconfiometro["pausa"] = True
+                debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
+                
+        if (desconfiometro["ativo"] == True and desconfiometro["limite"] > 0): #FAZ a contagem regressiva
+            print("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]))  
+
+            if (buggy.collided(cones[i])):
+                desconfiometro["limite"] -= tela.delta_time()
+                
+            if (buggy.collided(debuggers[i])):
+                desconfiometro["limite"] = 0
+
+        if (desconfiometro["limite"] <= 0):
+            print("GAME OVER")       
+
+
+##B: DESCONFIOMETRO pt.2                              
+    if (desconfiometro["pausa"] == True): 
+
+        if (desconfiometro["pausa_timer"] > 0): #REALIZA contagem regressiva
+            print("Pausa {:.0f} segundos".format(desconfiometro["pausa_timer"]))
+            desconfiometro["pausa_timer"] -= tela.delta_time()
+
+        else: #TERMINA a contagem regressiva
+            desconfiometro["pausa"] = False
+            desconfiometro["ativo"] = True
