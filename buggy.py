@@ -25,7 +25,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
         if not virada_para == "DIREITA":
 
-            buggy = Sprite("Assets/Buggy/buggy-horizontal.png", 10)
+            buggy = Sprite("Assets/Buggy/buggy-horizontal-2.png", 10)
             buggy.set_total_duration(500)
             buggy.set_curr_frame(0)
             buggy.set_sequence(0,4)  
@@ -38,7 +38,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
         if not virada_para == "ESQUERDA":
 
-            buggy = Sprite("Assets/Buggy/buggy-horizontal.png", 10)
+            buggy = Sprite("Assets/Buggy/buggy-horizontal-2.png", 10)
             buggy.set_total_duration(500)
             buggy.set_curr_frame(5)
             buggy.set_sequence(5,9)
@@ -122,24 +122,24 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 def correção_por_retas(buggy, parede):
 
     #Gerando as retas que compões as fronteiras da parede
-    fronteira_vertical1 = (parede.rect.topleft, parede.rect.bottomleft)
-    fronteira_horizontal1 = (parede.rect.bottomleft, parede.rect.bottomright)
-    fronteira_vertical2 = (parede.rect.bottomright, parede.rect.topright)
-    fronteira_horizontal2 = (parede.rect.topright, parede.rect.topleft)
+    fronteira_esquerda = (parede.rect.topleft, parede.rect.bottomleft)
+    fronteira_inferior = (parede.rect.bottomleft, parede.rect.bottomright)
+    fronteira_direita = (parede.rect.bottomright, parede.rect.topright)
+    fronteira_superior = (parede.rect.topright, parede.rect.topleft)
 
-    if buggy.rect.clipline(fronteira_vertical1): #Se ela colidiu com o lado esquerdo da parede
+    if buggy.rect.clipline(fronteira_esquerda): #Se ela colidiu com o lado esquerdo da parede
 
         buggy.x -= (buggy.x + buggy.width) - parede.x
     
-    elif buggy.rect.clipline(fronteira_vertical2): #Se colidiu com o direito
+    elif buggy.rect.clipline(fronteira_direita): #Se colidiu com o direito
 
         buggy.x += (parede.x + parede.width) - buggy.x
 
-    if buggy.rect.clipline(fronteira_horizontal2): #Se colidiu na parte de cima
+    if buggy.rect.clipline(fronteira_superior): #Se colidiu na parte de cima
 
         buggy.y -= (buggy.y + buggy.height) - parede.y
     
-    elif buggy.rect.clipline(fronteira_horizontal1): #Se colidiu por baixo
+    elif buggy.rect.clipline(fronteira_inferior): #Se colidiu por baixo
 
         buggy.y += (parede.y + parede.height) - buggy.y
 
@@ -158,9 +158,8 @@ def correção_vetorial(buggy, parede):
         buggy.rect.center += vet
         buggy.set_position(buggy.rect.centerx, buggy.rect.centery)
 
-
 #Colisão estúpida e instintiva. Falha com sprites não quadradas em quinas
-def correção_por_direção(buggy, parede, virada_para, velocidade):
+def correção_por_direção(buggy, virada_para, velocidade):
 
     if virada_para == "ESQUERDA":
 
@@ -187,7 +186,7 @@ def colisão_paredes_internas(buggy, mat_paredes, virada_para, velocidade):
 
             if parede.collided(buggy):
 
-                correção_por_direção(buggy, parede, virada_para, velocidade)
+                correção_por_direção(buggy, virada_para, velocidade)
 
 
 #A: A função pode ser trivial e feia porque a parede externa tá sempre no mesmo lugar
