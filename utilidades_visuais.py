@@ -64,10 +64,32 @@ def fechar_jogo(tela):
 
         alpha += tela.delta_time() * 100
 
-        fundo_preto.image.set_alpha(alpha)
         fundo.draw()
+        fundo_preto.image.set_alpha(alpha)
         fundo_preto.draw()
 
         tela.update()
     
     tela.close()
+
+def transição_de_vitória(tela):
+
+    fundo = Sprite("Assets/Fundos/menu fundo.png")
+    x = 0
+
+    while True:
+
+        if tela.get_keyboard().key_pressed("ESC"):
+
+            fechar_jogo(tela)
+
+        x += tela.delta_time() * tela.width/10
+
+        if x >= tela.width:
+
+            x = -400
+
+        fundo.draw()
+        tela.draw_text("Fase 1 concluída!", x, tela.height/2-20, 40, (255,255,255))
+
+        tela.update()
