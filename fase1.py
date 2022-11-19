@@ -137,15 +137,6 @@ alinha_cone(cone[4], debugger[4], 3)
 
 ##B: COMEÇA SEÇÃO DE MECANISMOS
 
-esconderijo = [Sprite("Assets/Mecanismos/hide.png", 22)]
-esconderijo[0].set_total_duration(2500)
-posiciona_grid(esconderijo[0], tile, 1,7)
-
-#A: Comentado pra caso alguma das suas funções explodir a gente poder discutir e arrumar
-'''esconderijo = Sprite("Assets/Mecanismos/hide.png", 22)
-esconderijo.set_total_duration(2500)
-posiciona_grid(esconderijo, tile, 1,7)'''
-
 ponteiro_entrada = [Sprite("Assets/Mecanismos/&w.png", 6)]
 ponteiro_entrada[0].set_total_duration(400)
 posiciona_grid(ponteiro_entrada[0], tile, 4, 8)
@@ -157,7 +148,7 @@ posiciona_grid(ponteiro_saída[0], tile, 9, 1)
 ponteiros = [ponteiro_entrada, ponteiro_saída]
 
 #A: Vetor com todos os mecanismos
-mecanismos = [esconderijo, ponteiro_entrada, ponteiro_saída]
+mecanismos = [ponteiro_entrada, ponteiro_saída]
 
 ##B: TERMINA SEÇÃO DE MECANISMOS
 
@@ -206,7 +197,7 @@ while True:
         for parede in i:
             parede.draw()
 
-    buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, ponteiro_entrada, ponteiro_saída, esconderijo, tile, virada_para, disparo, teclado)
+    buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado)
 
 
     if disparo["ativo"]:
@@ -231,10 +222,6 @@ while True:
     if andou:
         buggy.update()
     buggy.draw()
-
-    for e in esconderijo:
-        e.update()
-        e.draw()
 
     for d in debugger:
         d.update()
