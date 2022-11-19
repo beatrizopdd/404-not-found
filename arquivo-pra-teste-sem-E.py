@@ -189,6 +189,17 @@ iu_tela_azul = tempo_max_tela_azul
 frame_barra_choque = 0
 frame_barra_ta = 5
 
+#A: Entrada e saída do nível
+entrada = Sprite("Assets/Mecanismos/hide.png", 22)
+saida = Sprite("Assets/Mecanismos/hide.png", 22)
+nuvens = [entrada, saida]
+
+for n in nuvens:
+    n.set_total_duration(2500)
+
+posiciona_grid(entrada, tile, 1, 0.5)
+posiciona_grid(saida, tile, 18, 8)
+
 while True:
 
 #Lidando com fps
@@ -200,7 +211,7 @@ while True:
                     
 
 ##BUGGY
-    buggy, andou, atirou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes_internas, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado)
+    buggy, andou, atirou, virada_para = comportamento_buggy(buggy, tela.height/3.5 * tela.delta_time(), paredes_internas, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado, saida, tela)
 
 ##A: DISPARO
     if disparo["ativo"]: 
@@ -334,6 +345,10 @@ while True:
     for parede in paredes:
         for p in parede:
             p.draw()
+
+    for n in nuvens:
+        n.update()
+        n.draw()
 
     for c in cones:
         c.draw()
