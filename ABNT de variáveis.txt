@@ -18,6 +18,15 @@ Variáveis simples:
     -> sprite da buggy
     -> virada_para: string contendo para qual lado buggy está virada
        possibilidades: "CIMA", "BAIXO", "ESQUERDA", "DIREITA"
+    
+    Interface
+    -> carinhas
+    -> barra_choque
+    -> barra_tela_azul
+    -> iu_choque: timer pra atualização da barra de choque
+    -> iu_tela_azul: timer pra atualização da barra de tela azul
+    -> frame_barra_choque: frame onde a barra de choque está
+    -> frame_barra_ta: frame onde a barra de tela azul está
 
 
 Vetores comuns:
@@ -33,6 +42,9 @@ Vetores comuns:
     -> ponteiro_entrada: vetor de todos os ponteiros de entradas
     -> ponteiro_saída: todos os ponteiros de saída sincronizados por índice
        aos ponteiros de entrada
+    
+    IU:
+    -> elementos_iu: vetor de todos os elementos da interface do usuário
 
 Dicionários struct de pobre:
 
