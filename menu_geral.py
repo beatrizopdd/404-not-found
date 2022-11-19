@@ -9,7 +9,7 @@ from utilidades_visuais import *
 
 
 #Tela, teclado e mouse
-tela = Window(1260, 660)
+tela = Window(1280, 660)
 teclado = tela.get_keyboard()
 mouse = tela.get_mouse()
 
