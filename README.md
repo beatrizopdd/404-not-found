@@ -22,13 +22,13 @@
 - [x] Ver quais são os botões que vão ser usados
 
 - [ ] Sons no jogo
-- [ ] Interface do jogador
+- [x] Interface do jogador
 
 - [ ] Terminar a função de pausa
 - [ ] Colocar uma condição de vitória
 - [x] Movimento do player
 
-- [ ] Refazer colisão com as paredes internas
+- [x] Refazer colisão com as paredes internas
 
 - [x] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
 - [x] Colisão com a parede externa
@@ -40,8 +40,8 @@
 - [x] Debugger
 - [x] Tela azul
 
-- [ ] Tirar draw text
-
+- [x] Tirar draw text
+- [ ] Tirar print
 
 #### :clipboard: DICAS DE README
 
