@@ -8,10 +8,13 @@ from utilidades_grid import *
 
 from utilidadesB import *
 
-
+#A: Tela
 tela = Window(1280,660)
 tela.set_title("404 Not Found")
 teclado = tela.get_keyboard()
+
+#A: Audios
+bgm_normal = Sound("Assets/Audios/Bgms/Ayra.ogg")
 
 #A: Game Images | Todas as imagens de fundo e o disparo
 chao = GameImage("Assets/Fundos/chao.png")
@@ -72,6 +75,7 @@ posiciona_grid(paredes_externas[3], tile, 1, 9, False)
 
 #A: Vetores para facilitar os processo de desenho
 paredes = [parede1X2, parede1X3, parede4X1, parede_unica, paredes_externas]
+paredes_internas = [parede1X2, parede1X3, parede4X1, parede_unica]
 
 
 ##B: DEBUGGER e CONE
@@ -86,7 +90,7 @@ debuggers = adiciona_debugger(quantidade, debugger_vel, debugger_direcao)
 
 unX = tile.width
 unY = tile.height
-debugger_limite = [[unY, unY * 6], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX * 2, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
+debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX * 2, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
 posiciona_grid(debuggers[0], tile, 1, 2)
 posiciona_grid(debuggers[1], tile, 6, 6)
@@ -113,16 +117,12 @@ buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
 buggy.set_sequence(0,4)
 virada_para = "BAIXO"
 andou = False
+atirou = False
 
 buggy.set_total_duration(500)
 posiciona_grid(buggy, tile, 1,1)
 
-
-#124# só vou deixar aqui pq vc não tirou das suas ainda e eu não quero mexer no seu código 
-esconderijo = [Sprite("Assets/Mecanismos/hide.png", 22)]
-esconderijo[0].set_total_duration(2500)
-posiciona_grid(esconderijo[0], tile, 1, 7)
-
+#124#
 
 ##B: DESCONFIOMETRO
 desconfiometro = {
@@ -151,16 +151,17 @@ disparo = {
     "direção": "CIMA",
     "velocidade": tela.height/2,
     "tempo_esperado": 0,
-    "recarga": 3,
+    "recarga": 6,
     "ativo": False,
 }
 
 
 ##B: TELA AZUL
+tempo_max_tela_azul = 5
 timer_tela_azul = []
 tela_azul = []
 for i in range(quantidade):
-	timer_tela_azul.append(10)
+	timer_tela_azul.append(tempo_max_tela_azul)
 	tela_azul.append(False)
 
 
@@ -169,10 +170,26 @@ cronometro_fps = 0
 frames = 0
 taxa_de_quadros = 0
 
+##A: Elementos da interface do jogo
+
+carinhas = Sprite("Assets/Interface/carinhas.png", 3)
+barra_choque = Sprite("Assets/Interface/barra_raio.png", 6)
+barra_tela_azul = Sprite("Assets/Interface/barra_ta.png", 6)
+
+elementos_iu = [carinhas, barra_choque, barra_tela_azul]
+for elemento in elementos_iu:
+    elemento.set_total_duration(1)
+
+barra_choque.y = carinhas.y + carinhas.height
+barra_tela_azul.y = barra_choque.y + barra_choque.height
+
+#Contadores para os elementos da interface
+iu_choque = 0
+iu_tela_azul = tempo_max_tela_azul
+frame_barra_choque = 0
+frame_barra_ta = 5
 
 while True:
-
-    chao.draw()
 
 #Lidando com fps
     cronometro_fps += tela.delta_time()
@@ -183,15 +200,15 @@ while True:
                     
 
 ##BUGGY
-    buggy, andou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes, ponteiro_entrada, ponteiro_saída, esconderijo, tile, virada_para, disparo, teclado)
+    buggy, andou, atirou, virada_para = comportamento_buggy(buggy, tela.height/3 * tela.delta_time(), paredes_internas, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado)
 
 ##A: DISPARO
     if disparo["ativo"]: 
         movimento_disparo(disparo, tela)
         colide_disparo(disparo, debuggers, tela_azul, tela)
         
-    if disparo["ativo"]:  #Só desenha se ele não colidiu
-        disparo["imagem"].draw()
+        if disparo["ativo"]:  #Só desenha se ele não colidiu
+            disparo["imagem"].draw()
         
     else:
         disparo["tempo_esperado"] += tela.delta_time()
@@ -211,12 +228,12 @@ while True:
         if (tela_azul[i] == True): #ATIVA o modo tela azul
             debuggers[i] = debugger_tela_azul(debuggers[i], debugger_vel[i], debugger_direcao[i])
 
-            print("Tela azul {:.0f} segundos".format(timer_tela_azul[i]))
+            #print("Tela azul {:.0f} segundos".format(timer_tela_azul[i]))
             timer_tela_azul[i] -= tela.delta_time()
 
             if (timer_tela_azul[i] <= 0):
                 tela_azul[i] = False
-                timer_tela_azul[i] = 10
+                timer_tela_azul[i] = tempo_max_tela_azul
                 debuggers[i] = debugger_normal(debuggers[i], debugger_vel[i], debugger_direcao[i], desconfiometro)
 
 
@@ -229,9 +246,13 @@ while True:
             if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): #ATIVA contagem regressiva e TROCA sprite
                 desconfiometro["pausa"] = True
                 debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
-                
+
+                for i in range(quantidade):
+                    cones[i] = cone_alerta(debugger_vel[i], debugger_direcao[i])
+                    posiciona_cone(cones[i], debuggers[i], debugger_vel[i], debugger_direcao[i])
+
         if (desconfiometro["ativo"] == True and desconfiometro["limite"] > 0): #FAZ a contagem regressiva
-            print("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]))  
+            #print("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]))  
 
             if (buggy.collided(cones[i])):
                 desconfiometro["limite"] -= tela.delta_time()
@@ -240,23 +261,71 @@ while True:
                 desconfiometro["limite"] = 0
 
         if (desconfiometro["limite"] <= 0):
-            print("GAME OVER")       
+            #print("GAME OVER")
+            pass    
 
 
 ##B: DESCONFIOMETRO pt.2                              
     if (desconfiometro["pausa"] == True): 
 
         if (desconfiometro["pausa_timer"] > 0): #REALIZA contagem regressiva
-            print("Pausa {:.0f} segundos".format(desconfiometro["pausa_timer"]))
+            #print("Pausa {:.0f} segundos".format(desconfiometro["pausa_timer"]))
             desconfiometro["pausa_timer"] -= tela.delta_time()
 
         else: #TERMINA a contagem regressiva
             desconfiometro["pausa"] = False
             desconfiometro["ativo"] = True
 
-            
+##A: Controlando bgms
+
+    #bgm_normal.play()
+
+##A: Lógica dos elementos da interface
+
+    if disparo["ativo"]:
+
+        frame_barra_choque = iu_choque = 0
+    
+    else:
+
+        iu_choque += tela.delta_time()
+
+        if iu_choque >= disparo["recarga"]/4 * frame_barra_choque and frame_barra_choque < 5:
+
+            frame_barra_choque += 1
+
+
+    if not (True in tela_azul):
+
+        frame_barra_ta = iu_tela_azul = tempo_max_tela_azul
+    
+    else:
+
+        iu_tela_azul -= tela.delta_time()
+
+        if iu_tela_azul <= tempo_max_tela_azul/5 * frame_barra_ta and frame_barra_ta > 0:
+
+            frame_barra_ta -= 1
+
+    barra_choque.set_curr_frame(frame_barra_choque)
+    barra_tela_azul.set_curr_frame(frame_barra_ta)
+
+    if desconfiometro["ativo"]:
+
+        carinhas.set_curr_frame(2)
+    
+    elif desconfiometro["pausa"]:
+
+        carinhas.set_curr_frame(1)
+    
+    else:
+
+        carinhas.set_curr_frame(0)
 
 ##B: DESENHOS
+
+    chao.draw()
+
     for ponteiro in ponteiros:
         for p in ponteiro:
             p.draw()
@@ -269,22 +338,23 @@ while True:
     for c in cones:
         c.draw()
 
+    if disparo["ativo"]:
+        disparo["imagem"].draw()
+
     for d in debuggers:
         d.draw()
         d.update()
+
 
     #A: Faz a Buggy só exibir animação de caminhada quando ela está genuinamente caminhando
     if andou:
         buggy.update()
     buggy.draw()
-    
-    print(taxa_de_quadros)
 
-
-    #só vou deixar aqui pq vc não tirou das suas ainda e eu não quero mexer no seu código 
-    for e in esconderijo:
+    for e in elementos_iu:
         e.draw()
-        e.update()
+    
+    #print(taxa_de_quadros)
         
     tela.update()
     
