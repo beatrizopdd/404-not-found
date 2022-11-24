@@ -6,6 +6,7 @@ from PPlay.sprite import *
 from PPlay.mouse import *
 from PPlay.sound import *
 from utilidades_visuais import *
+from menu_fases import *
 
 
 #Tela, teclado e mouse
@@ -88,7 +89,8 @@ while True:
 
         if clickou_em == 0: #Se clickou em jogar
 
-            som_invalido.play
+            transição(tela)
+            menu_fases(tela, teclado, mouse)
 
         if clickou_em == 1: #Se clickou em about
 
