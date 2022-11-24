@@ -8,8 +8,26 @@ from PPlay.sound import *
 from sys import *
 
 
-def transição():
-    pass
+#Transição simples de fadeout
+#A tela fica preta exponenicialmente, mas não vou me dar ao trabalho de deixar linear, não vale a pena.
+#Só é perceptível de 4 segundos pra cima. Ninguém vai usar mais que 2
+def transição(tela, duração=1):
+
+    fundo_preto = GameImage("Assets/Fundos/fundo preto.png")
+    fundo_preto.image.set_alpha(0)
+
+    alpha = 0
+    contador = 0
+
+    while contador <= duração:
+
+        alpha += tela.delta_time()/duração
+        contador += tela.delta_time()
+
+        fundo_preto.image.set_alpha(alpha * 255 / duração)
+        fundo_preto.draw()
+
+        tela.update()
 
 def centralizar_na_tela(objeto1, tela):
 
@@ -58,7 +76,7 @@ def fechar_jogo(tela):
     som_desligar.play()
 
     #Declarações genéricas
-    alpha = 0
+    alpha = 1
 
     while som_desligar.is_playing():
 
