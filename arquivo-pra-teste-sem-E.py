@@ -15,6 +15,9 @@ teclado = tela.get_keyboard()
 
 #A: Audios
 bgm_normal = Sound("Assets/Audios/Bgms/Ayra.ogg")
+bgm_normal.set_volume(30)
+
+efeito_tela_azul = Sound("Assets/Audios/Efeitos/desligando.ogg")
 
 #A: Game Images | Todas as imagens de fundo e o disparo
 chao = GameImage("Assets/Fundos/chao.png")
@@ -113,13 +116,13 @@ for i in range(quantidade):
 
 
 ##A: Sprite e variáveis da Buggy
-buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
+buggy = Sprite("Assets/Buggy/buggy.png", 20)
 buggy.set_sequence(0,4)
 virada_para = "BAIXO"
 andou = False
 atirou = False
 
-buggy.set_total_duration(500)
+buggy.set_total_duration(850)
 posiciona_grid(buggy, tile, 1,1)
 
 #124#
@@ -216,7 +219,7 @@ while True:
 ##A: DISPARO
     if disparo["ativo"]: 
         movimento_disparo(disparo, tela)
-        colide_disparo(disparo, debuggers, tela_azul, tela)
+        colide_disparo(disparo, debuggers, tela_azul, efeito_tela_azul, tela)
         
         if disparo["ativo"]:  #Só desenha se ele não colidiu
             disparo["imagem"].draw()
@@ -289,7 +292,8 @@ while True:
 
 ##A: Controlando bgms
 
-    #bgm_normal.play()
+    if not bgm_normal.is_playing():
+        bgm_normal.play()
 
 ##A: Lógica dos elementos da interface
 
