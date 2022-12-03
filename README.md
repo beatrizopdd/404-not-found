@@ -12,17 +12,18 @@
 - [ ] Finalizar ABNT de fase
 
 - [Desisti] Descobrir pq o pygame reclama da sprite do disparo
-- [50%] Normalizar a sprite da buggy
+- [x] Normalizar a sprite da buggy
     Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível
 
-- [60%] Transição entre os menus, fases e etc.
+- [75%] Transição entre os menus, fases e etc.
 
 - [x] Menu geral
-- [ ] Menu de fases
-- [x] Fazer sprites dos botões separadas
+- [70%] Menu de fases
+- [ ] Fazer as sprites pro menu de fases
+- [x] Fazer sprites dos botões do menu geral separadas
 - [x] Ver quais são os botões que vão ser usados
 
-- [ ] Sons no jogo
+- [10%] Sons no jogo
 - [x] Interface do jogador
 
 - [ ] Terminar a função de pausa
