@@ -27,10 +27,13 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
         if not virada_para == "DIREITA":
 
-            buggy = Sprite("Assets/Buggy/buggy-horizontal.png", 10)
+            '''buggy = Sprite("Assets/Buggy/buggy-horizontal.png", 10)
             buggy.set_total_duration(500)
             buggy.set_curr_frame(0)
-            buggy.set_sequence(0,4)  
+            buggy.set_sequence(0,4) ''' 
+
+            buggy.set_curr_frame(0)
+            buggy.set_sequence(0,5)
 
         direção_x = 1
         andou = True
@@ -40,10 +43,13 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
         if not virada_para == "ESQUERDA":
 
-            buggy = Sprite("Assets/Buggy/buggy-horizontal.png", 10)
+            '''buggy = Sprite("Assets/Buggy/buggy-horizontal.png", 10)
             buggy.set_total_duration(500)
             buggy.set_curr_frame(5)
-            buggy.set_sequence(5,9)
+            buggy.set_sequence(5,9)'''
+
+            buggy.set_curr_frame(5)
+            buggy.set_sequence(5,10)
 
         direção_x = -1
         andou = True
@@ -53,10 +59,13 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
         if not virada_para == "CIMA":
 
-            buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
+            '''buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
             buggy.set_total_duration(500)
             buggy.set_curr_frame(5)
-            buggy.set_sequence(5,9)
+            buggy.set_sequence(5,9)'''
+
+            buggy.set_sequence(15, 20)
+            buggy.set_curr_frame(15)
 
         direção_y = -1
         andou = True
@@ -66,11 +75,14 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
         if not virada_para == "BAIXO":
 
-            buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
+            '''buggy = Sprite("Assets/Buggy/buggy-vertical.png", 10)
             buggy.set_total_duration(500)
             buggy.set_curr_frame(0)
-            buggy.set_sequence(0,4)
+            buggy.set_sequence(0,4)'''
 
+            buggy.set_sequence(10, 15)
+            buggy.set_curr_frame(10)
+            
         direção_y = 1
         andou = True
         virada_para = "BAIXO"
