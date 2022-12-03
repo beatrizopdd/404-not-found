@@ -29,23 +29,34 @@ def transição(tela, duração=1):
 
         tela.update()
 
-def centralizar_na_tela(objeto1, tela):
+def centralizar_na_tela(objeto, tela):
 
-    objeto1.x = tela.width/2 - objeto1.width/2
-    objeto1.y = tela.height/2 - objeto1.height/2
+    objeto.x = tela.width/2 - objeto.width/2
+    objeto.y = tela.height/2 - objeto.height/2
+
+def centralizar(objeto1, objeto2):
+
+    objeto1.x = objeto2.x + objeto2.width/2 - objeto1.width/2
+    objeto1.y = objeto2.y + objeto2.height/2 - objeto1.height/2
 
 
-def alinha_botões(vet_botões, obj_base, margem, espaçamento=1.5):
+def alinha_botões_vertical(vet_botões, obj_base, margem, espaçamento=1.5):
 
     espaço_gasto = margem
 
     for botão in vet_botões:
 
-        botão.x = obj_base.x + obj_base.width/2 - botão.width/2
-
         botão.y = obj_base.y + espaço_gasto
-
         espaço_gasto += botão.height * espaçamento
+
+def alinha_botões_horizontal(vet_botões, obj_base, margem, espaçamento=1.5):
+
+    espaço_gasto = margem
+
+    for botão in vet_botões:
+
+        botão.x = obj_base.x + espaço_gasto
+        espaço_gasto += botão.width * espaçamento
 
 
 def pausa(tela, teclado):
@@ -92,6 +103,7 @@ def fechar_jogo(tela):
 
 def transição_de_vitória(tela):
 
+    pygame.mixer.stop()
     fundo = Sprite("Assets/Fundos/menu fundo.png")
     x = 0
 
