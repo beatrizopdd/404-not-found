@@ -37,14 +37,17 @@ about_press = Sprite("Assets/Menu/about_press.png")
 x = Sprite("Assets/Menu/x.png")
 x_press = Sprite("Assets/Menu/x_press.png")
 
-interrogação = Sprite("Assets/Menu/?.png")
-interrogação_press = Sprite("Assets/Menu/?_press.png")
+interrogação = Sprite("Assets/Menu/interrogacao.png")
+interrogação_press = Sprite("Assets/Menu/interrogacao_press.png")
 
 botões_principais = [play, about, interrogação, x]
 botões_secundários = [play_press, about_press, interrogação_press, x_press]
 
 #Colocando os botões no lugar
-alinha_botões(botões_principais, menu, menu.height/1.5)
+for b in botões_principais:
+    centralizar(b, menu)
+
+alinha_botões_vertical(botões_principais, menu, menu.height/1.5)
 
 #O hardcode é feio, mas não valia fazer uma função só pra alinhas esses dois
 #? e X estavam 15 pixels abaixo do topo do menu na imagem original
@@ -89,8 +92,9 @@ while True:
 
         if clickou_em == 0: #Se clickou em jogar
 
-            transição(tela)
+            #transição(tela)
             menu_fases(tela, teclado, mouse)
+
 
         if clickou_em == 1: #Se clickou em about
 
