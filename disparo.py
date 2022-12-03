@@ -40,7 +40,7 @@ def movimento_disparo(disparo, tela):
 
 
 
-def colide_disparo(disparo, vet_debugger, vet_tela_azul, tela):
+def colide_disparo(disparo, vet_debugger, vet_tela_azul, efeito_sonoro, tela):
 
     #Se passou das bordas da tela
     if (disparo["imagem"].x + disparo["imagem"].width) <= 0 or (disparo["imagem"].y + disparo["imagem"].height) <= 0 or (disparo["imagem"].x) >= tela.width or (disparo["imagem"].y) >= tela.height:
@@ -54,6 +54,7 @@ def colide_disparo(disparo, vet_debugger, vet_tela_azul, tela):
 
             vet_tela_azul[i] = True
             disparo["ativo"] = False
+            efeito_sonoro.play()
             break
 
 
