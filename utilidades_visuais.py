@@ -61,15 +61,26 @@ def alinha_botões_horizontal(vet_botões, obj_base, margem, espaçamento=1.5):
 
 def pausa(tela, teclado):
 
-    while True:
+    menu_pausa = Sprite("Assets/Menu/menu_pausa.png", 2)
+    menu_pausa.set_total_duration(1000)
 
+    centralizar_na_tela(menu_pausa, tela)
+
+    input_acidental = True
+    
+    while True:
         
-        if teclado.key_pressed("ENTER"):
+        if not teclado.key_pressed("ESC"):
+
+            input_acidental = False
+        
+        if not input_acidental and teclado.key_pressed("ESC"):
 
             return
 
-        tela.set_background_color("BLACK")
-        tela.draw_text("Pausado", tela.width/2-140, tela.height/2-20, 40, (255,255,255))
+        menu_pausa.draw()
+        menu_pausa.update()
+
         tela.update()
 
 
@@ -103,10 +114,13 @@ def fechar_jogo(tela):
 
 def transição_de_vitória(tela):
 
-    pygame.mixer.stop()
+    transição(tela, 2)
+
+    efeito = Sound("Assets/Audios/Efeitos/tadam.ogg")
     fundo = Sprite("Assets/Fundos/menu fundo.png")
     x = 0
 
+    efeito.play()
     while True:
 
         if tela.get_keyboard().key_pressed("ESC"):
