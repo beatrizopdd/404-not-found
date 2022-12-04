@@ -18,7 +18,7 @@ tela.set_title("404 Not Found")
 
 #Sons
 som_startup = Sound("Assets/Audios/Efeitos/startup.ogg")
-som_invalido = Sound("Assets/Audios/Efeitos/botão_esquisito.ogg")
+som_invalido = Sound("Assets/Audios/Efeitos/botão_invalido.ogg")
 som_desligando = Sound("Assets/Audios/Efeitos/desligando.ogg")
 
 #Imagems

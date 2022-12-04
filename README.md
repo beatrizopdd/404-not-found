@@ -15,7 +15,7 @@
 - [x] Normalizar a sprite da buggy
     Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível
 
-- [75%] Transição entre os menus, fases e etc.
+- [80%] Transição entre os menus, fases e etc.
 
 - [x] Menu geral
 - [70%] Menu de fases
@@ -23,10 +23,10 @@
 - [x] Fazer sprites dos botões do menu geral separadas
 - [x] Ver quais são os botões que vão ser usados
 
-- [10%] Sons no jogo
+- [75%] Sons no jogo
 - [x] Interface do jogador
 
-- [ ] Terminar a função de pausa
+- [x] Terminar a função de pausa
 - [x] Colocar uma condição de vitória
 - [x] Movimento do player
 

@@ -60,6 +60,9 @@ Dicionários struct de pobre:
     -> ["desc"] booleana: desconfiometro ligado ou não
     -> ["limite_desc"] int: tolerancia do desconfiometro
 
+    audios:
+    -> [<nome da variável>] guarda as variáveis simples de áudio num lugar só 
+
 Matrizes:
 
 	timer_tela_azul: matriz de inteiros com a duração do efeito da tela azul em cada debugger

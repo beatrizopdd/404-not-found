@@ -2,7 +2,7 @@ from PPlay.gameimage import *
 from PPlay.window import *
 
 #A: Função 30x mais legível usando dicionário como struct de pobre
-def criar_disparo(buggy, virada_para, disparo):
+def criar_disparo(buggy, virada_para, disparo, audios):
 
     disparo["direção"] = virada_para
     disparo["ativo"] = True
@@ -17,6 +17,8 @@ def criar_disparo(buggy, virada_para, disparo):
     
 
     disparo["imagem"].set_position(buggy.x + buggy.width/2 - disparo["imagem"].width/2, buggy.y + buggy.height/2 - disparo["imagem"].height/2)
+    
+    audios["efeito_disparo"].play()
 
 
 
@@ -40,7 +42,7 @@ def movimento_disparo(disparo, tela):
 
 
 
-def colide_disparo(disparo, vet_debugger, vet_tela_azul, efeito_sonoro, tela):
+def colide_disparo(disparo, vet_debugger, vet_tela_azul, audios, tela):
 
     #Se passou das bordas da tela
     if (disparo["imagem"].x + disparo["imagem"].width) <= 0 or (disparo["imagem"].y + disparo["imagem"].height) <= 0 or (disparo["imagem"].x) >= tela.width or (disparo["imagem"].y) >= tela.height:
@@ -54,7 +56,7 @@ def colide_disparo(disparo, vet_debugger, vet_tela_azul, efeito_sonoro, tela):
 
             vet_tela_azul[i] = True
             disparo["ativo"] = False
-            efeito_sonoro.play()
+            audios["efeito_tela_azul"].play()
             break
 
 
