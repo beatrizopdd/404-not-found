@@ -8,7 +8,7 @@ from utilidades_visuais import *
 #Depois a gente pode incorporar algumas dessas funções nos elementos do gameloop pra evitar redundâncias
 #Ex: Evitar de percorrer a matriz de paredes duas vezes pra mover a buggy e depois pra desenhar
 
-def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado, condição_de_vitória, tela):
+def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado, condição_de_vitória, audios, tela):
 
     x_antigo = buggy.x
     y_antigo = buggy.y
@@ -100,9 +100,10 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
         buggy.x = x_antigo + (vel * direção_x)
         buggy.y = y_antigo    
 
+    #Se ela chegou no meio da nuvem de saída
+    if buggy.rect.collidepoint(condição_de_vitória.x + condição_de_vitória.width/2, condição_de_vitória.y + condição_de_vitória.height/2):
 
-    if buggy.collided(condição_de_vitória):
-
+        audios["bgm_normal"].fadeout(1000)
         transição_de_vitória(tela)
 
     colisão_parede_externa(buggy, tile)
@@ -118,11 +119,13 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
                 buggy.x = ponteiro_saída[i].x + ponteiro_saída[i].width/2 - buggy.width/2
                 buggy.y = ponteiro_saída[i].y + ponteiro_saída[i].height/2 - buggy.height/2
+
+                audios["efeito_ponteiro"].play()
                 break
 
     if teclado.key_pressed("Z") and (disparo["tempo_esperado"] >= disparo["recarga"]):
 
-        criar_disparo(buggy, virada_para, disparo)
+        criar_disparo(buggy, virada_para, disparo, audios)
         disparo["tempo_esperado"] = 0
         atirou = True
 
