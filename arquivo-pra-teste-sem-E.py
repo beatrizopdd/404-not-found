@@ -14,15 +14,30 @@ tela.set_title("404 Not Found")
 teclado = tela.get_keyboard()
 
 #A: Audios
-bgm_normal = Sound("Assets/Audios/Bgms/Ayra.ogg")
-bgm_normal.set_volume(30)
 
+volume_padrao_bgm = 40
+
+bgm_normal = Sound("Assets/Audios/Bgms/Up In My Jam.ogg")
+bgm_normal.set_volume(volume_padrao_bgm)
+bgm_normal.set_repeat(True)
+
+efeito_disparo = Sound("Assets/Audios/Efeitos/choque1.ogg")
 efeito_tela_azul = Sound("Assets/Audios/Efeitos/desligando.ogg")
+efeito_ponteiro = Sound("Assets/Audios/Efeitos/teleporte1.ogg")
+
+efeito_erro = Sound("Assets/Audios/Efeitos/erro.ogg")
+
+audios = {
+    "bgm_normal": bgm_normal,
+    "efeito_disparo": efeito_disparo,
+    "efeito_tela_azul": efeito_tela_azul,
+    "efeito_ponteiro": efeito_ponteiro,
+    "efeito_erro": efeito_erro
+}
 
 #A: Game Images | Todas as imagens de fundo e o disparo
 chao = GameImage("Assets/Fundos/chao.png")
 tile = Sprite("Assets/Fundos/tile.png") #Declarado só pelo uso na função posiciona_grid
-
 
 ##B: PAREDES
 #A: Paredes A3, D1 e D2, nessa ordem
@@ -203,7 +218,26 @@ for n in nuvens:
 posiciona_grid(entrada, tile, 1, 0.5)
 posiciona_grid(saida, tile, 18, 8)
 
+#Para o menu de pausa
+input_acidental = False
+
+
+bgm_normal.play()
 while True:
+
+    if teclado.key_pressed("ESC") and not input_acidental:
+
+        input_acidental = True
+        audios["efeito_erro"].play()
+        audios["bgm_normal"].set_volume(volume_padrao_bgm/2)
+
+        pausa(tela, teclado)
+
+        audios["bgm_normal"].set_volume(volume_padrao_bgm)
+
+    if not teclado.key_pressed("ESC"):
+
+        input_acidental = False
 
 #Lidando com fps
     cronometro_fps += tela.delta_time()
@@ -211,15 +245,15 @@ while True:
     if cronometro_fps >= 1:
         taxa_de_quadros = frames
         frames = cronometro_fps = 0
-                    
+
 
 ##BUGGY
-    buggy, andou, atirou, virada_para = comportamento_buggy(buggy, tela.height/3.5 * tela.delta_time(), paredes_internas, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado, saida, tela)
+    buggy, andou, atirou, virada_para = comportamento_buggy(buggy, tela.height/3.5 * tela.delta_time(), paredes_internas, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado, saida, audios, tela)
 
 ##A: DISPARO
     if disparo["ativo"]: 
         movimento_disparo(disparo, tela)
-        colide_disparo(disparo, debuggers, tela_azul, efeito_tela_azul, tela)
+        colide_disparo(disparo, debuggers, tela_azul, audios, tela)
         
         if disparo["ativo"]:  #Só desenha se ele não colidiu
             disparo["imagem"].draw()
@@ -292,8 +326,8 @@ while True:
 
 ##A: Controlando bgms
 
-    if not bgm_normal.is_playing():
-        bgm_normal.play()
+    #if not bgm_normal.is_playing():
+    #    bgm_normal.play()
 
 ##A: Lógica dos elementos da interface
 
@@ -351,8 +385,8 @@ while True:
             p.draw()
 
     for n in nuvens:
-        n.update()
         n.draw()
+        n.update()
 
     for c in cones:
         c.draw()
