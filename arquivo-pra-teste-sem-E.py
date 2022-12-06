@@ -23,7 +23,7 @@ bgm_normal.set_repeat(True)
 
 efeito_disparo = Sound("Assets/Audios/Efeitos/choque1.ogg")
 efeito_tela_azul = Sound("Assets/Audios/Efeitos/desligando.ogg")
-efeito_ponteiro = Sound("Assets/Audios/Efeitos/teleporte1.ogg")
+efeito_ponteiro = Sound("Assets/Audios/Efeitos/teleporte2.ogg")
 
 efeito_erro = Sound("Assets/Audios/Efeitos/erro.ogg")
 
@@ -324,7 +324,7 @@ while True:
             desconfiometro["pausa"] = False
             desconfiometro["ativo"] = True
 
-##A: Controlando bgms
+##A: Controlando os sons
 
     #if not bgm_normal.is_playing():
     #    bgm_normal.play()

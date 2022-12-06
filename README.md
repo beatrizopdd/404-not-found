@@ -24,9 +24,14 @@
 - [x] Ver quais são os botões que vão ser usados
 
 - [75%] Sons no jogo
+- [ ] Som pra quando o debugger te enxerga
+- [ ] Som pra quando ativa o desconfiômetro
+- [ ] Som pra gameover
+- [ ] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
 - [x] Interface do jogador
 
 - [x] Terminar a função de pausa
+- [ ] Colocar enter pra retornar e esc pra sair da fase
 - [x] Colocar uma condição de vitória
 - [x] Movimento do player
 
@@ -44,6 +49,10 @@
 
 - [x] Tirar draw text
 - [ ] Tirar print
+
+- [ ] Fase 1: fase linear onde o jogador testa todas as mecânicas
+- [ ] Fase 2: a que a gente já fez
+- [ ] Fase 3: fase fechada com muita parede, pouco debugger
 
 #### :clipboard: DICAS DE README
 
