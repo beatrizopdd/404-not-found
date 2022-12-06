@@ -16,10 +16,12 @@
     Deixar todas as frames com o mesmo tamanho em pixels e fazer com que ele seja o menor possível
 
 - [80%] Transição entre os menus, fases e etc.
+- [ ] Função de gameover
 
 - [x] Menu geral
 - [70%] Menu de fases
-- [ ] Fazer as sprites pro menu de fases
+- [ ] Menu about
+
 - [x] Fazer sprites dos botões do menu geral separadas
 - [x] Ver quais são os botões que vão ser usados
 
@@ -28,7 +30,8 @@
 - [ ] Som pra quando ativa o desconfiômetro
 - [ ] Som pra gameover
 - [ ] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
-- [x] Interface do jogador
+
+- [x] Lógica da interface do jogador
 
 - [x] Terminar a função de pausa
 - [ ] Colocar enter pra retornar e esc pra sair da fase
@@ -36,6 +39,13 @@
 - [x] Movimento do player
 
 - [x] Refazer colisão com as paredes internas
+
+- [ ] Sprites
+- [ ] Segundo ponteiro &y laranja
+- [ ] Aumentar os elementos da interface
+- [ ] Criar uma nova barra pro medidor de desconfiômetro
+- [ ] Mudar a cor das paredes internas
+- [ ] Fazer as sprites pro menu de fases
 
 - [x] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
 - [x] Colisão com a parede externa
