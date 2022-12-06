@@ -71,9 +71,9 @@ def posiciona_cone(cone, sprite, vel, direcao):
 		
 #B: não deixa os debuggers colidirem com o cenário e trocam a sprite pra direção correspondente
 	#se vertical limites = [y-minimo, y-maximo], se horizontal limites = [x-minimo, x-maximo]
-def limitaV(sprite, vel, desconfiometro, limite):
+def limitaV(sprite, cone, vel, desconfiometro, limite):
 
-	if (sprite.y <= limite[0]): # encontrou subindo
+	if (cone.y <= limite[0] - cone.height/2): # encontrou subindo
 		sprite.y = limite[0]
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra cima e troca pra baixo
 		
@@ -81,7 +81,7 @@ def limitaV(sprite, vel, desconfiometro, limite):
 		
 		return vel
 		
-	elif (sprite.y >= limite[1]): # encontrou descendo
+	elif (cone.y >= limite[1] + cone.height/2): # encontrou descendo
 		sprite.y = limite[1] - sprite.height
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra baixo e troca pra cima
 		
@@ -92,9 +92,9 @@ def limitaV(sprite, vel, desconfiometro, limite):
 	else:
 		return vel
 		
-def limitaH(sprite, vel, desconfiometro, limite):
+def limitaH(sprite, cone, vel, desconfiometro, limite):
 		
-	if (sprite.x <= limite[0]): # encontrou indo pra esquerda
+	if (cone.x <= limite[0] - cone.width/2): # encontrou indo pra esquerda
 		sprite.x = limite[0]
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra esquerda e troca pra direita
 		
@@ -102,7 +102,7 @@ def limitaH(sprite, vel, desconfiometro, limite):
 		
 		return vel
 		
-	elif (sprite.x >= limite[1]): # encontrou indo pra direita
+	elif (cone.x >= limite[1] + cone.width/2): # encontrou indo pra direita
 		sprite.x = limite[1] - sprite.width
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra direita e troca pra esquerda
 		
@@ -123,7 +123,7 @@ def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tel
 				debugger.y += vel * tela.delta_time()
 				cone.y += vel * tela.delta_time()
                 
-				vel = limitaV(debugger, vel, desconfiometro, limite)
+				vel = limitaV(debugger, cone, vel, desconfiometro, limite)
 						
 				if (vel_inicial != vel):
 					if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):
@@ -137,7 +137,7 @@ def movimento_debugger(debugger, cone, direcao, vel, limite, desconfiometro, tel
 				debugger.x += vel * tela.delta_time()
 				cone.x += vel * tela.delta_time()
 
-				vel = limitaH(debugger, vel, desconfiometro, limite)
+				vel = limitaH(debugger, cone, vel, desconfiometro, limite)
 				
 				if (vel_inicial != vel):
 					if (desconfiometro["ativo"] == True or desconfiometro["pausa"] == True):

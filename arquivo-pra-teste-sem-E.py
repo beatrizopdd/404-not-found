@@ -108,7 +108,7 @@ debuggers = adiciona_debugger(quantidade, debugger_vel, debugger_direcao)
 
 unX = tile.width
 unY = tile.height
-debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX * 2, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
+debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
 posiciona_grid(debuggers[0], tile, 1, 2)
 posiciona_grid(debuggers[1], tile, 6, 6)
