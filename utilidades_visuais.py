@@ -67,16 +67,25 @@ def pausa(tela, teclado):
     centralizar_na_tela(menu_pausa, tela)
 
     input_acidental = True
-    
+    input_saida = False
+
     while True:
-        
-        if not teclado.key_pressed("ESC"):
+
+        if teclado.key_pressed("ESC"):
+
+            input_saida = True
+
+        if not teclado.key_pressed("ENTER"):
 
             input_acidental = False
         
-        if not input_acidental and teclado.key_pressed("ESC"):
+        if input_saida:
 
-            return
+            return True
+
+        if not input_acidental and teclado.key_pressed("ENTER"):
+
+            return False
 
         menu_pausa.draw()
         menu_pausa.update()
@@ -135,5 +144,32 @@ def transição_de_vitória(tela):
 
         fundo.draw()
         tela.draw_text("Fase 1 concluída!", x, tela.height/2-20, 40, (255,255,255))
+
+        tela.update()
+
+#Temporária, só colocando pra ter oq testar
+def game_over(tela):
+
+    transição(tela, 2)
+
+    efeito = Sound("Assets/Audios/Efeitos/tadam.ogg")
+    fundo = Sprite("Assets/Fundos/menu fundo.png")
+    x = 0
+
+    efeito.play()
+    while True:
+
+        if tela.get_keyboard().key_pressed("ESC"):
+
+            fechar_jogo(tela)
+
+        x += tela.delta_time() * tela.width/10
+
+        if x >= tela.width:
+
+            x = -400
+
+        fundo.draw()
+        tela.draw_text("Corrigida :(", x, tela.height/2-20, 40, (255,255,255))
 
         tela.update()
