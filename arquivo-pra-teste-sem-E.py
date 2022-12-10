@@ -21,6 +21,10 @@ bgm_normal = Sound("Assets/Audios/Bgms/Up In My Jam.ogg")
 bgm_normal.set_volume(volume_padrao_bgm)
 bgm_normal.set_repeat(True)
 
+bgm_alerta = Sound("Assets/Audios/Bgms/Mountain Trials.ogg")
+bgm_alerta.set_volume(volume_padrao_bgm-10)
+bgm_alerta.set_repeat(True)
+
 efeito_disparo = Sound("Assets/Audios/Efeitos/choque1.ogg")
 efeito_tela_azul = Sound("Assets/Audios/Efeitos/desligando.ogg")
 efeito_ponteiro = Sound("Assets/Audios/Efeitos/teleporte2.ogg")
@@ -28,6 +32,7 @@ efeito_ponteiro = Sound("Assets/Audios/Efeitos/teleporte2.ogg")
 efeito_erro = Sound("Assets/Audios/Efeitos/erro.ogg")
 
 audios = {
+    "bgm_alerta": bgm_alerta,
     "bgm_normal": bgm_normal,
     "efeito_disparo": efeito_disparo,
     "efeito_tela_azul": efeito_tela_azul,
@@ -145,7 +150,7 @@ posiciona_grid(buggy, tile, 1,1)
 ##B: DESCONFIOMETRO
 desconfiometro = {
     "pausa": False,
-    "pausa_timer": 1.5,
+    "pausa_timer": 2,
     "ativo": False,
     "limite": 4,
 }
@@ -222,17 +227,17 @@ posiciona_grid(saida, tile, 18, 8)
 input_acidental = False
 input_saida = False
 
-bgm_normal.play()
+#Declarações pra lógica das músicas ser sensível à borda
+pausa_ant = desconfiometro["pausa"]
+ativo_ant = desconfiometro["ativo"]
+
+audios["bgm_normal"].play()
 while True:
-
-    if input_saida:
-
-        #return  ##Colocar return quando converter a fase pra uma função
-        break
 
     if teclado.key_pressed("ENTER") and not input_acidental:
 
         input_acidental = True
+
         audios["efeito_erro"].play()
         audios["bgm_normal"].set_volume(volume_padrao_bgm/2)
 
@@ -243,6 +248,16 @@ while True:
     if not teclado.key_pressed("ENTER"):
 
         input_acidental = False
+
+
+    if teclado.key_pressed("ESC"):
+
+        input_saida = True
+    
+    if input_saida:
+
+        #return  ##Colocar return quando converter a fase pra uma função
+        break
 
 #Lidando com fps
     cronometro_fps += tela.delta_time()
@@ -271,8 +286,12 @@ while True:
         
 
     #212#
-               
-    
+
+
+    #A: Essa duas variáveis são usadas pra verificar se teve uma mudança no estado do desconfiômetro e só executar a lógica da música quando há uma borda False-True   
+    pausa_ant = desconfiometro["pausa"]
+    ativo_ant = desconfiometro["ativo"]
+
 ##B: MOVIMENTO DEBUGGER + CONE
     for i in range(quantidade):
     
@@ -318,8 +337,7 @@ while True:
 
         if (desconfiometro["limite"] <= 0):
             #print("GAME OVER")
-            audios["bgm_normal"].fadeout(1000)
-            game_over(tela)
+            game_over(tela, audios)
             #return
             break 
 
@@ -336,6 +354,14 @@ while True:
             desconfiometro["ativo"] = True
 
 ##A: Controlando os sons
+
+    if pausa_ant == False and desconfiometro["pausa"] == True: #Se e somente se a buggy foi detectada
+
+        audios["bgm_normal"].fadeout(500)
+    
+    if ativo_ant == False and desconfiometro["ativo"] == True:
+
+        audios["bgm_alerta"].play()
 
 ##A: Lógica dos elementos da interface
 
