@@ -2,7 +2,7 @@ from PPlay.sprite import *
 from disparo import *
 from utilidades_grid import *
 from PPlay.window import *
-from utilidades_visuais import *
+from utilidades_audiovisuais import *
 
 #A: Implementando toda a lógica de forma separada agora por facilidade
 #Depois a gente pode incorporar algumas dessas funções nos elementos do gameloop pra evitar redundâncias
@@ -103,8 +103,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
     #Se ela chegou no meio da nuvem de saída
     if buggy.rect.collidepoint(condição_de_vitória.x + condição_de_vitória.width/2, condição_de_vitória.y + condição_de_vitória.height/2):
 
-        audios["bgm_normal"].fadeout(1000)
-        transição_de_vitória(tela)
+        transição_de_vitória(tela, audios)
 
     colisão_parede_externa(buggy, tile)
     colisão_paredes_internas(buggy, mat_paredes, virada_para, vel)
