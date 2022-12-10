@@ -15,7 +15,7 @@ teclado = tela.get_keyboard()
 
 #A: Audios
 
-volume_padrao_bgm = 40
+volume_padrao_bgm = 30
 
 bgm_normal = Sound("Assets/Audios/Bgms/Up In My Jam.ogg")
 bgm_normal.set_volume(volume_padrao_bgm)
@@ -110,7 +110,7 @@ unX = tile.width
 unY = tile.height
 debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
-posiciona_grid(debuggers[0], tile, 1, 2)
+posiciona_grid(debuggers[0], tile, 2, 2)
 posiciona_grid(debuggers[1], tile, 6, 6)
 posiciona_grid(debuggers[2], tile, 10, 4)
 posiciona_grid(debuggers[3], tile, 14, 3)
@@ -132,7 +132,7 @@ for i in range(quantidade):
 
 ##A: Sprite e variáveis da Buggy
 buggy = Sprite("Assets/Buggy/buggy.png", 20)
-buggy.set_sequence(0,4)
+buggy.set_sequence(10, 15)
 virada_para = "BAIXO"
 andou = False
 atirou = False
@@ -145,9 +145,9 @@ posiciona_grid(buggy, tile, 1,1)
 ##B: DESCONFIOMETRO
 desconfiometro = {
     "pausa": False,
-    "pausa_timer": 10,
+    "pausa_timer": 1.5,
     "ativo": False,
-    "limite": 10,
+    "limite": 4,
 }
 
 
@@ -220,22 +220,27 @@ posiciona_grid(saida, tile, 18, 8)
 
 #Para o menu de pausa
 input_acidental = False
-
+input_saida = False
 
 bgm_normal.play()
 while True:
 
-    if teclado.key_pressed("ESC") and not input_acidental:
+    if input_saida:
+
+        #return  ##Colocar return quando converter a fase pra uma função
+        break
+
+    if teclado.key_pressed("ENTER") and not input_acidental:
 
         input_acidental = True
         audios["efeito_erro"].play()
         audios["bgm_normal"].set_volume(volume_padrao_bgm/2)
 
-        pausa(tela, teclado)
+        input_saida = pausa(tela, teclado)
 
         audios["bgm_normal"].set_volume(volume_padrao_bgm)
 
-    if not teclado.key_pressed("ESC"):
+    if not teclado.key_pressed("ENTER"):
 
         input_acidental = False
 
@@ -251,14 +256,17 @@ while True:
     buggy, andou, atirou, virada_para = comportamento_buggy(buggy, tela.height/3.5 * tela.delta_time(), paredes_internas, ponteiro_entrada, ponteiro_saída, tile, virada_para, disparo, teclado, saida, audios, tela)
 
 ##A: DISPARO
-    if disparo["ativo"]: 
+    if disparo["ativo"]:
+
         movimento_disparo(disparo, tela)
         colide_disparo(disparo, debuggers, tela_azul, audios, tela)
         
         if disparo["ativo"]:  #Só desenha se ele não colidiu
+
             disparo["imagem"].draw()
         
     else:
+
         disparo["tempo_esperado"] += tela.delta_time()
         
 
@@ -310,7 +318,10 @@ while True:
 
         if (desconfiometro["limite"] <= 0):
             #print("GAME OVER")
-            pass    
+            audios["bgm_normal"].fadeout(1000)
+            game_over(tela)
+            #return
+            break 
 
 
 ##B: DESCONFIOMETRO pt.2                              
@@ -326,11 +337,9 @@ while True:
 
 ##A: Controlando os sons
 
-    #if not bgm_normal.is_playing():
-    #    bgm_normal.play()
-
 ##A: Lógica dos elementos da interface
 
+    #A: Eu odeio cada pedaço da lógica da interface
     if disparo["ativo"]:
 
         frame_barra_choque = iu_choque = 0
@@ -410,6 +419,3 @@ while True:
     #print(taxa_de_quadros)
         
     tela.update()
-    
-    
-
