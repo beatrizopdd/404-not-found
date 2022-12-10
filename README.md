@@ -17,7 +17,7 @@
 - [ ] Som pra quando o debugger te enxerga
 - [ ] Som pra quando ativa o desconfiômetro
 - [ ] Som pra gameover
-- [ ] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
+- [x] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
 
 
 - [x] Mecânicas da fase:
@@ -36,12 +36,12 @@
 - [x] Colocar uma condição de vitória
 
 
-- [65%] Lógica de coisas visuais:
+- [75%] Lógica de coisas visuais:
 
 - [x] Terminar a função de pausa
 - [x] Lógica da interface do jogador
-- [80%] Transição entre os menus, fases e etc.
-- [30%] Função de gameover
+- [90%] Transição entre os menus, fases e etc.
+- [80%] Função de gameover
 - [x] Menu geral
 - [x] Menu de fases
 - [ ] Menu about
@@ -49,7 +49,7 @@
 
 - [65%] Sprites:
 
-- [ ] Segundo ponteiro &y laranja
+- [50%] Segundo ponteiro &y laranja
 - [ ] Aumentar os elementos da interface
 - [ ] Fazer ícones pra deixar do lado de cada barra indicando o que ela é (um raio, um olho pro desconfiômetro(?) e algo pra tela azul)
 - [ ] Criar uma nova barra pro medidor de desconfiômetro
