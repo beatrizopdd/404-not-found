@@ -51,6 +51,7 @@
 
 - [ ] Segundo ponteiro &y laranja
 - [ ] Aumentar os elementos da interface
+- [ ] Fazer ícones pra deixar do lado de cada barra indicando o que ela é (um raio, um olho pro desconfiômetro(?) e algo pra tela azul)
 - [ ] Criar uma nova barra pro medidor de desconfiômetro
 - [ ] Mudar a cor das paredes internas
 - [ ] Fazer as sprites pro menu de fases
