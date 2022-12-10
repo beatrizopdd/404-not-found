@@ -133,7 +133,8 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
     return buggy, andou, atirou, virada_para
 
 
-#Gera meio que um step assist interessante, mas tem um bug muito esquisito com quinas  porque usa reetas e não segmentos
+#Gera meio que um step assist interessante, mas tem um bug muito esquisito com quinas  porque usa retas e não segmentos
+#Não vou me dar ao trabalhor de melhorar porque já resolvemos a por direção a partir da sprite
 def correção_por_retas(buggy, parede):
 
     #Gerando as retas que compões as fronteiras da parede
