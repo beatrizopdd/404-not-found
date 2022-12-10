@@ -5,7 +5,7 @@ from PPlay.keyboard import *
 from PPlay.sprite import *
 from PPlay.mouse import *
 from PPlay.sound import *
-from utilidades_visuais import *
+from utilidades_audiovisuais import *
 
 def menu_fases(tela, teclado, mouse):
 
