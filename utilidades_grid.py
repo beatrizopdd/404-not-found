@@ -31,6 +31,7 @@ def dist_pontos(cords1, cords2):
 #A: Alinha os cones de visão baseado em pra que lado o debugger está olhando
 # 1- Esquerda  2- Cima  3- Direita  4- Baixo, conforme a gente combinou
 #A: Obsoleta. Verificar melhor depois
+#A: Deixar aqui por preguiça de alterar o startup das fases. Mais fácil bugar tentando colocar a sua doq largando lá o que já funciona
 def alinha_cone(cone, debugger, lado):
 
     X = debugger.x + (debugger.width/2 - cone.width/2)
