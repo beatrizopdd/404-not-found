@@ -152,7 +152,7 @@ desconfiometro = {
     "pausa": False,
     "pausa_timer": 2,
     "ativo": False,
-    "limite": 4,
+    "limite": 10,
 }
 
 
@@ -174,7 +174,7 @@ disparo = {
     "direção": "CIMA",
     "velocidade": tela.height/2,
     "tempo_esperado": 0,
-    "recarga": 6,
+    "recarga": 4,
     "ativo": False,
 }
 
@@ -198,13 +198,15 @@ taxa_de_quadros = 0
 carinhas = Sprite("Assets/Interface/carinhas.png", 3)
 barra_choque = Sprite("Assets/Interface/barra_raio.png", 6)
 barra_tela_azul = Sprite("Assets/Interface/barra_ta.png", 6)
+barra_desconfiometro = Sprite("Assets/Interface/barra_desc.png", 6)
 
-elementos_iu = [carinhas, barra_choque, barra_tela_azul]
+elementos_iu = [carinhas, barra_choque, barra_tela_azul, barra_desconfiometro]
 for elemento in elementos_iu:
     elemento.set_total_duration(1)
 
 barra_choque.y = carinhas.y + carinhas.height
 barra_tela_azul.y = barra_choque.y + barra_choque.height
+barra_desconfiometro.y = barra_tela_azul.y + barra_desconfiometro.height
 
 #Contadores para os elementos da interface
 iu_choque = 0
@@ -318,7 +320,7 @@ while True:
 ##B: DESCONFIOMETRO pt.1
         if (tela_azul[i] == False and desconfiometro["pausa"] == False and desconfiometro["ativo"] == False):
         
-            if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): #ATIVA contagem regressiva e TROCA sprite
+            if (buggy.collided(debuggers[i]) or buggy.collided(cones[i])): #ATIVA contagem e TROCA sprite
                 desconfiometro["pausa"] = True
                 debuggers = debugger_alerta(quantidade, debuggers, debugger_vel, debugger_direcao)
 
@@ -326,17 +328,15 @@ while True:
                     cones[i] = cone_alerta(debugger_vel[i], debugger_direcao[i])
                     posiciona_cone(cones[i], debuggers[i], debugger_vel[i], debugger_direcao[i])
 
-        if (desconfiometro["ativo"] == True and desconfiometro["limite"] > 0): #FAZ a contagem regressiva
-            #print("Desconfiometro {:.0f} segundos".format(desconfiometro["limite"]))  
+        if (tela_azul[i] == False and desconfiometro["ativo"] == True and desconfiometro["limite"] > 0): #FAZ a contagem
 
             if (buggy.collided(cones[i])):
-                desconfiometro["limite"] -= tela.delta_time()
+                desconfiometro["limite"] -= 1
                 
             if (buggy.collided(debuggers[i])):
                 desconfiometro["limite"] = 0
 
         if (desconfiometro["limite"] <= 0):
-            #print("GAME OVER")
             game_over(tela, audios)
             #return
             break 
@@ -346,7 +346,6 @@ while True:
     if (desconfiometro["pausa"] == True): 
 
         if (desconfiometro["pausa_timer"] > 0): #REALIZA contagem regressiva
-            #print("Pausa {:.0f} segundos".format(desconfiometro["pausa_timer"]))
             desconfiometro["pausa_timer"] -= tela.delta_time()
 
         else: #TERMINA a contagem regressiva
@@ -393,6 +392,7 @@ while True:
 
     barra_choque.set_curr_frame(frame_barra_choque)
     barra_tela_azul.set_curr_frame(frame_barra_ta)
+    barra_desconfiometro.set_curr_frame(desconfiometro["limite"] // 2)
 
     if desconfiometro["ativo"]:
 
