@@ -7,6 +7,7 @@ from PPlay.mouse import *
 from PPlay.sound import *
 from utilidades_audiovisuais import *
 from fase1 import *
+from fase2 import *
 
 def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
@@ -15,14 +16,14 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
     #Botões
 
-    b_fase1 = Sprite("Assets/Menu/x.png")
-    b_fase1_press = Sprite("Assets/Menu/x_press.png")
+    b_fase1 = Sprite("Assets/Menu/fase_1.png")
+    b_fase1_press = Sprite("Assets/Menu/fase_1_press.png")
 
-    b_fase2 = Sprite("Assets/Menu/x.png")
-    b_fase2_press = Sprite("Assets/Menu/x_press.png")
+    b_fase2 = Sprite("Assets/Menu/fase_2.png")
+    b_fase2_press = Sprite("Assets/Menu/fase_2_press.png")
 
-    b_fase3 = Sprite("Assets/Menu/x.png")
-    b_fase3_press = Sprite("Assets/Menu/x_press.png")
+    b_fase3 = Sprite("Assets/Menu/fase_3.png")
+    b_fase3_press = Sprite("Assets/Menu/fase_3_press.png")
 
     x = Sprite("Assets/Menu/x.png")
     x_press = Sprite("Assets/Menu/x_press.png")
@@ -38,7 +39,7 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
         b.y = menu.y + 3 * menu.width/5
 
-    alinha_botões_horizontal(botões_principais, menu, menu.width/6, 4)
+    alinha_botões_horizontal(botões_principais, menu, menu.width/6, 3)
 
     #O hardcode é feio, mas não valia fazer uma função só pra alinhas esses dois
     #? e X estavam 15 pixels abaixo do topo do menu na imagem original
@@ -106,7 +107,7 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
             if clickou_em == 1: #Se clickou na fase 2
 
-                audios["efeito_invalido"].play()
+                prox_fase = 2
 
             if clickou_em == 2: #Se clickou na fase 3
 
@@ -136,7 +137,7 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
         while prox_fase == 2:
 
-            prox_fase = fase1(tela, teclado, volume_padrao_bgm, audios, 2)
+            prox_fase = fase2(tela, teclado, volume_padrao_bgm, audios, 2)
 
         while prox_fase == 3:
 

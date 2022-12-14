@@ -14,7 +14,7 @@
 
 ### Sons no jogo: 95%
 
-- [ ] Som pra quando o debugger te enxerga
+- [x] Som pra quando o debugger te enxerga
 - [x] Som pra quando ativa o desconfiômetro
 - [x] Som pra gameover
 - [x] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
