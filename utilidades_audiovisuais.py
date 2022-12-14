@@ -11,7 +11,7 @@ from sys import *
 #Transição simples de fadeout
 #A tela fica preta exponenicialmente, mas não vou me dar ao trabalho de deixar linear, não vale a pena.
 #Só é perceptível de 4 segundos pra cima. Ninguém vai usar mais que 2
-def transição(tela, duração=1):
+def transição(tela, duração=1, manter_na_tela = []):
 
     fundo_preto = GameImage("Assets/Fundos/fundo preto.png")
     fundo_preto.image.set_alpha(0)
@@ -27,6 +27,8 @@ def transição(tela, duração=1):
         fundo_preto.image.set_alpha(alpha * 255 / duração)
         fundo_preto.draw()
 
+        for objeto in manter_na_tela:
+            objeto.draw()
         tela.update()
 
 def centralizar_na_tela(objeto, tela):
@@ -127,24 +129,67 @@ def parar_soms(audios, tempo=0):
 
         som.fadeout(tempo)
 
-def transição_de_vitória(tela, audios):
+def animacao_gameover(tela, audios, buggy):
+    
+    transição(tela, 1, [buggy])
+
+    #A: Como ele vai ser reinicializada depois, eu posso alterar a sequência sem desfazer
+    frame = buggy.get_curr_frame()
+    buggy.set_sequence(0, 19)
+
+    audios["efeito_gameover"].play()
+
+    timer = 0
+    alpha = 255
+
+    while audios["efeito_gameover"].is_playing():
+
+
+        alpha -= 125 * tela.delta_time()
+        timer += tela.delta_time()
+
+        if timer >= 0.1:
+
+            timer = 0
+            frame += 5
+
+            if frame >= 20:
+
+                frame -= 20
+
+        tela.set_background_color("BLACK")
+
+        buggy.set_curr_frame(frame)
+        buggy.image.set_alpha(alpha)
+        buggy.draw()
+
+        tela.update()
+
+def transição_de_vitoria(tela, teclado, n_fase, audios):
 
     parar_soms(audios, 1000)
+
     transição(tela, 2)
 
-    efeito = Sound("Assets/Audios/Efeitos/tadam.ogg")
+    som = Sound("Assets/Audios/Efeitos/tadam.ogg")
     fundo = Sprite("Assets/Fundos/menu fundo.png")
+
     msg = Sprite("Assets/Menu/menu_vitoria.png", 2)
     msg.set_total_duration(1000)
 
     centralizar_na_tela(msg, tela)
 
-    efeito.play()
+    som.play()
     while True:
 
-        if tela.get_keyboard().key_pressed("ESC"):
+        if teclado.key_pressed("ESC"):
 
-            fechar_jogo(tela)
+            return -1
+        
+        if teclado.key_pressed("ENTER"):
+
+            return n_fase + 1
+
 
         fundo.draw()
 
@@ -153,29 +198,37 @@ def transição_de_vitória(tela, audios):
 
         tela.update()
 
-def game_over(tela, audios):
+
+def gameover(tela, teclado, buggy, n_fase, audios):
 
     parar_soms(audios, 1000)
-    transição(tela, 2)
 
-    efeito = Sound("Assets/Audios/Efeitos/tadam.ogg")
-    fundo = Sprite("Assets/Fundos/menu fundo.png")
-    x = 0
+    animacao_gameover(tela, audios, buggy)
 
-    efeito.play()
+    #Alterar os assets depois
+    bgm = Sound("Assets/Audios/Bgms/gameover.ogg")
+    fundo = Sprite("Assets/Fundos/fundo preto.png")
+    msg = Sprite("Assets/Menu/menu_vitoria.png", 2)
+    msg.set_total_duration(1000)
+
+    centralizar_na_tela(msg, tela)
+
+    bgm.play()
     while True:
 
-        if tela.get_keyboard().key_pressed("ESC"):
+        if teclado.key_pressed("ESC"):
 
-            fechar_jogo(tela)
+            bgm.fadeout(1500)
+            return -1
 
-        x += tela.delta_time() * tela.width/10
+        if teclado.key_pressed("ENTER"):
 
-        if x >= tela.width:
-
-            x = -400
+            bgm.fadeout(500)
+            return n_fase
 
         fundo.draw()
-        tela.draw_text("Corrigida :(", x, tela.height/2-20, 40, (255,255,255))
+
+        msg.draw()
+        msg.update()
 
         tela.update()
