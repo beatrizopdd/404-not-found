@@ -12,11 +12,11 @@
 - [ ] Finalizar ABNT de fase
 
 
-### Sons no jogo: 75%
+### Sons no jogo: 95%
 
 - [ ] Som pra quando o debugger te enxerga
-- [ ] Som pra quando ativa o desconfiômetro
-- [ ] Som pra gameover
+- [x] Som pra quando ativa o desconfiômetro
+- [x] Som pra gameover
 - [x] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
 
 
@@ -36,12 +36,12 @@
 - [x] Colocar uma condição de vitória
 
 
-### Lógica de coisas visuais: 75%
+### Lógica de coisas visuais: 85%
 
 - [x] Terminar a função de pausa
 - [x] Lógica da interface do jogador
-- [90%] Transição entre os menus, fases e etc.
-- [80%] Função de gameover
+- [x] Transição entre os menus, fases e etc.
+- [x] Função de gameover
 - [x] Menu geral
 - [x] Menu de fases
 - [ ] Menu about
@@ -49,7 +49,7 @@
 
 ### Sprites: 65%
 
-- [75%] Segundo ponteiro &y laranja (só falta pintar o &y)
+- [x] Segundo ponteiro &y laranja (só falta pintar o &y)
 - [ ] Aumentar os elementos da interface
 - [ ] Fazer ícones pra deixar do lado de cada barra indicando o que ela é (um raio, um olho pro desconfiômetro(?) e algo pra tela azul)
 - [x] Criar uma nova barra pro medidor de desconfiômetro
