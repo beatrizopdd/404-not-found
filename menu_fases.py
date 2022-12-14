@@ -6,28 +6,23 @@ from PPlay.sprite import *
 from PPlay.mouse import *
 from PPlay.sound import *
 from utilidades_audiovisuais import *
+from fase1 import *
 
-def menu_fases(tela, teclado, mouse):
-
-    #Sons
-    som_startup = Sound("Assets/Audios/Efeitos/startup.ogg")
-    som_invalido = Sound("Assets/Audios/Efeitos/botão_invalido.ogg")
-    som_erro = Sound("Assets/Audios/Efeitos/erro.ogg")
-    som_desligando = Sound("Assets/Audios/Efeitos/desligando.ogg")
+def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
     #Imagems
     menu = GameImage("Assets/Menu/menu_puro.png")
 
     #Botões
 
-    fase1 = Sprite("Assets/Menu/x.png")
-    fase1_press = Sprite("Assets/Menu/x_press.png")
+    b_fase1 = Sprite("Assets/Menu/x.png")
+    b_fase1_press = Sprite("Assets/Menu/x_press.png")
 
-    fase2 = Sprite("Assets/Menu/x.png")
-    fase2_press = Sprite("Assets/Menu/x_press.png")
+    b_fase2 = Sprite("Assets/Menu/x.png")
+    b_fase2_press = Sprite("Assets/Menu/x_press.png")
 
-    fase3 = Sprite("Assets/Menu/x.png")
-    fase3_press = Sprite("Assets/Menu/x_press.png")
+    b_fase3 = Sprite("Assets/Menu/x.png")
+    b_fase3_press = Sprite("Assets/Menu/x_press.png")
 
     x = Sprite("Assets/Menu/x.png")
     x_press = Sprite("Assets/Menu/x_press.png")
@@ -35,8 +30,8 @@ def menu_fases(tela, teclado, mouse):
     interrogação = Sprite("Assets/Menu/interrogacao.png")
     interrogação_press = Sprite("Assets/Menu/interrogacao_press.png")
 
-    botões_principais = [fase1, fase2, fase3, interrogação, x]
-    botões_secundários = [fase1_press, fase2_press, fase3_press, interrogação_press, x_press]
+    botões_principais = [b_fase1, b_fase2, b_fase3, interrogação, x]
+    botões_secundários = [b_fase1_press, b_fase2_press, b_fase3_press, interrogação_press, x_press]
 
     #Colocando os botões no lugar
     for b in botões_principais:
@@ -59,14 +54,19 @@ def menu_fases(tela, teclado, mouse):
 
     #Declarações genéricas
     clickou_em = -1
+    prox_fase = 0
     soltou_mouse = True
 
-
+    input_acidental = True
     while True:
 
-        if teclado.key_pressed("ESC"):
+        if teclado.key_pressed("ESC") and not input_acidental:
 
-            fechar_jogo(tela)
+            return
+        
+        if not teclado.key_pressed("ESC"):
+
+            input_acidental = False
 
         #Procurando por clicks nos botões e mudando eles visualmente
         if mouse.is_over_object(menu):
@@ -89,7 +89,7 @@ def menu_fases(tela, teclado, mouse):
         #Lógica do som inválido quando clicka fora da janela
         if mouse.is_button_pressed(1) and not mouse.is_over_object(menu) and soltou_mouse:
 
-            som_erro.play()
+            audios["efeito_erro"].play()
             soltou_mouse = False
         
         elif not mouse.is_button_pressed(1):
@@ -102,19 +102,19 @@ def menu_fases(tela, teclado, mouse):
 
             if clickou_em == 0: #Se clickou na fase 1
 
-                som_invalido.play()
+                prox_fase = 1
 
             if clickou_em == 1: #Se clickou na fase 2
 
-                som_invalido.play()
+                audios["efeito_invalido"].play()
 
             if clickou_em == 2: #Se clickou na fase 3
 
-                som_invalido.play()
+                audios["efeito_invalido"].play()
 
             if clickou_em == 3: #Se clickou em ?
 
-                som_invalido.play()
+                audios["efeito_invalido"].play()
 
             if clickou_em == 4: #Se clickou no X
 
@@ -122,6 +122,31 @@ def menu_fases(tela, teclado, mouse):
 
             clickou_em = -1
 
+        #Cada fase retorna -1 caso o player saia com ESC, o próprio número se ele continuar em caso de game over, ou o número da próxima caso ele ganhe.
+        #prox_fase em 0 é um estado passivo
+
+        #Para quando o jogador sai da fase com ESC ele não ter uma surpresa desgradável
+        if prox_fase != 0:
+
+            input_acidental = True
+
+        while prox_fase == 1:
+
+            prox_fase = fase1(tela, teclado, volume_padrao_bgm, audios, 1)
+
+        while prox_fase == 2:
+
+            prox_fase = fase1(tela, teclado, volume_padrao_bgm, audios, 2)
+
+        while prox_fase == 3:
+
+            prox_fase = fase1(tela, teclado, volume_padrao_bgm, audios, 3)
+
+        if prox_fase == -1: #Se o player saiu com ESC
+
+            return
+
+        prox_fase = 0
 
         #Desenhando coisas
         menu.draw()
