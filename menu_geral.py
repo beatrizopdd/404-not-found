@@ -17,9 +17,52 @@ mouse = tela.get_mouse()
 tela.set_title("404 Not Found")
 
 #Sons
-som_startup = Sound("Assets/Audios/Efeitos/startup.ogg")
-som_invalido = Sound("Assets/Audios/Efeitos/botão_invalido.ogg")
-som_desligando = Sound("Assets/Audios/Efeitos/desligando.ogg")
+efeito_startup = Sound("Assets/Audios/Efeitos/startup.ogg")
+efeito_invalido = Sound("Assets/Audios/Efeitos/botão_invalido.ogg")
+efeito_desligando = Sound("Assets/Audios/Efeitos/desligando.ogg")
+
+#Inicializando toda a palhaçada de som que as fases precisam pro pygame só engasgar uma vez e não a cada chamada de fase
+#Sons
+volume_padrao_bgm = 30
+
+bgm_normal = Sound("Assets/Audios/Bgms/Up In My Jam.ogg")
+bgm_normal.set_volume(volume_padrao_bgm)
+bgm_normal.set_repeat(True)
+
+bgm_alerta = Sound("Assets/Audios/Bgms/Mountain Trials.ogg")
+bgm_alerta.set_volume(volume_padrao_bgm-10)
+bgm_alerta.set_repeat(True)
+
+efeito_disparo = Sound("Assets/Audios/Efeitos/choque1.ogg")
+efeito_tela_azul = Sound("Assets/Audios/Efeitos/desligando.ogg")
+efeito_ponteiro = Sound("Assets/Audios/Efeitos/teleporte2.ogg")
+efeito_alerta = Sound("Assets/Audios/Efeitos/buildupspeedup.ogg")
+efeito_alerta.set_volume(100)
+efeito_detectada = Sound("Assets/Audios/Efeitos/detectado.ogg")
+efeito_gameover = Sound("Assets/Audios/Efeitos/corrigida.ogg")
+
+efeito_erro = Sound("Assets/Audios/Efeitos/erro.ogg")
+efeito_invalido = Sound("Assets/Audios/Efeitos/botão_invalido.ogg")
+
+audios = {
+    #Bgms
+    "bgm_alerta": bgm_alerta,
+    "bgm_normal": bgm_normal,
+
+    #Efeitos de dentro do jogo
+    "efeito_disparo": efeito_disparo,
+    "efeito_tela_azul": efeito_tela_azul,
+    "efeito_ponteiro": efeito_ponteiro,
+    "efeito_alerta": efeito_alerta,
+    "efeito_detectada": efeito_detectada,
+    "efeito_gameover": efeito_gameover,
+    
+    #Efeitos de sons do sistema
+    "efeito_startup": efeito_startup,
+    "efeito_desligando": efeito_desligando,
+    "efeito_erro": efeito_erro,
+    "efeito_invalido": efeito_invalido,
+}
 
 #Imagems
 fundo = GameImage("Assets/Fundos/menu fundo.png")
@@ -64,13 +107,18 @@ for i in range(len(botões_secundários)):
 #Declarações genéricas
 clickou_em = -1
 
+input_acidental = True
 
-som_startup.play()
+audios["efeito_startup"].play()
 while True:
 
-    if teclado.key_pressed("ESC"):
+    if teclado.key_pressed("ESC") and not input_acidental:
 
         fechar_jogo(tela)
+
+    if not teclado.key_pressed("ESC"):
+
+        input_acidental = False
 
     #Procurando por clicks nos botões e mudando eles visualmente
     for i in range(len(botões_principais)):
@@ -93,16 +141,16 @@ while True:
         if clickou_em == 0: #Se clickou em jogar
 
             #transição(tela)
-            menu_fases(tela, teclado, mouse)
-
+            menu_fases(tela, teclado, mouse, 40, audios)
+            input_acidental = True
 
         if clickou_em == 1: #Se clickou em about
 
-            som_invalido.play()
+            audios["efeito_invalido"].play()
 
         if clickou_em == 2: #Se clickou na ?
 
-            som_invalido.play()
+            audios["efeito_invalido"].play()
 
         if clickou_em == 3: #Se clickou no X
 
