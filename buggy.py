@@ -18,6 +18,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
     direção_y = 0
     andou = False
     atirou = False
+    player_ganhou = False
 
     ##A: Lidando com input do jogador
 
@@ -103,7 +104,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
     #Se ela chegou no meio da nuvem de saída
     if buggy.rect.collidepoint(condição_de_vitória.x + condição_de_vitória.width/2, condição_de_vitória.y + condição_de_vitória.height/2):
 
-        transição_de_vitória(tela, audios)
+        player_ganhou = True
 
     colisão_parede_externa(buggy, tile)
     colisão_paredes_internas(buggy, mat_paredes, virada_para, vel)
@@ -129,7 +130,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
         atirou = True
 
 
-    return buggy, andou, atirou, virada_para
+    return buggy, andou, atirou, virada_para, player_ganhou
 
 
 #Gera meio que um step assist interessante, mas tem um bug muito esquisito com quinas  porque usa retas e não segmentos
@@ -226,9 +227,6 @@ def colisão_parede_externa(objeto, tile):
     if (objeto.y + objeto.height) >= lim_inferior:
 
         objeto.y = lim_inferior - objeto.height
-
-
-
 
 #A: Função obsoleta pela atual inexistênia de movimento diagonal
 def colisão_paredes_internas_obsoleta(buggy, mat_paredes, vel, direção_x, direção_y):
