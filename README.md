@@ -12,7 +12,7 @@
 - [ ] Finalizar ABNT de fase
 
 
-### Sons no jogo: 95%
+### Sons no jogo: 100%
 
 - [x] Som pra quando o debugger te enxerga
 - [x] Som pra quando ativa o desconfiômetro
@@ -20,7 +20,7 @@
 - [x] Bgm putassa 300% raiva e ódio pra quando o desconfiômetro tá ligado (opcional)
 
 
-### Mecânicas da fase:
+### Mecânicas da fase: 100%
 
 - [x] Esconderijo
 - [x] Debugger
@@ -36,7 +36,7 @@
 - [x] Colocar uma condição de vitória
 
 
-### Lógica de coisas visuais: 85%
+### Lógica de coisas visuais: 95%
 
 - [x] Terminar a função de pausa
 - [x] Lógica da interface do jogador
@@ -47,7 +47,7 @@
 - [ ] Menu about
 
 
-### Sprites: 65%
+### Sprites: 90%
 
 - [x] Segundo ponteiro &y laranja (só falta pintar o &y)
 - [ ] Aumentar os elementos da interface
@@ -60,7 +60,7 @@
 - [x] Ver quais são os botões que vão ser usados no menu
 
 
-### Bugs conhecidos: 66%
+### Bugs conhecidos: 100%
 
 - [x] Corrigir o bug causado pela remoção de movimento diagonal: Buggy consegue atravessar paredes inconsistentemente
 - [Desisti] Descobrir pq o pygame reclama da sprite do disparo
