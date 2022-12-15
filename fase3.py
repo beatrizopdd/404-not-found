@@ -1,5 +1,5 @@
-from PPlay.window import *
 from PPlay.gameimage import *
+from PPlay.window import *
 from PPlay.sprite import *
 from PPlay.sound import *
 
@@ -9,12 +9,41 @@ from utilidades_grid import *
 from utilidadesB import *
 
 def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
+    #A: Tela
+    #tela = Window(1280,660)
+    #tela.set_title("404 Not Found")
+    #teclado = tela.get_keyboard()
+
+    #A: Audios
+
+    #volume_padrao_bgm = 30
 
     #A: Game Images | Todas as imagens de fundo e o disparo
     chao = GameImage("Assets/Fundos/chao.png")
     tile = Sprite("Assets/Fundos/tile.png") #Declarado só pelo uso na função posiciona_grid
 
     ##B: PAREDES
+    #A: Paredes A3, D1 e D2, nessa ordem
+    parede1X2 = []
+    for i in range(3):
+        parede1X2.append(GameImage("Assets/Paredes/1X2.png"))
+        
+    #A: Paredes B1, B2 e E2
+    parede1X3 = []
+    for i in range(3):
+        parede1X3.append(GameImage("Assets/Paredes/1X3.png"))
+        
+    #A: Paredes A2 e C1, nessa ordem
+    parede4X1 = []
+    for i in range(2):
+        parede4X1.append(GameImage("Assets/Paredes/4X1.png"))
+
+    #A: Paredes únicas
+    paredeE1 = GameImage("Assets/Paredes/1X1.png")
+    paredeA1 = GameImage("Assets/Paredes/2X1.png")
+    paredeF1 = GameImage("Assets/Paredes/2X9.png")
+    paredeC2 = GameImage("Assets/Paredes/3X1.png")
+    parede_unica = [paredeE1, paredeA1, paredeF1, paredeC2]
 
     #B: Paredes externas esquerda, superior, direita, inferior
     pexE = GameImage("Assets/Paredes/pex-e.png")
@@ -22,87 +51,66 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
     pexD = GameImage("Assets/Paredes/pex-d.png")
     pexB = GameImage("Assets/Paredes/pex-b.png")
     paredes_externas = [pexE, pexC, pexD, pexB]
-    
-    #B: Paredes internas
-    parede1X2 = []
-    for i in range(3):
-        parede1X2.append(GameImage("Assets/Paredes/1X2.png"))
-
-    parede3X1 = []
-    for i in range(3):
-        parede3X1.append(GameImage("Assets/Paredes/3X1.png"))
-
-    parede4X1 = GameImage("Assets/Paredes/4X1.png")
-    parede1X3 = GameImage("Assets/Paredes/1X3.png")
-    parede2X9 = GameImage("Assets/Paredes/2X9.png")
-    parede2X2 = GameImage("Assets/Paredes/2X2.png")
-
-    parede_unica = [parede4X1, parede1X3, parede2X9, parede2X2]
 
     #A: Colocando as paredes nas suas posições corretas
+    posiciona_grid(paredeA1, tile, 3, 2, False)
+    posiciona_grid(paredeE1, tile, 11,1, False)
+    posiciona_grid(paredeF1, tile, 9,7, False)
+    posiciona_grid(paredeC2, tile, 8,6, False)
+
+    posiciona_grid(parede1X2[0], tile, 3,5, False)
+    posiciona_grid(parede1X2[1], tile, 12,4, False)
+    posiciona_grid(parede1X2[2], tile, 15,4, False)
+
+    posiciona_grid(parede1X3[0], tile, 1,8, False)
+    posiciona_grid(parede1X3[1], tile, 5,8, False)
+    posiciona_grid(parede1X3[2], tile, 9,3, False)
+
+    posiciona_grid(parede4X1[0], tile, 5,2, False)
+    posiciona_grid(parede4X1[1], tile, 8,1, False)
+
     posiciona_grid(paredes_externas[0], tile, 0, 0, False)
     posiciona_grid(paredes_externas[1], tile, 1, 0, False)
     posiciona_grid(paredes_externas[2], tile, 19, 0, False)
     posiciona_grid(paredes_externas[3], tile, 1, 9, False)
 
-    posiciona_grid(parede1X2[0], tile, 12, 7, False)
-    posiciona_grid(parede1X2[1], tile, 14, 4, False)
-    posiciona_grid(parede1X2[2], tile, 17, 5, False)
-
-    posiciona_grid(parede3X1[0], tile, 4, 6, False)
-    posiciona_grid(parede3X1[1], tile, 8, 5, False)
-    posiciona_grid(parede3X1[2], tile, 11, 5, False)
-
-    posiciona_grid(parede2X9, tile, 3, 3, False)
-    posiciona_grid(parede1X3, tile, 14, 1, False)
-    posiciona_grid(parede4X1, tile, 16, 3, False)
-    posiciona_grid(parede2X2, tile, 17, 6, False)
-
-
     #A: Vetores para facilitar os processo de desenho
-    paredes = [parede1X2, parede3X1, parede_unica, paredes_externas]
-    paredes_internas = [parede1X2, parede3X1, parede_unica]
+    paredes = [parede1X2, parede1X3, parede4X1, parede_unica, paredes_externas]
+    paredes_internas = [parede1X2, parede1X3, parede4X1, parede_unica]
+
 
     ##B: DEBUGGER e CONE
-    quantidade = 9
-    debugger_direcao = ["v", "h", "h", "v", "v", "h", "h", "v", "v"]
+    quantidade = 8
+    debugger_direcao = ["v", "v", "v", "v", "v", "h", "h", "h"]
 
     debugger_vel = []
     for i in range(quantidade):
         debugger_vel.append(50)
 
-    debugger_vel[1] *= 1.5
-    debugger_vel[2] *= 1.75
-    debugger_vel[5] *= 2.2
     debuggers = adiciona_debugger(quantidade, debugger_vel, debugger_direcao)
 
-    debugger_limite = [
-        lim_gridV(tile, 3, 8),
-        lim_gridH(tile, 3, 13),
-        lim_gridH(tile, 3, 18),
-        lim_gridV(tile, 4.75, 8.25),
-        lim_gridV(tile, 4.75, 8.25),
-        lim_gridH(tile, 5, 18),
-        lim_gridH(tile, 12, 15),
-        lim_gridV(tile, 2, 6),
-        lim_gridV(tile, 1, 4)
-    ]
+    unX = tile.width
+    unY = tile.height
+    debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 3.75, unY * 6.25], [unY, unY * 6], [unY, unY * 6], [unX, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
-    posiciona_grid(debuggers[0], tile, 2, 3)
-    posiciona_grid(debuggers[1], tile, 4, 1)
-    posiciona_grid(debuggers[2], tile, 18, 2)
-    posiciona_grid(debuggers[3], tile, 5, 6)
-    posiciona_grid(debuggers[4], tile, 7, 9)
-    posiciona_grid(debuggers[5], tile, 18, 8)
+    posiciona_grid(debuggers[0], tile, 2, 2)
+    posiciona_grid(debuggers[1], tile, 6, 6)
+    posiciona_grid(debuggers[2], tile, 10, 4)
+    posiciona_grid(debuggers[3], tile, 14, 3)
+    posiciona_grid(debuggers[4], tile, 17, 5)
+
+    posiciona_grid(debuggers[5], tile, 3, 7)
     posiciona_grid(debuggers[6], tile, 12, 6)
-    posiciona_grid(debuggers[7], tile, 13, 2)
-    posiciona_grid(debuggers[8], tile, 17, 1)
+    posiciona_grid(debuggers[7], tile, 17, 2)
 
     cones = []
     for i in range(quantidade):
         cone = adiciona_cone(debugger_vel[i], debugger_direcao[i])
         posiciona_cone(cone, debuggers[i], debugger_vel[i], debugger_direcao[i])
         cones.append(cone)
+        
+
+    #109#
 
 
     ##A: Sprite e variáveis da Buggy
@@ -116,6 +124,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
     buggy.set_total_duration(850)
     posiciona_grid(buggy, tile, 1,1)
 
+    #124#
 
     ##B: DESCONFIOMETRO
     #A: Coloquei pra ele guardar o limite inicial pra eu usar na lógica da interface
@@ -129,26 +138,15 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
 
     ##A: PONTEIROS
-    y_entrada = Sprite("Assets/Mecanismos/&y.png", 6)
-    y_saida = Sprite("Assets/Mecanismos/Y.png", 13)
+    ponteiro_entrada = [Sprite("Assets/Mecanismos/&w.png", 6)]
+    ponteiro_entrada[0].set_total_duration(400)
+    posiciona_grid(ponteiro_entrada[0], tile, 4, 8)
 
-    posiciona_grid(y_entrada, tile, 18, 4)
-    posiciona_grid(y_saida, tile, 7, 8)
+    ponteiro_saída = [Sprite("Assets/Mecanismos/W.png", 13)]
+    ponteiro_saída[0].set_total_duration(1000)
+    posiciona_grid(ponteiro_saída[0], tile, 9, 1)
 
-    w_entrada = Sprite("Assets/Mecanismos/&w.png", 6)
-    w_saida = Sprite("Assets/Mecanismos/W.png", 13)
-
-    posiciona_grid(w_entrada, tile, 6, 5)
-    posiciona_grid(w_saida, tile, 15, 5)
-
-    ponteiro_entrada = [y_entrada, w_entrada]
-    ponteiro_saída = [y_saida, w_saida]
     ponteiros = [ponteiro_entrada, ponteiro_saída]
-
-    for i in range(len(ponteiro_entrada)):
-
-        ponteiro_entrada[i].set_total_duration(400)
-        ponteiro_saída[i].set_total_duration(1000)
 
 
     #A: Dicionário com as informações do disparo
@@ -175,8 +173,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
     cronometro_fps = 0
     frames = 0
     taxa_de_quadros = 0
-    
-    
+
     ##A: Elementos da interface do jogo
 
     carinhas = Sprite("Assets/Interface/carinhas.png", 3)
@@ -202,7 +199,6 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
     frame_barra_ta = 5
     frame_barra_des = 0
 
-
     #A: Entrada e saída do nível
     entrada = Sprite("Assets/Mecanismos/hide.png", 22)
     saida = Sprite("Assets/Mecanismos/hide.png", 22)
@@ -212,21 +208,17 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
         n.set_total_duration(2500)
 
     posiciona_grid(entrada, tile, 1, 1)
-    posiciona_grid(saida, tile, 9, 5)
-
+    posiciona_grid(saida, tile, 18, 8)
 
     #Para o menu de pausa
     input_acidental = True
     input_saida = False
 
-
     #Declarações pra lógica das músicas ser sensível à borda
     pausa_ant = desconfiometro["pausa"]
     ativo_ant = desconfiometro["ativo"]
 
-
     audios["bgm_normal"].play()
-    
     while True:
 
         if teclado.key_pressed("ENTER") and not input_acidental:
@@ -269,18 +261,25 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
         #A colisão com a vitória é feita dentro do comportamento do player
         if player_ganhou:
+
             return transição_de_vitoria(tela, teclado, n_fase, audios)
 
     ##A: DISPARO
         if disparo["ativo"]:
+
             movimento_disparo(disparo, tela)
             colide_disparo(disparo, debuggers, tela_azul, audios, tela)
             
             if disparo["ativo"]:  #Só desenha se ele não colidiu
+
                 disparo["imagem"].draw()
             
         else:
+
             disparo["tempo_esperado"] += tela.delta_time()
+            
+
+        #212#
 
 
         #A: Essa duas variáveis são usadas pra verificar se teve uma mudança no estado do desconfiômetro e só executar a lógica da música quando há uma borda False-True   
@@ -298,12 +297,16 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
             if (tela_azul[i] == True): #ATIVA o modo tela azul
                 debuggers[i] = debugger_tela_azul(debuggers[i], debugger_vel[i], debugger_direcao[i])
 
+                #print("Tela azul {:.0f} segundos".format(timer_tela_azul[i]))
                 timer_tela_azul[i] -= tela.delta_time()
 
                 if (timer_tela_azul[i] <= 0):
                     tela_azul[i] = False
                     timer_tela_azul[i] = tempo_max_tela_azul
                     debuggers[i] = debugger_normal(debuggers[i], debugger_vel[i], debugger_direcao[i], desconfiometro)
+
+
+            #241#
 
 
     ##B: DESCONFIOMETRO pt.1
@@ -327,6 +330,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
                     audios["efeito_detectada"].play()
 
             if (desconfiometro["limite"] <= 0):
+
                 return gameover(tela, teclado, buggy, n_fase, audios)
 
 
@@ -342,26 +346,33 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
 
     ##A: Lógica dos elementos da interface
+        #A: Eu odeio cada pedaço da lógica da interface
 
         #Lógica da barra do disparo
         if disparo["ativo"]:
+
             frame_barra_choque = iu_choque = 0
         
         else:
+
             iu_choque += tela.delta_time()
 
             if iu_choque >= disparo["recarga"]/4 * frame_barra_choque and frame_barra_choque < 5:
+
                 frame_barra_choque += 1
 
 
         #Lógica da barra de tela azul
         if not (True in tela_azul):
+
             frame_barra_ta = iu_tela_azul = tempo_max_tela_azul
         
         else:
+
             iu_tela_azul -= tela.delta_time()
 
             if iu_tela_azul <= tempo_max_tela_azul/5 * frame_barra_ta and frame_barra_ta > 0:
+
                 frame_barra_ta -= 1
 
 
@@ -369,6 +380,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
         frame_barra_des = int((desconfiometro["limite_inicial"] - desconfiometro["limite"]) % 5)
 
         if frame_barra_des != frame_des_ant: #Se uma das barrinhas da interface mudou por causa de detecção
+
             audios["efeito_detectada"].play()
 
 
@@ -377,26 +389,33 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
         barra_desconfiometro.set_curr_frame(frame_barra_des)
 
         if desconfiometro["ativo"]:
+
             carinhas.set_curr_frame(2)
         
         elif desconfiometro["pausa"]:
+
             carinhas.set_curr_frame(1)
         
         else:
+
             carinhas.set_curr_frame(0)
 
 
     ##A: Controlando os sons
+
         if pausa_ant == False and desconfiometro["pausa"] == True: #Se e somente se a buggy foi detectada
+
             audios["bgm_normal"].fadeout(500)
             audios["efeito_alerta"].play()
         
         if ativo_ant == False and desconfiometro["ativo"] == True:
+
             audios["efeito_alerta"].fadeout(100)
             audios["bgm_alerta"].play()
 
 
     ##B: DESENHOS
+
         chao.draw()
 
         for ponteiro in ponteiros:
@@ -430,5 +449,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
         for e in elementos_iu:
             e.draw()
-
+        
+        #print(taxa_de_quadros)
+            
         tela.update()
