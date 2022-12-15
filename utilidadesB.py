@@ -74,7 +74,7 @@ def posiciona_cone(cone, sprite, vel, direcao):
 def limitaV(sprite, cone, vel, desconfiometro, limite):
 
 	if (cone.y <= limite[0] - cone.height/2): # encontrou subindo
-		sprite.y = limite[0]
+		sprite.y = limite[0] + sprite.height
 		sprite.set_sequence_time(0, 4, 400, True) # chega olhando pra cima e troca pra baixo
 		
 		vel *= -1
@@ -95,7 +95,7 @@ def limitaV(sprite, cone, vel, desconfiometro, limite):
 def limitaH(sprite, cone, vel, desconfiometro, limite):
 		
 	if (cone.x <= limite[0] - cone.width/2): # encontrou indo pra esquerda
-		sprite.x = limite[0]
+		sprite.x = limite[0] + sprite.width
 		sprite.set_sequence_time(4, 8, 400, True) # chega olhando pra esquerda e troca pra direita
 		
 		vel *= -1
