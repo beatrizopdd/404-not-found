@@ -53,8 +53,8 @@
 - [ ] Aumentar os elementos da interface
 - [ ] Fazer ícones pra deixar do lado de cada barra indicando o que ela é (um raio, um olho pro desconfiômetro(?) e algo pra tela azul)
 - [x] Criar uma nova barra pro medidor de desconfiômetro
-- [ ] Mudar a cor das paredes internas
-- [ ] Fazer as sprites pro menu de fases
+- [x] Mudar a cor das paredes internas
+- [x] Fazer as sprites pro menu de fases
 - [x] Normalizar a sprite da buggy
 - [x] Fazer sprites dos botões do menu geral separadas
 - [x] Ver quais são os botões que vão ser usados no menu
