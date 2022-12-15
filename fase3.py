@@ -8,35 +8,13 @@ from utilidades_grid import *
 
 from utilidadesB import *
 
-def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
+def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
     #A: Game Images | Todas as imagens de fundo e o disparo
     chao = GameImage("Assets/Fundos/chao.png")
     tile = Sprite("Assets/Fundos/tile.png") #Declarado só pelo uso na função posiciona_grid
 
     ##B: PAREDES
-	#B: Paredes internas
-    parede2X1 = []
-    for i in range(5):
-    	parede2X1.append(GameImage("Assets/Paredes/2X1.png"))
-    	
-    parede2X2 = []
-    for i in range(4):
-    	parede2X2.append(GameImage("Assets/Paredes/2X2.png"))
-    
-    parede2X3 = []
-    for i in range(2):
-    	parede2X3.append(GameImage("Assets/Paredes/2X3.png"))
-    
-    parede1X7 = []
-    for i in range(2):
-    	parede1X7.append(GameImage("Assets/Paredes/1X7.png"))	
-    
-    parede3X1 = []
-    for i in range(3):
-    	parede3X1.append(GameImage("Assets/Paredes/3X1.png"))
-
-    paredes_internas = [parede2X1, parede2X2, parede2X3, parede1X7, parede3X1]
 
     #B: Paredes externas esquerda, superior, direita, inferior
     pexE = GameImage("Assets/Paredes/pex-e.png")
@@ -44,7 +22,11 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
     pexD = GameImage("Assets/Paredes/pex-d.png")
     pexB = GameImage("Assets/Paredes/pex-b.png")
     paredes_externas = [pexE, pexC, pexD, pexB]
- 
+    
+    #B: Paredes internas
+    parede1X2 = GameImage("Assets/Paredes/1X2.png")
+    parede_unica = [parede1X2]
+    paredes_internas = [parede_unica]
 
     #A: Colocando as paredes nas suas posições corretas
     posiciona_grid(paredes_externas[0], tile, 0, 0, False)
@@ -52,33 +34,14 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
     posiciona_grid(paredes_externas[2], tile, 19, 0, False)
     posiciona_grid(paredes_externas[3], tile, 1, 9, False)
     
-    posiciona_grid(parede2X1[0], tile, 2, 1, False)
-    posiciona_grid(parede2X1[1], tile, 4, 2, False)
-    posiciona_grid(parede2X1[2], tile, 6, 1, False)
-    posiciona_grid(parede2X1[3], tile, 8, 2, False)
-    posiciona_grid(parede2X1[4], tile, 5, 5, False)
-    
-    posiciona_grid(parede2X2[0], tile, 2, 7, False)
-    posiciona_grid(parede2X2[1], tile, 12, 6, False)
-    posiciona_grid(parede2X2[2], tile, 16, 2, False)
-    posiciona_grid(parede2X2[3], tile, 16, 7, False)
-    
-    posiciona_grid(parede2X3[0], tile, 10, 1, False)
-    posiciona_grid(parede2X3[1], tile, 8, 4, False)
-    
-    posiciona_grid(parede1X7[0], tile, 1, 4, False)
-    posiciona_grid(parede1X7[1], tile, 11, 5, False)
-
-    posiciona_grid(parede3X1[0], tile, 8, 6, False)
-    posiciona_grid(parede3X1[1], tile, 9, 6, False)
-    posiciona_grid(parede3X1[2], tile, 14, 2, False)
+    posiciona_grid(parede1X2, tile, 3,5, False)
 
     #A: Vetores para facilitar os processo de desenho
-    paredes = [parede2X1, parede2X2, parede2X3, parede1X7, parede3X1, paredes_externas]
+    paredes = [parede_unica, paredes_externas]
 
     ##B: DEBUGGER e CONE
-    quantidade = 6
-    debugger_direcao = ["v", "h", "h", "h", "h", "h"]
+    quantidade = 2
+    debugger_direcao = ["v", "h"]
 
     debugger_vel = []
     for i in range(quantidade):
@@ -88,15 +51,11 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
     unX = tile.width
     unY = tile.height
-    debugger_limite = [[unY, unY * 4], [unX, unX * 4], [unX * 4, unX * 7], [unX * 9, unX * 13], [unX * 14, unX * 18], [unX * 10, unX * 16]]
+    debugger_limite = [[unY, unY * 7], [unX * 9, unX * 18]]
 
-    posiciona_grid(debuggers[0], tile, 15, 4)
-    posiciona_grid(debuggers[1], tile, 1, 6)
-    posiciona_grid(debuggers[2], tile, 7, 7)
-    posiciona_grid(debuggers[3], tile, 12, 3)
-    posiciona_grid(debuggers[4], tile, 14, 6)
-    posiciona_grid(debuggers[5], tile, 14, 8)
-    
+    posiciona_grid(debuggers[0], tile, 2, 2)
+    posiciona_grid(debuggers[1], tile, 6, 6)
+
     cones = []
     for i in range(quantidade):
         cone = adiciona_cone(debugger_vel[i], debugger_direcao[i])
@@ -130,11 +89,11 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
     ##A: PONTEIROS
     ponteiro_entrada = [Sprite("Assets/Mecanismos/&y.png", 6)]
     ponteiro_entrada[0].set_total_duration(400)
-    posiciona_grid(ponteiro_entrada[0], tile, 10, 6)
+    posiciona_grid(ponteiro_entrada[0], tile, 4, 8)
 
     ponteiro_saída = [Sprite("Assets/Mecanismos/Y.png", 13)]
     ponteiro_saída[0].set_total_duration(1000)
-    posiciona_grid(ponteiro_saída[0], tile, 7, 5)
+    posiciona_grid(ponteiro_saída[0], tile, 9, 1)
 
     ponteiros = [ponteiro_entrada, ponteiro_saída]
 
@@ -200,7 +159,7 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
         n.set_total_duration(2500)
 
     posiciona_grid(entrada, tile, 1, 1)
-    posiciona_grid(saida, tile, 1, 8)
+    posiciona_grid(saida, tile, 18, 8)
 
 
     #Para o menu de pausa

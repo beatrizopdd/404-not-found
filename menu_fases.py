@@ -8,6 +8,7 @@ from PPlay.sound import *
 from utilidades_audiovisuais import *
 from fase1 import *
 from fase2 import *
+from fase3 import *
 
 def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
@@ -141,7 +142,7 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
         while prox_fase == 3:
 
-            prox_fase = fase1(tela, teclado, volume_padrao_bgm, audios, 3)
+            prox_fase = fase3(tela, teclado, volume_padrao_bgm, audios, 3)
 
         if prox_fase == -1: #Se o player saiu com ESC
 
