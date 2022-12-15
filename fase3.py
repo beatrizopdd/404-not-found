@@ -161,7 +161,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
 
     ##B: TELA AZUL
-    tempo_max_tela_azul = 5
+    tempo_max_tela_azul = 4
     timer_tela_azul = []
     tela_azul = []
     for i in range(quantidade):
@@ -262,7 +262,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
         #A colisão com a vitória é feita dentro do comportamento do player
         if player_ganhou:
 
-            return transição_de_vitoria(tela, teclado, n_fase, audios)
+            return transição_de_vitoria(tela, teclado, -2, audios)
 
     ##A: DISPARO
         if disparo["ativo"]:

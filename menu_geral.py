@@ -152,7 +152,7 @@ while True:
 
         if clickou_em == 2: #Se clickou na ?
 
-            audios["efeito_invalido"].play()
+            menu_controles(tela, teclado, mouse, audios)
 
         if clickou_em == 3: #Se clickou no X
 

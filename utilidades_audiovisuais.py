@@ -94,7 +94,107 @@ def pausa(tela, teclado):
 
         tela.update()
 
+def menu_controles(tela, teclado, mouse, audios):
 
+    #Imagems
+    menu = Sprite("Assets/Menu/menu_controles2.png", 17)
+    menu.set_total_duration(14000)
+
+    centralizar_na_tela(menu, tela)
+
+    menu.x -= menu.width/12
+    menu.y -= menu.height/12
+
+    x = Sprite("Assets/Menu/x.png")
+    x_press = Sprite("Assets/Menu/x_press.png")
+
+    interrogação = Sprite("Assets/Menu/interrogacao.png")
+    interrogação_press = Sprite("Assets/Menu/interrogacao_press.png")
+
+    botões_principais = [interrogação, x]
+    botões_secundários = [interrogação_press, x_press]
+
+    #O hardcode é feio, mas não valia fazer uma função só pra alinhas esses dois
+    #? e X estavam 15 pixels abaixo do topo do menu na imagem original
+    x.x = menu.x + menu.width - x.width - 15
+    interrogação.x = x.x - interrogação.width - 3
+    x.y = interrogação.y = (menu.y + 15 + 5)
+
+    for i in range(len(botões_secundários)):
+
+        botões_secundários[i].set_position(botões_principais[i].x, botões_principais[i].y)
+        botões_secundários[i].hide()
+
+
+    #Declarações genéricas
+    clickou_em = -1
+    soltou_mouse = True
+
+    input_acidental = True
+    while True:
+
+        if teclado.key_pressed("ESC") and not input_acidental:
+
+            return
+        
+        if not teclado.key_pressed("ESC"):
+
+            input_acidental = False
+
+        #Procurando por clicks nos botões e mudando eles visualmente
+        if mouse.is_over_object(menu):
+
+            for i in range(len(botões_principais)):
+
+                if mouse.is_over_object(botões_principais[i]) and mouse.is_button_pressed(1):
+
+                    botões_principais[i].hide()
+                    botões_secundários[i].unhide()
+
+                    clickou_em = i
+                
+                elif clickou_em != i:
+
+                    botões_principais[i].unhide()
+                    botões_secundários[i].hide()
+        
+
+        #Lógica do som inválido quando clicka fora da janela
+        if mouse.is_button_pressed(1) and not mouse.is_over_object(menu) and soltou_mouse:
+
+            audios["efeito_erro"].play()
+            soltou_mouse = False
+        
+        elif not mouse.is_button_pressed(1):
+
+            soltou_mouse = True
+
+
+        #Executando o comando relacionado ao botão quando o jogador solta o mouse
+        if clickou_em != -1 and not mouse.is_button_pressed(1):
+
+            if clickou_em == 0: #Se clickou na ?
+
+                audios["efeito_invalido"].play()
+
+            if clickou_em == 1: #Se clickou no X
+
+                return
+        
+            clickou_em = -1
+
+
+        #Desenhando coisas
+        menu.update()
+        menu.draw()
+
+        for i in range(len(botões_secundários)):
+
+            botões_secundários[i].draw()
+            botões_principais[i].draw()
+
+
+        tela.update()
 #Fechar o jogo coloca ele numa tela com o fundo do menu e faz um fadeout com um som
 def fechar_jogo(tela):
 

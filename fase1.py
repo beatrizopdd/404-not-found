@@ -151,7 +151,7 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
 
     ##B: TELA AZUL
-    tempo_max_tela_azul = 5
+    tempo_max_tela_azul = 4
     timer_tela_azul = []
     tela_azul = []
     for i in range(quantidade):
