@@ -187,7 +187,7 @@ def fase2(tela, teclado, volume_padrao_bgm, audios, n_fase):
             input_saida = pausa(tela, teclado)
 
             audios["bgm_normal"].set_volume(volume_padrao_bgm)
-            audios["bgm_alerta"].set_volume(volume_padrao_bgm)
+            audios["bgm_alerta"].set_volume(volume_padrao_bgm-10)
 
         if not teclado.key_pressed("ENTER"):
 
