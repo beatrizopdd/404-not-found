@@ -174,7 +174,7 @@ def transição_de_vitoria(tela, teclado, n_fase, audios):
     som = Sound("Assets/Audios/Efeitos/tadam.ogg")
     fundo = Sprite("Assets/Fundos/menu fundo.png")
 
-    msg = Sprite("Assets/Menu/menu_vitoria.png", 2)
+    msg = Sprite("Assets/Menu/msg_vitoria.png", 2)
     msg.set_total_duration(1000)
 
     centralizar_na_tela(msg, tela)
@@ -208,7 +208,7 @@ def gameover(tela, teclado, buggy, n_fase, audios):
     #Alterar os assets depois
     bgm = Sound("Assets/Audios/Bgms/gameover.ogg")
     fundo = Sprite("Assets/Fundos/fundo preto.png")
-    msg = Sprite("Assets/Menu/menu_vitoria.png", 2)
+    msg = Sprite("Assets/Menu/msg_gameover.png", 2)
     msg.set_total_duration(1000)
 
     centralizar_na_tela(msg, tela)
