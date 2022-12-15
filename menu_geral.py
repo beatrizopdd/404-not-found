@@ -7,6 +7,7 @@ from PPlay.mouse import *
 from PPlay.sound import *
 from utilidades_audiovisuais import *
 from menu_fases import *
+from menu_about import *
 
 
 #Tela, teclado e mouse
@@ -146,7 +147,8 @@ while True:
 
         if clickou_em == 1: #Se clickou em about
 
-            audios["efeito_invalido"].play()
+            menu_about(tela, teclado, mouse, volume_padrao_bgm, audios)
+            input_acidental = True
 
         if clickou_em == 2: #Se clickou na ?
 

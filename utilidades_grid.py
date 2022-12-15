@@ -6,7 +6,21 @@ def cord_grid(tile, x, y):
     x = tile.width * x
     y = tile.height * y
 
-    return (x,y)
+    return [x,y]
+
+def lim_gridH(tile, x1, x2):
+
+    inicio = tile.width * x1
+    fim = tile.width * x2
+
+    return [inicio, fim]
+
+def lim_gridV(tile, y1, y2):
+
+    inicio = tile.height * y1
+    fim = tile.height * y2
+
+    return [inicio, fim]
 
 #A: Alterei a função pra gente poder escolher se vai centralizar ou não o objeto no quadrado que ele entra
 def posiciona_grid(objeto, tile, x, y, centraliza=True):

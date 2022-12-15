@@ -207,7 +207,7 @@ def fase2(tela, teclado, volume_padrao_bgm, audios, n_fase):
     for n in nuvens:
         n.set_total_duration(2500)
 
-    posiciona_grid(entrada, tile, 1, 0.5)
+    posiciona_grid(entrada, tile, 1, 1)
     posiciona_grid(saida, tile, 18, 8)
 
     #Para o menu de pausa

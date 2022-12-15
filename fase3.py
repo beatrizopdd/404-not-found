@@ -24,37 +24,79 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
     paredes_externas = [pexE, pexC, pexD, pexB]
     
     #B: Paredes internas
-    parede1X2 = GameImage("Assets/Paredes/1X2.png")
-    parede_unica = [parede1X2]
-    paredes_internas = [parede_unica]
+    parede1X2 = []
+    for i in range(3):
+        parede1X2.append(GameImage("Assets/Paredes/1X2.png"))
+
+    parede3X1 = []
+    for i in range(3):
+        parede3X1.append(GameImage("Assets/Paredes/3X1.png"))
+
+    parede4X1 = GameImage("Assets/Paredes/4X1.png")
+    parede1X3 = GameImage("Assets/Paredes/1X3.png")
+    parede2X9 = GameImage("Assets/Paredes/2X9.png")
+    parede2X2 = GameImage("Assets/Paredes/2X2.png")
+
+    parede_unica = [parede4X1, parede1X3, parede2X9, parede2X2]
 
     #A: Colocando as paredes nas suas posições corretas
     posiciona_grid(paredes_externas[0], tile, 0, 0, False)
     posiciona_grid(paredes_externas[1], tile, 1, 0, False)
     posiciona_grid(paredes_externas[2], tile, 19, 0, False)
     posiciona_grid(paredes_externas[3], tile, 1, 9, False)
-    
-    posiciona_grid(parede1X2, tile, 3,5, False)
+
+    posiciona_grid(parede1X2[0], tile, 12, 7, False)
+    posiciona_grid(parede1X2[1], tile, 14, 4, False)
+    posiciona_grid(parede1X2[2], tile, 17, 5, False)
+
+    posiciona_grid(parede3X1[0], tile, 4, 6, False)
+    posiciona_grid(parede3X1[1], tile, 8, 5, False)
+    posiciona_grid(parede3X1[2], tile, 11, 5, False)
+
+    posiciona_grid(parede2X9, tile, 3, 3, False)
+    posiciona_grid(parede1X3, tile, 14, 1, False)
+    posiciona_grid(parede4X1, tile, 16, 3, False)
+    posiciona_grid(parede2X2, tile, 17, 6, False)
+
 
     #A: Vetores para facilitar os processo de desenho
-    paredes = [parede_unica, paredes_externas]
+    paredes = [parede1X2, parede3X1, parede_unica, paredes_externas]
+    paredes_internas = [parede1X2, parede3X1, parede_unica]
 
     ##B: DEBUGGER e CONE
-    quantidade = 2
-    debugger_direcao = ["v", "h"]
+    quantidade = 9
+    debugger_direcao = ["v", "h", "h", "v", "v", "h", "h", "v", "v"]
 
     debugger_vel = []
     for i in range(quantidade):
         debugger_vel.append(50)
 
+    debugger_vel[1] *= 1.5
+    debugger_vel[2] *= 1.75
+    debugger_vel[5] *= 2.2
     debuggers = adiciona_debugger(quantidade, debugger_vel, debugger_direcao)
 
-    unX = tile.width
-    unY = tile.height
-    debugger_limite = [[unY, unY * 7], [unX * 9, unX * 18]]
+    debugger_limite = [
+        lim_gridV(tile, 3, 8),
+        lim_gridH(tile, 3, 13),
+        lim_gridH(tile, 3, 18),
+        lim_gridV(tile, 4.75, 8.25),
+        lim_gridV(tile, 4.75, 8.25),
+        lim_gridH(tile, 5, 18),
+        lim_gridH(tile, 12, 15),
+        lim_gridV(tile, 2, 6),
+        lim_gridV(tile, 1, 4)
+    ]
 
-    posiciona_grid(debuggers[0], tile, 2, 2)
-    posiciona_grid(debuggers[1], tile, 6, 6)
+    posiciona_grid(debuggers[0], tile, 2, 3)
+    posiciona_grid(debuggers[1], tile, 4, 1)
+    posiciona_grid(debuggers[2], tile, 18, 2)
+    posiciona_grid(debuggers[3], tile, 5, 6)
+    posiciona_grid(debuggers[4], tile, 7, 9)
+    posiciona_grid(debuggers[5], tile, 18, 8)
+    posiciona_grid(debuggers[6], tile, 12, 6)
+    posiciona_grid(debuggers[7], tile, 13, 2)
+    posiciona_grid(debuggers[8], tile, 17, 1)
 
     cones = []
     for i in range(quantidade):
@@ -87,15 +129,26 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
 
     ##A: PONTEIROS
-    ponteiro_entrada = [Sprite("Assets/Mecanismos/&y.png", 6)]
-    ponteiro_entrada[0].set_total_duration(400)
-    posiciona_grid(ponteiro_entrada[0], tile, 4, 8)
+    y_entrada = Sprite("Assets/Mecanismos/&y.png", 6)
+    y_saida = Sprite("Assets/Mecanismos/Y.png", 13)
 
-    ponteiro_saída = [Sprite("Assets/Mecanismos/Y.png", 13)]
-    ponteiro_saída[0].set_total_duration(1000)
-    posiciona_grid(ponteiro_saída[0], tile, 9, 1)
+    posiciona_grid(y_entrada, tile, 18, 4)
+    posiciona_grid(y_saida, tile, 7, 8)
 
+    w_entrada = Sprite("Assets/Mecanismos/&w.png", 6)
+    w_saida = Sprite("Assets/Mecanismos/W.png", 13)
+
+    posiciona_grid(w_entrada, tile, 6, 5)
+    posiciona_grid(w_saida, tile, 15, 5)
+
+    ponteiro_entrada = [y_entrada, w_entrada]
+    ponteiro_saída = [y_saida, w_saida]
     ponteiros = [ponteiro_entrada, ponteiro_saída]
+
+    for i in range(len(ponteiro_entrada)):
+
+        ponteiro_entrada[i].set_total_duration(400)
+        ponteiro_saída[i].set_total_duration(1000)
 
 
     #A: Dicionário com as informações do disparo
@@ -159,7 +212,7 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
         n.set_total_duration(2500)
 
     posiciona_grid(entrada, tile, 1, 1)
-    posiciona_grid(saida, tile, 18, 8)
+    posiciona_grid(saida, tile, 9, 5)
 
 
     #Para o menu de pausa
@@ -377,6 +430,5 @@ def fase3(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
         for e in elementos_iu:
             e.draw()
-
 
         tela.update()

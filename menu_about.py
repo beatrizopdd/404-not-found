@@ -8,23 +8,26 @@ from PPlay.sound import *
 from utilidades_audiovisuais import *
 from fase1 import *
 from fase2 import *
-from fase3 import *
 
-def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
+#Reciclado do menu de fases
+def menu_about(tela, teclado, mouse, volume_padrao_bgm, audios):
 
     #Imagems
-    menu = GameImage("Assets/Menu/open_file_dois_pontos.png")
+    menu = Sprite("Assets/Menu/creditos.png", 6)
+    menu.set_total_duration(1)
+    
+    centralizar_na_tela(menu, tela)
+
+    menu.x += menu.width/15
+    menu.y -= menu.height/15
 
     #Botões
 
-    b_fase1 = Sprite("Assets/Menu/fase_1.png")
-    b_fase1_press = Sprite("Assets/Menu/fase_1_press.png")
+    seta_di = Sprite("Assets/Menu/seta_di.png")
+    seta_di_press = Sprite("Assets/Menu/seta_di_press.png")
 
-    b_fase2 = Sprite("Assets/Menu/fase_2.png")
-    b_fase2_press = Sprite("Assets/Menu/fase_2_press.png")
-
-    b_fase3 = Sprite("Assets/Menu/fase_3.png")
-    b_fase3_press = Sprite("Assets/Menu/fase_3_press.png")
+    seta_es = Sprite("Assets/Menu/seta_es.png")
+    seta_es_press = Sprite("Assets/Menu/seta_es_press.png")
 
     x = Sprite("Assets/Menu/x.png")
     x_press = Sprite("Assets/Menu/x_press.png")
@@ -32,15 +35,20 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
     interrogação = Sprite("Assets/Menu/interrogacao.png")
     interrogação_press = Sprite("Assets/Menu/interrogacao_press.png")
 
-    botões_principais = [b_fase1, b_fase2, b_fase3, interrogação, x]
-    botões_secundários = [b_fase1_press, b_fase2_press, b_fase3_press, interrogação_press, x_press]
+    botões_principais = [seta_es, seta_di, interrogação, x]
+    botões_secundários = [seta_es_press, seta_di_press, interrogação_press, x_press]
 
     #Colocando os botões no lugar
     for b in botões_principais:
 
         b.y = menu.y + 3 * menu.width/8
 
-    alinha_botões_horizontal(botões_principais, menu, menu.width/6, 3)
+    #E vamos de hardcode
+    seta_es.x = menu.x + 15
+    seta_es.y = menu.y + menu.height - seta_es.height - 25
+
+    seta_di.x = menu.x + menu.width - seta_di.width - 15
+    seta_di.y = menu.y + menu.height - seta_di.height - 25
 
     #O hardcode é feio, mas não valia fazer uma função só pra alinhas esses dois
     #? e X estavam 15 pixels abaixo do topo do menu na imagem original
@@ -56,8 +64,8 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
     #Declarações genéricas
     clickou_em = -1
-    prox_fase = 0
     soltou_mouse = True
+    pagina = 0
 
     input_acidental = True
     while True:
@@ -102,55 +110,29 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
         #Executando o comando relacionado ao botão quando o jogador solta o mouse
         if clickou_em != -1 and not mouse.is_button_pressed(1):
 
-            if clickou_em == 0: #Se clickou na fase 1
+            if clickou_em == 0: #Se clickou na seta esquerda
 
-                prox_fase = 1
+                pagina -= 1
 
-            if clickou_em == 1: #Se clickou na fase 2
+            if clickou_em == 1: #Se clickou na seta direita
 
-                prox_fase = 2
+                pagina += 1
 
-            if clickou_em == 2: #Se clickou na fase 3
-
-                prox_fase = 3
-
-            if clickou_em == 3: #Se clickou em ?
+            if clickou_em == 2: #Se clickou na ?
 
                 audios["efeito_invalido"].play()
 
-            if clickou_em == 4: #Se clickou no X
+            if clickou_em == 3: #Se clickou no x
 
                 return
 
             clickou_em = -1
 
-        #Cada fase retorna -1 caso o player saia com ESC, o próprio número se ele continuar em caso de game over, ou o número da próxima caso ele ganhe.
-        #prox_fase em 0 é um estado passivo
-
-        #Para quando o jogador sai da fase com ESC ele não ter uma surpresa desgradável
-        if prox_fase != 0:
-
-            input_acidental = True
-
-        while prox_fase == 1:
-
-            prox_fase = fase1(tela, teclado, volume_padrao_bgm, audios, 1)
-
-        while prox_fase == 2:
-
-            prox_fase = fase2(tela, teclado, volume_padrao_bgm, audios, 2)
-
-        while prox_fase == 3:
-
-            prox_fase = fase3(tela, teclado, volume_padrao_bgm, audios, 3)
-
-        if prox_fase == -1: #Se o player saiu com ESC
-
-            return
-
-        prox_fase = 0
-
         #Desenhando coisas
+
+        pagina = abs(pagina % 6)
+
+        menu.set_curr_frame(pagina)
         menu.draw()
 
         for i in range(len(botões_secundários)):

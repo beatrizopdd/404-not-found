@@ -18,23 +18,23 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
 	#B: Paredes internas
     parede2X1 = []
     for i in range(5):
-    	parede2X1.append(GameImage("Assets/Paredes/2X1.png"))
-    	
+        parede2X1.append(GameImage("Assets/Paredes/2X1.png"))
+
     parede2X2 = []
     for i in range(4):
-    	parede2X2.append(GameImage("Assets/Paredes/2X2.png"))
-    
+        parede2X2.append(GameImage("Assets/Paredes/2X2.png"))
+
     parede2X3 = []
     for i in range(2):
-    	parede2X3.append(GameImage("Assets/Paredes/2X3.png"))
-    
+        parede2X3.append(GameImage("Assets/Paredes/2X3.png"))
+
     parede1X7 = []
     for i in range(2):
-    	parede1X7.append(GameImage("Assets/Paredes/1X7.png"))	
-    
+        parede1X7.append(GameImage("Assets/Paredes/1X7.png"))	
+
     parede3X1 = []
     for i in range(3):
-    	parede3X1.append(GameImage("Assets/Paredes/3X1.png"))
+        parede3X1.append(GameImage("Assets/Paredes/3X1.png"))
 
     paredes_internas = [parede2X1, parede2X2, parede2X3, parede1X7, parede3X1]
 
