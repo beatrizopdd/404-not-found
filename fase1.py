@@ -91,7 +91,7 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
 
     unX = tile.width
     unY = tile.height
-    debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 4, unY * 6], [unY, unY * 6], [unY, unY * 6], [unX, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
+    debugger_limite = [[unY, unY * 7], [unY, unY * 7], [unY * 3.75, unY * 6.25], [unY, unY * 6], [unY, unY * 6], [unX, unX * 7], [unX * 9, unX * 18], [unX * 9, unX * 18]]
 
     posiciona_grid(debuggers[0], tile, 2, 2)
     posiciona_grid(debuggers[1], tile, 6, 6)
@@ -232,7 +232,7 @@ def fase1(tela, teclado, volume_padrao_bgm, audios, n_fase):
             input_saida = pausa(tela, teclado)
 
             audios["bgm_normal"].set_volume(volume_padrao_bgm)
-            audios["bgm_alerta"].set_volume(volume_padrao_bgm)
+            audios["bgm_alerta"].set_volume(volume_padrao_bgm-10)
 
         if not teclado.key_pressed("ENTER"):
 
