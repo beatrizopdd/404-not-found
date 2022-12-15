@@ -91,6 +91,7 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
 
     #A: Realizando as intenções de movimento e verificando se a nova posição do player é válida
     #A: Esse passo é necessário por conta das mudanças de sprite
+    #A: Não é mais necessário porque juntamos tudo numa sprite só, mas as funções ainda usam a direção, então não vou alterar
     if virada_para == "CIMA" or virada_para == "BAIXO":
 
         buggy.x = x_antigo
@@ -101,14 +102,13 @@ def comportamento_buggy(buggy, vel, mat_paredes, ponteiro_entrada, ponteiro_saí
         buggy.x = x_antigo + (vel * direção_x)
         buggy.y = y_antigo    
 
+    colisão_parede_externa(buggy, tile)
+    colisão_paredes_internas(buggy, mat_paredes, virada_para, vel)
+    
     #Se ela chegou no meio da nuvem de saída
     if buggy.rect.collidepoint(condição_de_vitória.x + condição_de_vitória.width/2, condição_de_vitória.y + condição_de_vitória.height/2):
 
         player_ganhou = True
-
-    colisão_parede_externa(buggy, tile)
-    colisão_paredes_internas(buggy, mat_paredes, virada_para, vel)
-
 
     #A: Lidando com as interações com mecanismos
     if teclado.key_pressed("SPACE"):
