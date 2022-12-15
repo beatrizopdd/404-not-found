@@ -12,7 +12,7 @@ from fase2 import *
 def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
 
     #Imagems
-    menu = GameImage("Assets/Menu/menu_puro.png")
+    menu = GameImage("Assets/Menu/open_file_dois_pontos.png")
 
     #Botões
 
@@ -37,7 +37,7 @@ def menu_fases(tela, teclado, mouse, volume_padrao_bgm, audios):
     #Colocando os botões no lugar
     for b in botões_principais:
 
-        b.y = menu.y + 3 * menu.width/5
+        b.y = menu.y + 3 * menu.width/8
 
     alinha_botões_horizontal(botões_principais, menu, menu.width/6, 3)
 
