@@ -36,7 +36,7 @@
 - [x] Colocar uma condição de vitória
 
 
-### Lógica de coisas visuais: 95%
+### Lógica de coisas visuais: 100%
 
 - [x] Terminar a função de pausa
 - [x] Lógica da interface do jogador
@@ -44,14 +44,14 @@
 - [x] Função de gameover
 - [x] Menu geral
 - [x] Menu de fases
-- [ ] Menu about
+- [x] Menu about
 
 
-### Sprites: 90%
+### Sprites: 100%
 
 - [x] Segundo ponteiro &y laranja (só falta pintar o &y)
-- [ ] Aumentar os elementos da interface
-- [ ] Fazer ícones pra deixar do lado de cada barra indicando o que ela é (um raio, um olho pro desconfiômetro(?) e algo pra tela azul)
+- [x] Aumentar os elementos da interface
+- [x] Fazer ícones pra deixar do lado de cada barra indicando o que ela é (um raio, um olho pro desconfiômetro(?) e algo pra tela azul)
 - [x] Criar uma nova barra pro medidor de desconfiômetro
 - [x] Mudar a cor das paredes internas
 - [x] Fazer as sprites pro menu de fases
