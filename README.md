@@ -71,10 +71,6 @@
 ### Não esquecer antes de terminar:
 
 - [x] Tirar draw text
-- [ ] Tirar print
-
-- [ ] Fase 1: fase linear onde o jogador testa todas as mecânicas
-- [ ] Fase 2: a que a gente já fez
-- [ ] Fase 3: fase fechada com muita parede, pouco debugger
+- [x] Tirar print
 
 ##### :clipboard: tabelinha com os códigos dos emojis https://dev.to/nikolab/complete-list-of-github-markdown-emoji-markup-5aia
